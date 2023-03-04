@@ -35,7 +35,11 @@ class Preprocess_Images:
             output_dir (string): Path to output directory.
             balancing (int, optional): Number of individual images for each epoch. Defaults to 5000.
             target_size (int, optional): Target resolution of the images. Defaults to 256.
-            augmentations (int, optional): Number of augmentations per image. Defaults to 5.
+            grayscale (boolean, optional): Grayscaling as part of the pipeline. Defaults to True.
+            augmentations (int, optional): Number of augmentations per image. Defaults to 4.
+            process_image (string, optional): Name of the pipeline. Defaults to "pre1".
+            allowed_extension (list, optional): List of strings containing exceptions. 
+            Defaults to ["png", "jpg", "jpeg"].
         """
 
         self.input_dir = input_dir
@@ -48,31 +52,29 @@ class Preprocess_Images:
         self.allowed_extensions = allowed_extensions
 
     
-    def create_dir(self, path, set_output=True, set_input=False):
+    def create_dir(self, path, set_output=False, set_input=False):
         """
-        Create a new directory and set it as output_dir and input_dir of the instance if wanted.
+        Create a new directory and set it as output_dir and input_dir of the instance if defined.
 
         Args:
             path (string): Path to the new directory.
             set_output (bool, optional): Defines if instances output_dir is updated. 
-                Defaults to True.
+                Defaults to False.
             set_input (bool, optional): Defines if instances input_dir is updated. 
                 Defaults to False.
         """
-        # Create a new dir
         Path(path).mkdir(parents=True, exist_ok=True)
 
-        # Set output directory of instance
         if set_output:
             self.output_dir = path
-        # Set input directory of instance
+
         if set_input:
             self.input_dir = path
     
 
     def move_images_by_epoch(self):
         """
-        Moves a specified number of images from the input direcory of the instance
+        Move a specified number of images from the input direcory of the instance
         that start with the given epoch string to the output directory.
 
         Args:
@@ -81,7 +83,6 @@ class Preprocess_Images:
         Returns:
             None
         """
-        # Set the input and output directories
         input_dir = self.input_dir
         output_dir = self.output_dir
         balancing = self.balancing
@@ -90,7 +91,6 @@ class Preprocess_Images:
         # Create a dictionary to store the number of images to keep for each epoch
         number_to_keep_dict = {}
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
@@ -99,13 +99,12 @@ class Preprocess_Images:
 
                 # Set the number of images to keep for epoch
                 if epoch not in number_to_keep_dict:
-                    # If epoch appeared first time
+                    # If epoch appeared first timexx
                     number_to_keep_dict[epoch] = balancing
                 else:
-                    # Decrement the number of images to keep
                     number_to_keep_dict[epoch] -= 1
                 
-                # If number of images is exceeded delete the file
+                # Move the file if the limit is not yet reached
                 if number_to_keep_dict[epoch] > 0:
                     image_path = os.path.join(input_dir, filename)
                     new_image_path = os.path.join(output_dir, filename)
@@ -114,7 +113,7 @@ class Preprocess_Images:
 
     def copy_images_by_epoch(self):
         """
-        Copies a specified number of images from the input direcory of the instance
+        Copy a specified number of images from the input direcory of the instance
         that start with the given epoch string to the output directory.
 
         Args:
@@ -123,7 +122,6 @@ class Preprocess_Images:
         Returns:
             None
         """
-        # Set the input and output directories
         input_dir = self.input_dir
         output_dir = self.output_dir
         balancing = self.balancing
@@ -132,7 +130,6 @@ class Preprocess_Images:
         # Create a dictionary to store the number of images to keep for each epoch
         number_to_keep_dict = {}
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
@@ -144,10 +141,9 @@ class Preprocess_Images:
                     # If epoch appeared first time
                     number_to_keep_dict[epoch] = balancing
                 else:
-                    # Decrement the number of images to keep
                     number_to_keep_dict[epoch] -= 1
                 
-                # If number of images is exceeded copy the file
+                # Copy the file if the limit is not yet reached
                 if number_to_keep_dict[epoch] > 0:
                     image_path = os.path.join(input_dir, filename)
                     copied_image_path = os.path.join(output_dir, filename)
@@ -156,12 +152,14 @@ class Preprocess_Images:
 
     def delete_images_by_epoch(self):
         """
-        Delete all images except a certain number of images for each epoche.
+        Delete all images except a certain number of images for each epoch.
 
         Args:
-            number_to_keep (integer): The number of images to keep for each filename prefix.
+            self (object): Instance of the class.
+
+        Returns:
+            None
         """
-        # Set the input directory
         input_dir = self.input_dir
         balancing = self.balancing
         allowed_extensions = self.allowed_extensions
@@ -169,7 +167,6 @@ class Preprocess_Images:
         # Create a dictionary to store the number of images to keep for each epoch
         number_to_keep_dict = {}
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
@@ -181,7 +178,6 @@ class Preprocess_Images:
                     # If epoch appeared first time
                     number_to_keep_dict[epoch] = balancing
                 else:
-                    # Decrement the number of images to keep
                     number_to_keep_dict[epoch] -= 1
                 
                 # If number of images is exceeded delete the file
@@ -191,41 +187,34 @@ class Preprocess_Images:
 
     def resize_images_affine(self):
         """
-        Resize the image using an affine transformation matrx.
-        Calculating the scaling factor to resize the image, defines an affine
-        tranformation matrix using the scaling factor, and applies the affine
-        transformation to the image.
+        Resize the image using an affine transformation matrix.
 
         Args:
-            target_size (integer): Target size of the image in pixels.
+            self (object): Instance of the class.
         """
-        # Set the variables
         input_dir = self.input_dir
         output_dir = self.output_dir
         target_size = self.target_size
         allowed_extensions = self.allowed_extensions
         process_name = self.process_name
 
-        # Set the image size
         image_size = (target_size, target_size)
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Load the image
                 image = cv2.imread(os.path.join(input_dir, filename))
 
                 # Calculate the scaling factor to resize the image
                 scale_x = image_size[0] / image.shape[1]
                 scale_y = image_size[1] / image.shape[0]
 
-                # Define the affine transformation matrix
+                # Define the transformation matrix
                 Matrix = np.array([[scale_x, 0, 0], [0, scale_y, 0]], dtype=np.float32)
                 # Apply the affine transformation to the image
                 resized_image = cv2.warpAffine(image, Matrix, image_size)
 
-                # Generating a new filename for each output epoche image and save in output
+                # Generating a new filename and save the resized image
                 epoch = filename.split('_')[0]
                 extension = filename.split('.')[1]
                 output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}_affin.{extension}'
@@ -238,34 +227,28 @@ class Preprocess_Images:
         and than cropp a centered square out of it.
 
         Args:
-            target_size (integer): Target size of the image in pixels.
+            self (object): Instance of the class.
         """
-        # Set the input and output directories
         input_dir = self.input_dir
         output_dir = self.output_dir
         target_size = self.target_size
         process_name = self.process_name
-
-        # Set the allowed extensions
         allowed_extensions = self.allowed_extensions
 
-        # Set the image size
         image_size = (target_size, target_size)
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Load the image
                 image = cv2.imread(os.path.join(input_dir, filename))
+
                 # Get the dimensions of the input image
                 height, width = image.shape[:2]
-                # Find the smallest dimenstion of the image
+                # Find the smallest dimension of the image
                 min_dimension = min(width, height)
 
                 # Calculate the scale factor to fit the image inside the square
                 scale = image_size[0] / min_dimension
-                # Resize the image
                 image = cv2.resize(image, (0, 0), fx=scale, fy=scale)
 
                 # Calulate the center of the image
@@ -280,7 +263,7 @@ class Preprocess_Images:
                 # Crop the image to the square
                 squared_image = image[y1:y2, x1:x2]
 
-                # Generating a new filename for each output epoche image and save in output
+                # Generating a new filename and save the resized image
                 epoch = filename.split('_')[0]
                 extension = filename.split('.')[1]
                 output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}_squared.{extension}'
@@ -290,24 +273,24 @@ class Preprocess_Images:
     def grayscale_images(self):
         """
         Convert the given input images to grayscale.
+
+        Args:
+            self (object): Instance of the class.
         """
-        # Set the input and output directories
         input_dir = self.input_dir
         output_dir = self.output_dir
         process_name = self.process_name
         allowed_extensions = self.allowed_extensions
 
-         # Loop through the image files in the input directory
         for filename in os.listdir(input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Load the image
                 image = cv2.imread(os.path.join(input_dir, filename))
 
-                # Grayscale image from BGR color space
+                # Transform image from BGR color space to gray
                 grayed_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-                # 
+                # Generating a new filename and save the grayscaled image
                 epoch = filename.split('_')[0]
                 extension = filename.split('.')[1]
                 output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}.{extension}'
@@ -317,6 +300,9 @@ class Preprocess_Images:
     def augment_images(self):
         """
         Augment the images in the input directory using OpenCV.
+
+        Args:
+            self (object): Instance of the class.
         """
         # Define the augmentations to apply
         augmentations = [
@@ -326,11 +312,9 @@ class Preprocess_Images:
             ("blur", self.blur_image, None)
         ]
 
-        # Loop through the image files in the input directory
         for filename in os.listdir(self.input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in self.allowed_extensions):
-                # Load the image
                 image = cv2.imread(os.path.join(self.input_dir, filename))
 
                 # Apply the augmentations
@@ -344,7 +328,7 @@ class Preprocess_Images:
                     else:
                         image = func(image)
 
-                    # Generating a new filename for each output augmented image and save in output
+                    # Generating a new filename and save the augmented image
                     epoch = filename.split('_')[0]
                     extension = filename.split('.')[1]
                     output_filename = f'{epoch}_{str(round(time.time()*1000))}_{name}_{self.process_name}.{extension}'
@@ -352,7 +336,16 @@ class Preprocess_Images:
 
 
     def rotate_image(self, image):
-        # Randomöy choose one of -90, 90 or 180 degrees
+        """
+        Rotate an image using a rotation matrix.
+
+        Args:
+            self (object): Instance of the class.
+            image (object): Cv2 image object.
+
+        Returns:
+            image: Cv2 image object.
+        """
         angle = np.random.choice([-90, 90, 180])
         # Get the dimensions of the input image
         height, width = image.shape[:2]
@@ -365,10 +358,19 @@ class Preprocess_Images:
     
 
     def blur_image(self, image):
-        # Random kernel size between 3 and 11
-        kernel_size = np.random.choice(range(3, 12, 2))
+        """
+        Blur an image using a Gaussian filter.
 
-        # Apply Gaussian blur with random kernel size
+        Args:
+            self (object): Instance of the class.
+            image (object): Cv2 image object.
+
+        Returns:
+            image: Cv2 image object
+        """
+        # Randomly choose a kernal size from a rang of values (3,5,7,9 or 11)
+        kernel_size = np.random.choice(range(3, 12, 2))
+        # The kernel size determines the Gaussian filter used to blue the image.
         blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
 
         return blurred_image
@@ -376,27 +378,30 @@ class Preprocess_Images:
 
     def normalize_images(self):
         """""
-        Load and normalize images in a directory and save them in a NumPy array.
+        Normalize images from a directory and save them in a NumPy array.
+
+        Args:
+            self (object): Instance of the class.        
 
         Returns:
             A NumPy array containing the normalized images.
         """""
         normalized_images = []
+
         for filename in os.listdir(self.input_dir):
             # Check if file extension is in the list of allowed extensions
             if any(filename.lower().endswith(ext) for ext in self.allowed_extensions):
-                # Load the image
                 image = cv2.imread(os.path.join(self.input_dir, filename))
 
-                # Normalize the image
+                # Normalize image and add to list.
                 normalized_image = image / 255.
-                # Add the normalized image to the list
                 normalized_images.append(normalized_image)
 
         # Convert the list of normalized images to a NumPy array
         normalized_images = np.array(normalized_images)
 
         if self.grayscale:
+            # Take the mean of the pixel values across the color channels (axis 3)
             squeezed_images = np.mean(normalized_images, 3)
             return squeezed_images
         else:
@@ -405,7 +410,10 @@ class Preprocess_Images:
 
     def show_image(self, image):
         """
-        Display a single image.
+        Display a single image using matplotlib.
+
+        Args:
+            self (object): Instance of the class.  
 
         Args:
             image: A NumPy array of an image.
