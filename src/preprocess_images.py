@@ -78,7 +78,7 @@ class Preprocess_Images:
         that start with the given epoch string to the output directory.
 
         Args:
-            self (object): Instance of the class.
+            None
 
         Returns:
             None
@@ -117,7 +117,7 @@ class Preprocess_Images:
         that start with the given epoch string to the output directory.
 
         Args:
-            self (object): Instance of the class.
+            None
 
         Returns:
             None
@@ -155,7 +155,7 @@ class Preprocess_Images:
         Delete all images except a certain number of images for each epoch.
 
         Args:
-            self (object): Instance of the class.
+            None
 
         Returns:
             None
@@ -190,7 +190,7 @@ class Preprocess_Images:
         Resize the image using an affine transformation matrix.
 
         Args:
-            self (object): Instance of the class.
+            None
         """
         input_dir = self.input_dir
         output_dir = self.output_dir
@@ -227,7 +227,7 @@ class Preprocess_Images:
         and than cropp a centered square out of it.
 
         Args:
-            self (object): Instance of the class.
+            None
         """
         input_dir = self.input_dir
         output_dir = self.output_dir
@@ -275,7 +275,7 @@ class Preprocess_Images:
         Convert the given input images to grayscale.
 
         Args:
-            self (object): Instance of the class.
+            None
         """
         input_dir = self.input_dir
         output_dir = self.output_dir
@@ -302,7 +302,7 @@ class Preprocess_Images:
         Augment the images in the input directory using OpenCV.
 
         Args:
-            self (object): Instance of the class.
+            None
         """
         # Define the augmentations to apply
         augmentations = [
@@ -340,7 +340,6 @@ class Preprocess_Images:
         Rotate an image using a rotation matrix.
 
         Args:
-            self (object): Instance of the class.
             image (object): Cv2 image object.
 
         Returns:
@@ -362,7 +361,6 @@ class Preprocess_Images:
         Blur an image using a Gaussian filter.
 
         Args:
-            self (object): Instance of the class.
             image (object): Cv2 image object.
 
         Returns:
@@ -381,7 +379,7 @@ class Preprocess_Images:
         Normalize images from a directory and save them in a NumPy array.
 
         Args:
-            self (object): Instance of the class.        
+            None       
 
         Returns:
             A NumPy array containing the normalized images.
