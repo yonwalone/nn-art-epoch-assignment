@@ -3,6 +3,7 @@ import regex as re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
+import os
 
 
 class WikiartImageScraper:
@@ -10,7 +11,7 @@ class WikiartImageScraper:
     TODO: Write summary.
     """
 
-    def __init__(self, url, epoch_name, start_index=None, end_index=None):
+    def __init__(self, url, epoch_name, output_dir, start_index=None, end_index=None):
         """
         TODO: Write docstring.
 
@@ -22,6 +23,7 @@ class WikiartImageScraper:
         """
         self.url = url
         self.epoch_name = epoch_name
+        self.output_dir = output_dir
         self.start_index = start_index
         self.end_index = end_index
         self.options = webdriver.ChromeOptions()
@@ -148,3 +150,52 @@ class WikiartImageScraper:
                 img_url_list.append(img_src)
 
         return img_url_list, img_epoch_list
+    
+
+    def download_images(self, number_of_images, img_url_list, img_epoch_list):
+        """
+        Download images from a list of image URLs and saves them to the specified output directory.
+
+        Args:
+            img_url_list (list of str): List of strings containing the image URL.
+            img_epoch_list (list of list of str): A list of lists of strings representing the epochs or periods
+                                                  associated with each image URL in img_url_list. The outer list
+                                                  should have the same length as img_url_list, and each inner list
+                                                  can have any number of elements.
+
+        Raises:
+            ValueError: If an image URL does not contain a valid image extension.
+        """
+        # Loop through the image URLs and download the images.
+        for i in range(len(img_url_list)):
+            # Check if we have already downloaded the maximum number of images.
+            if i >= number_of_images:
+                pass
+            else:
+                # Set filename from url if possible otherwise use string of i.
+                epochs = img_epoch_list[i]
+                epoch_string = "-".join(epochs) + "-"
+                try:
+                    reg_results = re.search(r"images/([^/]+)\.(jpg|jpeg|png)", img_url_list[i])
+                    if reg_results is None:
+                        raise ValueError("Image URL does not contain a valid image extension")
+
+                    local_file_name = reg_results.group(1).replace("/", "_").replace("-", ".")
+                    local_file_name = epoch_string + local_file_name
+                except Exception as e:
+                    # If there is an error with the regex, use the index i as the filename.
+                    local_file_name = epoch_string + str(i)
+
+                # Download picture from url.
+                try:
+                    urllib.request.urlretrieve(img_url_list[i], os.path.join(self.output_dir, f"{local_file_name}.jpg"))
+                except Exception as e:
+                     # If the initial download fails, try removing any suffixes from the image URL.
+                    try:
+                        img_url = img_url_list[i].replace("!Large.jpg", "").replace("!Large.png", "").replace("!Large.jpeg", "")
+                        urllib.request.urlretrieve(img_url, os.path.join(self.output_dir, f"{local_file_name}.jpg"))
+                    except Exception as e:
+                        # If the download still fails, print an error message and move on to the next image.
+                        print(f"Error downloading image from URL: {img_url_list[i]}")
+                        print(e)
+                        pass
