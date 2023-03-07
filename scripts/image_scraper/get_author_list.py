@@ -9,11 +9,93 @@ from selenium.webdriver.common.by import By
 import time
 from collections import Counter
 
-# start selenium web driver
-options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-def download_wikiart_pics(url, epoch_name, start_index, end_index):
+class WikiartFeaturedPainterScraper:
+    """
+    TODO: Write summary.
+    """
+
+    def __init__(self, url, epoch_name, output_dir, start_index=None, end_index=None):
+        """
+        TODO: Write docstring.
+
+        Args:
+            url (string): Wikiart website URL.
+            epoch_name (string): Name of the epoch, e.g. "Expressionism".
+            start_index (int, optional): For downloading part of the pictures. Defaults to None.
+            end_index (int, optional): For downloading part of the pictures. Defaults to None.
+        """
+        self.url = url
+        self.epoch_name = epoch_name
+        self.output_dir = output_dir
+        self.start_index = start_index
+        self.end_index = end_index
+        self.options = webdriver.ChromeOptions()
+        self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        self.driver = webdriver.Chrome(options=self.options)
+
+
+    def __del__(self):
+        """
+         Cleans up the webdriver instance when the object is deleted.
+        """
+        try:
+            self.driver.quit()
+            print("Webdriver closed.")
+        except AttributeError:
+            pass
+    
+    def start_driver(self):
+        """
+        Initialize and start the Chrome webdriver with the provided options and
+        navigate to the URL provided during the initialization of the class.
+        """
+        self.driver = webdriver.Chrome(options=self.options)
+        self.driver.get(self.url)
+        print("Webdriver started...")
+        time.sleep(3)  
+
+    def count_refresh_actions(self):
+        """
+        Count the number of time the "Load more" button needs to be clicked in order
+        to load all the images on the webpage.
+
+        Returns:
+            int: The number of times the "Load more" button needs to be clicked.
+        """
+        # Find the element, that contains the picture and get the total number of pictures.
+        informationSections = self.driver.find_elements(by=By.CLASS_NAME, value="count.ng-binding")
+        self.driver.implicitly_wait(50)
+        pictureNumber = int(informationSections.pop().text.split(" ").pop())
+
+        # Divide the total number of pictures by 60, which is the default number of pictures loaded per page.
+        refreshNumber = int(pictureNumber/60)
+
+        # correct refresh number because at the beginning the first pictures are visible
+        refreshNumber = refreshNumber - 2 
+
+        return refreshNumber
+    
+    def load_more(self, refreshNumber):
+        """
+        Clicks on the "load more" button 'refreshNumber' times to load more images on the webpage.
+
+        Args:
+            refreshNumber (int): The number of times the "load more" button needs to be clicked.
+        """
+        # Click the "load more" button 'refreshNumber' times to load more images.
+        for i in range (0, refreshNumber):
+            try:
+                self.driver.find_element(By.CLASS_NAME, "masonry-load-more-button").click()
+            except:
+                self.driver.implicity_wait(5)
+                buttons = self.driver.find_elements(By.TAG_NAME, "button")
+                buttons[0].click()
+                i = i - 1
+            time.sleep(3)
+
+
+def get_painters(self):
     img_url_list = []
     img_epoch_list = []
     img_data = []

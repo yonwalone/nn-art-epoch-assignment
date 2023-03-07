@@ -32,4 +32,4 @@ dependencies:
   - wheel=0.38.4=py38hecd8cb5_0
   - xz=5.2.10=h6c40b1e_1
   - zlib=1.2.13=h4dc903c_0
-prefix: /Users/SOK1USH/miniconda3/envs/py38-nn-art-epoch-assignment
+prefix: C:\SteffensOrdner\Programmieren\Studienarbeit\nn-art-epoch-assignment
