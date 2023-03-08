@@ -77,9 +77,17 @@ For example, the following command can be used to call scripts from the src fold
 (py38-nn-art-epoch-assignment) ~/Documents/nn-art-epoch-assignment $ python src/download.py
 ```
 
+### Selenium Setup (Not necessary)
+This sections contains the information needed for downloading the images from wikiart.org using Selenium.
+
+1. Install Google Chrome
+2. Check you Chrome Version
+3. Download the Driver for your Chrome version [here](https://sites.google.com/chromium.org/driver/downloads).
+4. Save the Unix Executable File 'chromedriver' in 'usr/local/bin'
+
 ## Contributing
 Even if the repository is public, it is a private study project. Contributions are only permitted from Steffen, Benedikt and Lukas.
-Therefore other contributions to 'nn-art-epoch-assignment' are currently not welcome and encouraged! Users can not contribute to the project by submitting bug reports, feature requests, or even code contributions. Pull requests will not be reviewed by the project maintainers and merged if they meet the project's quality standards.
+Therefore other contributions to 'nn-art-epoch-assignment' are currently not welcome and encouraged! Users can not contribute to the project by submitting bug reports, feature requests, or even code contributions. Pull requests will not be reviewed by the project maintainers and merged.
 
 ## License
 'nn-art-epoch-assignment' is licensed under the MIT License, which allows for unrestricted use, modification, and redistribution of the code.
