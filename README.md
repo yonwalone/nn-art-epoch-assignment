@@ -39,7 +39,7 @@ And use the following commands to create and activate the conda environment:
 The setup for the virtual environment is complete. To check if everything worked, run the following command and see if the version matches.
 
 ```bash
-(py38-nn-art-epoch-assignment) SOK1USH@MacBook-Pro-von-Lukas nn-art-epoch-assignment % python --version
+(py38-nn-art-epoch-assignment) ~/Documents/nn-art-epoch-assignment $ % python --version
 Python 3.8.16
 ```
 
