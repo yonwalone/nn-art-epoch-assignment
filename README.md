@@ -72,6 +72,11 @@ Tell Python where to look for the library code to run own scripts. Once the pack
 ```
 The '.' indicates that we’re installing the package in the current directory. The '-e' indicates that the package should be editable. That means that if you change the files inside the src folder, you don’t need to re-install the package for your changes to be picked up by Python.
 
+For example, the following command can be used to call scripts from the src folder:
+```bash
+(py38-nn-art-epoch-assignment) ~/Documents/nn-art-epoch-assignment $ python src/download.py
+```
+
 ## Contributing
 Even if the repository is public, it is a private study project. Contributions are only permitted from Steffen, Benedikt and Lukas.
 Therefore other contributions to 'nn-art-epoch-assignment' are currently not welcome and encouraged! Users can not contribute to the project by submitting bug reports, feature requests, or even code contributions. Pull requests will not be reviewed by the project maintainers and merged if they meet the project's quality standards.
