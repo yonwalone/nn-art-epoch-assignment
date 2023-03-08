@@ -1,4 +1,8 @@
+import os
 from src.download_images import WikiartImageScraper
+
+print("-----   Installing own packages.   -----")
+os.system("pip install -e .")
 
 image_downloader = WikiartImageScraper(
     url="https://www.wikiart.org/en/paintings-by-style/expressionism?select=featured#!#filterName:featured,viewType:masonry",

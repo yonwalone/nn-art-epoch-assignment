@@ -22,10 +22,24 @@
 * Keras
 
 ## Getting Started
-TODO:
-* Conda Setup
-* Project Setup
-* Run scripts
+To get started with 'nn-art-epoch-assignment', users can simply clone the GitHub repository and follow these installation instructions:
+
+### Virtual Environment Setup
+The virtual environment specifies which versions of software and packages this project uses. For this we are using the software conda. Conda is both a package manager and a virtual environment for data science-centric Python.
+
+You can install Miniconda from [here](https://docs.conda.io/en/latest/miniconda.html).
+
+```bash
+~/Documents/nn-aea$ conda create --name py38-nn-aea python=3.8
+~/Documents/nn-aea$ conda activate py38-nn-aea
+```
+
+
+
+
+### Project Setup
+
+### Run scripts
 
 ## Contributing
 Even if the repository is public, it is a private study project. Contributions are only permitted from Steffen, Benedikt and Lukas.
