@@ -179,12 +179,13 @@ class WikiartImageScraper:
                     reg_results = re.search(r"images/([^/]+)\.(jpg|jpeg|png)", img_url_list[i])
                     if reg_results is None:
                         raise ValueError("Image URL does not contain a valid image extension")
-
-                    local_file_name = reg_results.group(1).replace("/", "_").replace("-", ".")
+                    local_file_name = reg_results.group(1).replace("/", "_").replace("-", "_")
+                    # local_file_name = reg_results.group(1).replace("/", "_").replace("-", ".")
                     local_file_name = epoch_string + local_file_name
                 except Exception as e:
                     # If there is an error with the regex, use the index i as the filename.
-                    local_file_name = epoch_string + str(i)
+                    epoch_string = epoch_string[:-1]
+                    local_file_name = epoch_string + "_" + str(i)
 
                 # Download picture from url.
                 try:
