@@ -9,11 +9,11 @@
  'nn-art-epoch-assignment' is a deep learning project that aims to classify images of art into their respective art epochs, including Baroque, Renaissance, Modern, etc. The project involves the use of state-of-the-art deep neural networks, as well as various image preprocessing techniques, to create a highly accurate system for assigning art images to their correct epochs.
 
 ## Features
-* Image Download: The system can automatically download art images from various sources, including online art collections and public domain repositories.
-* Image Preprocessing: ArtEpochNet uses advanced image preprocessing techniques to enhance image quality, remove noise, and normalize image features.
+* Image Download: The system can automatically download art images from 'wikiart.org'.
+* Image Preprocessing: 'nn-art-epoch-assignment' uses various image preprocessing techniques to generate several images and normalize their pixels.
 * Custom Neural Network: The project includes a custom deep neural network architecture designed specifically for the task of art epoch classification.
-* Model Training: ArtEpochNet uses large-scale datasets to train and optimize the custom neural network.
-* Evaluation Metrics: The system is evaluated using various performance metrics, including accuracy, precision, and recall.
+* Model Training: 'nn-art-epoch-assignment' uses the generated large-scale datasets to train and optimize the custom neural network.
+* (Evaluation Metrics: The system is evaluated using various performance metrics, including accuracy, precision, and recall.)
 
 ## Technologies Used
 * Conda
