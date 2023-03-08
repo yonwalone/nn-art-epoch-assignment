@@ -12,8 +12,8 @@ image_downloader = WikiartImageScraper(
 image_downloader.start_driver()
 
 refreshNumber = image_downloader.count_refresh_actions()
-print(refreshNumber)
-refreshNumber = 2
+print(refreshNumber) # Test
+refreshNumber = 2   # Test
 print("refreshNumber: " + str(refreshNumber))
 
 img_list = image_downloader.get_image_urls()

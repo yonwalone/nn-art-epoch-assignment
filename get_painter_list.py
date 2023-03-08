@@ -11,10 +11,11 @@ image_downloader = WikiartImageScraper(
 image_downloader.start_driver()
 
 refreshNumber = image_downloader.count_refresh_actions()
-print(refreshNumber)
-refreshNumber = 5
+print(refreshNumber) # Test
+refreshNumber = 5 # Test
 print("refreshNumber: " + str(refreshNumber))
 
+print("Extracting painters")
 painter_counter = image_downloader.painter_counter()
 
 print("----- START Print -----")

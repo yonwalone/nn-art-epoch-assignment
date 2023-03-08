@@ -64,7 +64,6 @@ class WikiartImageScraper:
         self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.driver = webdriver.Chrome(options=self.options)
     
-
     def __del__(self):
         """
         Cleans up the webdriver instance when the object is deleted.
@@ -108,7 +107,6 @@ class WikiartImageScraper:
         refreshNumber = refreshNumber - 2 
 
         return refreshNumber
-
 
     def load_more(self, refreshNumber):
         """
@@ -158,9 +156,8 @@ class WikiartImageScraper:
         self.driver.back()
         self.driver.implicitly_wait(30)
         return epoch_list
-   
-   
-    def get_image_urls(self):
+    
+    def get_image_urls(self, painter=None):
         """
         Get the URLs of the images and the epochs in which they belong.
     
@@ -179,6 +176,11 @@ class WikiartImageScraper:
 
         if self.end_index is None:
             self.end_index = len(items)
+
+        print(len(items))
+        if len(items) == 20 and painter != None:
+            print("Bilder fehlen eventuell bei Maler: "+ str(painter))
+            return []
 
         # Loop through the list of images and extract their URLs and epochs.
         for index in range(self.start_index, self.end_index):
@@ -240,8 +242,7 @@ class WikiartImageScraper:
                 painters_list.append(painter)
 
         return painters_list
-
-    
+  
     def painter_counter(self):
         """
         Get the Counter of the painters from the featured painters of the epoch
@@ -328,8 +329,7 @@ class WikiartImageScraper:
                 print("Images of "+ str(painters_list[index]) + " not reachable")
 
         return image_count
-    
-    
+      
     def get_images_from_painters(self, painters_list, epoch):
         """
         Get the URLs of the painters
@@ -343,7 +343,8 @@ class WikiartImageScraper:
         """
         img_list = []
 
-        self.end_index = 20
+        #self.start_index = 20 #TODO: zu testzwecken
+        self.end_index = 20 #TODO: zu testzwecken
 
         if self.start_index == None:
             self.start_index = 0
@@ -352,10 +353,10 @@ class WikiartImageScraper:
             self.end_index = len(painters_list)
 
         for index in range( self.start_index , self.end_index):
-            #try:
+            try:
                 img_list = img_list + self.get_images_from_painter(painters_list[index], epoch)
-            #except:
-            #    print(painters_list[index])
+            except:
+                print("Images of "+ str(painters_list[index]) + " not reachable")
 
         return img_list
     
@@ -386,7 +387,7 @@ class WikiartImageScraper:
         self.start_index = None
         self.end_index = None
 
-        img_list = self.get_image_urls()
+        img_list = self.get_image_urls(painter)
         
         return img_list
 
