@@ -29,17 +29,48 @@ The virtual environment specifies which versions of software and packages this p
 
 You can install Miniconda from [here](https://docs.conda.io/en/latest/miniconda.html).
 
+And use the following commands to create and activate the conda environment:
+
 ```bash
-~/Documents/nn-aea$ conda create --name py38-nn-aea python=3.8
-~/Documents/nn-aea$ conda activate py38-nn-aea
+~/Documents/nn-art-epoch-assignment$ conda env create -f environment.yml
+~/Documents/nn-art-epoch-assignment$ conda activate py38-nn-art-epoch-assignment
+```
+
+The setup for the virtual environment is complete. To check if everything worked, run the following command and see if the version matches.
+
+```bash
+(py38-nn-art-epoch-assignment) SOK1USH@MacBook-Pro-von-Lukas nn-art-epoch-assignment % python --version
+Python 3.8.16
 ```
 
 
+### Project Structure
+```
+|-- data
+|-- docs
+|-- results
+|-- scripts
+|-- src
+|-- tests
+ -- .gitignore
+ -- environment.yml
+ -- README.md
+ -- setup.py
+```
 
-
-### Project Setup
+* **data**: Raw data for the project. (No source control)
+* **docs**: Documentation, including Markdown and reStructuredText (reST). Calling it docs makes it easy to publish documentation online through Github pages.
+* **results**: Results, including checkpoints, hdf5 files, pickle files, as well as figures and tables. (No source control if heavy).
+* **scripts**: All scripts - Python and bash alike - as well as .ipynb notebooks.
+* **src**: Reusable Python modules for the project. This is the kind of python code that you can import.
+* **tests**: Tests for the code.
 
 ### Run scripts
+Tell Python where to look for the library code to run own scripts. Once the package is locally installed, it can be easily used regardless of which directory you’re in. 
+```bash
+(py38-nn-art-epoch-assignment) ~/Documents/nn-art-epoch-assignment $ pip install -e .
+```
+The '.' indicates that we’re installing the package in the current directory. The '-e' indicates that the package should be editable. That means that if you change the files inside the src folder, you don’t need to re-install the package for your changes to be picked up by Python.
 
 ## Contributing
 Even if the repository is public, it is a private study project. Contributions are only permitted from Steffen, Benedikt and Lukas.
