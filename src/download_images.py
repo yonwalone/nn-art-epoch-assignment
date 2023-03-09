@@ -1,11 +1,13 @@
+# coding=utf-8
 import urllib.request
 import regex as re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import os
 from collections import Counter
-
 
 
 class Image:
@@ -13,7 +15,7 @@ class Image:
     Represents an image with a URL, name, painter, and associated epochs.
     """
 
-    def __init__(self, url, name = None, painter = None, epochs = []):
+    def __init__(self, url, name=None, painter=None, epochs=[]):
         """
         Initializes a new Image object.
 
@@ -27,7 +29,6 @@ class Image:
         self.name = name
         self.painter = painter
         self.epochs = epochs
-
 
     def generate_filename(self, index):
         """
@@ -43,7 +44,7 @@ class Image:
         epoch_string = ""
         if self.epochs != None:
             epoch_string = "-".join(self.epochs) + "-"
-        
+
         try:
             # Use regular expressions to extract the filename from the URL.
             reg_results = re.search("images/(.+?)\.jpg", self.url)
@@ -63,7 +64,6 @@ class Image:
             local_file_name = epoch_string + str(index)
 
         return local_file_name
-
 
 
 class WikiartImageScraper:
@@ -88,9 +88,9 @@ class WikiartImageScraper:
         self.start_index = start_index
         self.end_index = end_index
         self.options = webdriver.ChromeOptions()
-        self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        self.options.add_experimental_option(
+            'excludeSwitches', ['enable-logging'])
         self.driver = webdriver.Chrome(options=self.options)
-    
 
     def __del__(self):
         """
@@ -101,7 +101,6 @@ class WikiartImageScraper:
             print("Webdriver closed.")
         except AttributeError:
             pass
-        
 
     def navigate_to_url(self, url):
         """
@@ -112,7 +111,6 @@ class WikiartImageScraper:
         """
         self.driver.get(url)
 
-
     def start_driver(self):
         """
         Initializes and start the Chrome webdriver with the provided options and
@@ -121,8 +119,7 @@ class WikiartImageScraper:
         self.driver = webdriver.Chrome(options=self.options)
         self.navigate_to_url(self.url)
         print("Webdriver started...")
-        time.sleep(3) 
-
+        time.sleep(3)
 
     def count_refresh_actions(self):
         """
@@ -133,7 +130,8 @@ class WikiartImageScraper:
             int: The number of times the "Load more" button needs to be clicked.
         """
         # Find the element, that contains the total number of pictures and saves it.
-        informationSections = self.driver.find_elements(by=By.CLASS_NAME, value="count.ng-binding")
+        informationSections = self.driver.find_elements(
+            by=By.CLASS_NAME, value="count.ng-binding")
         self.driver.implicitly_wait(50)
         pictureCount = int(informationSections.pop().text.split(" ").pop())
 
@@ -141,10 +139,9 @@ class WikiartImageScraper:
         refreshCount = int(pictureCount/60)
 
         # Correct refresh number because at the beginning the first pictures are visible.
-        refreshCount = refreshCount - 2 
+        refreshCount = refreshCount - 2
 
         return refreshCount
-
 
     def load_more(self, refreshCount):
         """
@@ -154,18 +151,18 @@ class WikiartImageScraper:
             refreshCount (int): The number of times the "load more" button needs to be clicked.
         """
         # Click the "load more" button 'refreshCount' times to load more images.
-        for i in range (0, refreshCount):
+        for i in range(0, refreshCount):
             try:
                 # The "load more" button may not be found
-                self.driver.find_element(By.CLASS_NAME, "masonry-load-more-button").click()
+                self.driver.find_element(
+                    By.CLASS_NAME, "masonry-load-more-button").click()
             except:
                 # Handle popups
                 self.driver.implicitly_wait(5)
                 buttons = self.driver.find_elements(By.TAG_NAME, "button")
                 buttons[0].click()
                 i = i - 1
-            time.sleep(5)         
-
+            time.sleep(5)
 
     def get_painter_from_url(self, img_src):
         """
@@ -178,8 +175,8 @@ class WikiartImageScraper:
             string: Name of painter of the image
         """
         try:
-            # Looks for a string that starts with "images/", 
-            # then has one or more characters followed by a "/", 
+            # Looks for a string that starts with "images/",
+            # then has one or more characters followed by a "/",
             # and returns the entire substring that matches this pattern.
             image_path = re.search("images/(.+?)/", img_src)[0]
             painter_name = image_path.split("/")[1]
@@ -187,7 +184,6 @@ class WikiartImageScraper:
             painter_name = "no_painter"
 
         return painter_name
-
 
     def get_epochs(self, img_element):
         """
@@ -205,15 +201,17 @@ class WikiartImageScraper:
         # Click on the image to open it and extract the epoch information.
         img_element.click()
         self.driver.implicitly_wait(20)
-        informationSections = self.driver.find_elements(by=By.CLASS_NAME, value="dictionary-values")
-        
-        if len(informationSections) != 0 :
-            information = informationSections[0]
+
+        try:
+            # Gets Element where the epochs are listed
+            information = self.driver.find_elements(
+                by=By.CLASS_NAME, value="dictionary-values")[0]
             epochs = information.find_elements(by=By.TAG_NAME, value="a")
             for epoch in epochs:
                 epoch_list.append(epoch.text)
+            # Last element gets removed because it isn't an epoch
             epoch_list.remove(epoch_list[len(epoch_list)-1])
-        else:
+        except:
             epoch_list.append(self.epoch_name)
 
         # Go back to the previous page and wait for it to load.
@@ -221,41 +219,35 @@ class WikiartImageScraper:
         self.driver.implicitly_wait(30)
 
         return epoch_list
-    
 
     def get_image_urls(self, painter=None):
         """
         Gets the URLs of the images and the epochs in which they belong.
-    
+
+        Args:
+            painter (string): name of the painter if driver is on a painter site.        
         Returns:
-            img_list (list): List of images
+            img_list (list): List of image urls
         """
         # Find the container that holds all the images.
-        html_pictures_list = self.driver.find_element(By.CLASS_NAME, "wiki-masonry-container")
+        html_pictures_list = self.driver.find_element(
+            By.CLASS_NAME, "wiki-masonry-container")
         # Get all the list items that contain the images.
         items = html_pictures_list.find_elements(By.TAG_NAME, "li")
         img_list = []
-        
-        # Set the start and end indices for the range of images to scrape.
-        if self.start_index is None:
-            self.start_index = 0
-
-        if self.end_index is None:
-            self.end_index = len(items)
 
         print(len(items))
         if len(items) == 20 and painter != None:
-            print("Bilder fehlen eventuell bei Maler: "+ str(painter))
+            print("Bilder fehlen eventuell bei Maler: " + str(painter))
             return []
 
         # Loop through the list of images and extract their URLs and epochs.
-        for index in range(self.start_index, self.end_index):
-            item = items[index]
+        for item in items:
             img_elements = item.find_elements(By.TAG_NAME, "img")
             for img_element in img_elements:
                 # Scroll to the image and extract its source URL.
-                actual_height = self.driver.execute_script("return document.body.scrollHeight")
-                self.driver.execute_script("arguments[0].scrollIntoView();",img_element )
+                self.driver.execute_script(
+                    "arguments[0].scrollIntoView();", img_element)
                 img_src = img_element.get_attribute("src")
 
                 epoch_list = self.get_epochs(img_element)
@@ -264,43 +256,33 @@ class WikiartImageScraper:
                 # Replace the small image URL with the large one and add it to the list.
                 img_src = img_src.replace("PinterestSmall", "Large")
 
-                img_list.append(Image(url= img_src, epochs= epoch_list))
+                # Appends the created Image to the img list
+                img_list.append(Image(url=img_src, epochs=epoch_list))
 
         return img_list
-    
 
     def get_painters(self):
         """
         Get the painters of the featured images.
-    
+
         Returns:
             painters_list (list): list of the painters of the featured pictures
         """
         # Find the container that holds all the images.
-        html_pictures_list = self.driver.find_element(By.CLASS_NAME, "wiki-masonry-container")
+        html_pictures_list = self.driver.find_element(
+            By.CLASS_NAME, "wiki-masonry-container")
         # Get all the list items that contain the images.
         items = html_pictures_list.find_elements(By.TAG_NAME, "li")
         painters_list = []
-        
-        # Set the start and end indices for the range of images to scrape.
-        if self.start_index is None:
-            self.start_index = 0
-
-        if self.end_index is None:
-            self.end_index = len(items) - 1
 
         # Loop through the list of images and extract their URLs and epochs.
-        for index in range(self.start_index, self.end_index):
-            item = items[index]
+        for item in items:
             img_elements = item.find_elements(By.TAG_NAME, "img")
             for img_element in img_elements:
                 # Scroll to the image and extract its source URL.
-                actual_height = self.driver.execute_script("return document.body.scrollHeight")
-                self.driver.execute_script("arguments[0].scrollIntoView();",img_element )
+                self.driver.execute_script(
+                    "arguments[0].scrollIntoView();", img_element)
                 img_src = img_element.get_attribute("src")
-
-                # Replace the small image URL with the large one and add it to the list.
-                img_src = img_src.replace("PinterestSmall", "Large")
 
                 # Extract painter out from url
                 painter = self.get_painter_from_url(img_src)
@@ -308,12 +290,11 @@ class WikiartImageScraper:
                 painters_list.append(painter)
 
         return painters_list
-  
 
     def painter_counter(self):
         """
         Get the Counter of the painters from the featured painters of the epoch
-    
+
         Returns:
             counter : Counter object of the painters from the featured painters of the epoch
         """
@@ -321,9 +302,9 @@ class WikiartImageScraper:
         painter_list = self.get_painters()
         counter = Counter(painter_list)
         return counter
-    
 
-    def save_to_file(self, file_name, object): #TODO: könnte erstellen der Datei, wenn nötig, hinzufügen
+    # TODO: könnte erstellen der Datei, wenn nötig, hinzufügen
+    def save_to_file(self, file_name, object):
         """
         Save object as text to file 
 
@@ -334,10 +315,9 @@ class WikiartImageScraper:
         with open(self.output_dir + "/" + file_name, "w") as f:
             f.write(str(object))
 
-
-    def read_authors_from_file(self, file_name):
+    def read_painters_from_file(self, file_name):
         """
-        Get list of authors and the count of their featured pictures from file
+        Get list of painters and the count of their featured pictures from file
 
         Parameter:
             file_name : name of file with counter object of painters
@@ -349,12 +329,14 @@ class WikiartImageScraper:
 
         with open(self.output_dir + "/" + file_name, "r") as r:
             text = r.read()
+
             painter_list = re.findall("\'(.+?)\':", text)
             image_count_list = re.findall(": (.+?)[,\}]", text)
+            # TODO: Dictionary zurückgeben:
+            # return dict(zip(painter_list, image_count_list))
             return painter_list, image_count_list
-        
 
-    def get_count_of_available_images_from_authors(self,painters_list, epoch):
+    def get_count_of_available_images_from_authors(self, painters_list, epoch):
         """
         Get count of pictures reachable from the painters of epoch
 
@@ -365,45 +347,50 @@ class WikiartImageScraper:
         Returns:
             image_count : count of reachable images
         """
-        image_count = 0
+        total_image_count = 0
 
-        for index in range(0,len(painters_list)):
+        for painter in painters_list:
             try:
-                found_images = 0
+                painter_image_count = 0
 
                 # Get Url of the pictures from the author of the chosen epoch
-                self.navigate_to_url("https://www.wikiart.org/en/"+ painters_list[index] +"/all-works#!#filterName:Style_" + epoch + ",resultType:masonry")
+                self.navigate_to_url("https://www.wikiart.org/en/" +
+                                     painter + "/all-works#!#filterName:Style_" + epoch + ",resultType:masonry")
                 self.driver.implicitly_wait(10)
+                # TODO: eventuell WebDriverWait.until verwenden
 
                 # Find the load more button
-                informationSections = self.driver.find_elements(by=By.CLASS_NAME, value="count.ng-binding")
+                informationSections = self.driver.find_elements(
+                    by=By.CLASS_NAME, value="count.ng-binding")
                 self.driver.implicitly_wait(5)
 
                 # Check if theres a load more button
                 if informationSections[0].text != "":
                     # Read the picture number from the button
-                    pictureNumber = int(informationSections.pop().text.split(" ").pop())
-                    found_images = pictureNumber
+                    painter_image_count = int(
+                        informationSections.pop().text.split(" ").pop())
                 else:
                     # Count images dispayed on the screen
-                    html_pictures_list = self.driver.find_elements(By.CLASS_NAME, "wiki-masonry-container")
-                    items = html_pictures_list[0].find_elements(By.TAG_NAME, "li")
-                    found_images = 0
+                    html_pictures_list = self.driver.find_elements(
+                        By.CLASS_NAME, "wiki-masonry-container")
+                    items = html_pictures_list[0].find_elements(
+                        By.TAG_NAME, "li")
                     for item in items:
                         img_elements = item.find_elements(By.TAG_NAME, "img")
-                        found_images = found_images + int(len(img_elements))
-                
-                # Add found images from the author to total count
-                image_count = image_count + found_images
-            except:
-                print("Images of "+ str(painters_list[index]) + " not reachable")
+                        painter_image_count = painter_image_count + \
+                            int(len(img_elements))
 
-        return image_count
-      
+                # Add found images from the author to total count
+                total_image_count = total_image_count + painter_image_count
+            except:
+                print("Images of " +
+                      str(painter) + " not reachable")
+
+        return total_image_count
 
     def get_images_from_painters(self, painters_list, epoch):
         """
-        Get the URLs of the painters
+        Get the image URLs of the painters
 
         Parameter:
             painters_list (list) : names of painters
@@ -414,23 +401,17 @@ class WikiartImageScraper:
         """
         img_list = []
 
-        #self.start_index = 20 #TODO: zu testzwecken
-        self.end_index = 20 #TODO: zu testzwecken
+        # self.start_index = 20 #TODO: zu testzwecken
 
-        if self.start_index == None:
-            self.start_index = 0
-        
-        if self.end_index == None:
-            self.end_index = len(painters_list)
-
-        for index in range( self.start_index , self.end_index):
+        for painter in painters_list:
             try:
-                img_list = img_list + self.get_images_from_painter(painters_list[index], epoch)
+                img_list = img_list + \
+                    self.get_images_from_painter(painter, epoch)
             except:
-                print("Images of "+ str(painters_list[index]) + " not reachable")
+                print("Images of " +
+                      str(painter) + " not reachable")
 
         return img_list
-    
 
     def get_images_from_painter(self, painter, epoch):
         img_list = []
@@ -438,31 +419,31 @@ class WikiartImageScraper:
         # Get Url
         self.navigate_to_url("https://www.wikiart.org/en/" + painter + "/all-works#!#filterName:Style_" + epoch + ",resultType:masonry")
         self.driver.implicitly_wait(40)
+        
 
         # Find Load More Button
-        foo = self.driver.find_elements(by=By.CLASS_NAME, value= "masonry-load-more-button-wrapper")[0]
-        elements = foo.find_elements(by= By.CLASS_NAME, value= "masonry-load-more-button")[0]
-        link = elements.find_elements(by=By.CLASS_NAME, value="count")[0].text
+        load_more_button = self.driver.find_elements(
+            by=By.CLASS_NAME, value="masonry-load-more-button")[0]
+        rawCountText = load_more_button.find_elements(
+            by=By.CLASS_NAME, value="count")[0].text
+
 
         # If not all Pictures visible click onto load more button
-        if link != "":
-            label = self.driver.find_elements(by=By.CLASS_NAME, value="count.ng-binding")
+        if rawCountText != "":
+            label = self.driver.find_elements(
+                by=By.CLASS_NAME, value="count.ng-binding")
             self.driver.implicitly_wait(5)
             pictureNumber = int(label.pop().text.split(" ").pop())
 
+            # Calculate number of needed load more clicks
             refresh_number = (pictureNumber - 20) / 60
-            refresh_number = refresh_number + 1
-            refresh_number = int(refresh_number)
+            refresh_number = int(refresh_number) + 1
 
             self.load_more(refresh_number)
 
-        self.start_index = None
-        self.end_index = None
-
         img_list = self.get_image_urls(painter)
-        
-        return img_list
 
+        return img_list
 
     def download_images(self, number_of_images, img_list):
         """
@@ -474,25 +455,26 @@ class WikiartImageScraper:
         Raises:
             ValueError: If an image URL does not contain a valid image extension.
         """
-        # Loop through the image URLs and download the images.
-        for i in range(len(img_list)):
-            # Check if we have already downloaded the maximum number of images.
-            if i >= number_of_images:
-                pass
-            else:
-                image : Image = img_list[i]
-                local_file_name = image.generate_filename(i)
+        # Loop through the requested image URLs and download the images.
+        for index, image_url in enumerate(img_list[:number_of_images]):
+            print("INdex: " + str(index))
+            print("Image: " + str(image_url))
+        
+            image: Image = image_url
+            local_file_name = image.generate_filename(index)
 
-                # Download picture from url.
+            # Download picture from url.
+            try:
+                urllib.request.urlretrieve(image.url, os.path.join(
+                    self.output_dir, f"{local_file_name}.jpg"))
+            except Exception as e:
+                # If the initial download fails, try removing any suffixes from the image URL.
                 try:
-                    urllib.request.urlretrieve(image.url, os.path.join(self.output_dir, f"{local_file_name}.jpg"))
+                    img_url = image.url.replace("!Large.jpg", "").replace(
+                        "!Large.png", "").replace("!Large.jpeg", "")
+                    urllib.request.urlretrieve(img_url, os.path.join(
+                        self.output_dir, f"{local_file_name}.jpg"))
                 except Exception as e:
-                     # If the initial download fails, try removing any suffixes from the image URL.
-                    try:
-                        img_url = image.url.replace("!Large.jpg", "").replace("!Large.png", "").replace("!Large.jpeg", "")
-                        urllib.request.urlretrieve(img_url, os.path.join(self.output_dir, f"{local_file_name}.jpg"))
-                    except Exception as e:
-                        # If the download still fails, print an error message and move on to the next image.
-                        print(f"Error downloading image from URL: {image.url}")
-                        print(e)
-                        pass
+                    # If the download still fails, print an error message and move on to the next image.
+                    print(f"Error downloading image from URL: {image.url}")
+                    print(e)
