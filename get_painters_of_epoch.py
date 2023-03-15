@@ -1,12 +1,6 @@
 from src.download_images import WikiartImageScraper
 
-epoch_name = "expressionism"
-
-image_downloader = WikiartImageScraper(
-    url="https://www.wikiart.org/en/paintings-by-style/expressionism?select=featured#!#filterName:featured,viewType:masonry",
-    epoch_name= epoch_name,
-    output_dir="C:\\SteffensOrdner\\Programmieren\\Studienarbeit\\nn-art-epoch-assignment\\data",
-)
+image_downloader = WikiartImageScraper(epoch_name="expressionism")
 
 image_downloader.start_driver()
 

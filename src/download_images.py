@@ -1,4 +1,3 @@
-# coding=utf-8
 import urllib.request
 import regex as re
 from selenium import webdriver
@@ -72,7 +71,7 @@ class WikiartImageScraper:
     based on the provided URL and epoch name.
     """
 
-    def __init__(self, url, epoch_name, output_dir, start_index=None, end_index=None):
+    def __init__(self, epoch_name, start_index=None, end_index=None):
         """
         Initializes a new WikiartImageScraper object.
 
@@ -82,14 +81,13 @@ class WikiartImageScraper:
             start_index (int, optional): For downloading part of the pictures. Defaults to None.
             end_index (int, optional): For downloading part of the pictures. Defaults to None.
         """
-        self.url = url
         self.epoch_name = epoch_name
-        self.output_dir = output_dir
         self.start_index = start_index
         self.end_index = end_index
+        self.url = f"https://www.wikiart.org/en/paintings-by-style/{epoch_name}?select=featured#!#filterName:featured,viewType:masonry"
+        self.output_dir = os.path.normpath(f"../data/images/{epoch_name}")
         self.options = webdriver.ChromeOptions()
-        self.options.add_experimental_option(
-            'excludeSwitches', ['enable-logging'])
+        self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.driver = webdriver.Chrome(options=self.options)
 
     def __del__(self):
@@ -220,7 +218,7 @@ class WikiartImageScraper:
 
         return epoch_list
 
-    def get_image_urls(self, painter=None):
+    def get_image_list(self, painter=None):
         """
         Gets the URLs of the images and the epochs in which they belong.
 
@@ -441,7 +439,7 @@ class WikiartImageScraper:
 
             self.load_more(refresh_number)
 
-        img_list = self.get_image_urls(painter)
+        img_list = self.get_image_list(painter)
 
         return img_list
 
@@ -457,8 +455,6 @@ class WikiartImageScraper:
         """
         # Loop through the requested image URLs and download the images.
         for index, image_url in enumerate(img_list[:number_of_images]):
-            print("INdex: " + str(index))
-            print("Image: " + str(image_url))
         
             image: Image = image_url
             local_file_name = image.generate_filename(index)
