@@ -4,8 +4,6 @@ from config import PROJECT_ROOT
 
 
 print("##### Started preprocess pipeline. #####")
-print("-----   Installing own packages.   -----")
-os.system("pip install -e .")
 
 images_path = os.path.join(PROJECT_ROOT, "data", "images")
 

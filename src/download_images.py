@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import os
 from collections import Counter
+import json
+from config import PROJECT_ROOT
 
 
 class Image:
@@ -77,7 +79,7 @@ class WikiartImageScraper:
 
         Args:
             url (string): Wikiart website URL.
-            epoch_name (string): Name of the epoch, e.g. "Expressionism".
+            epoch_name (string): Name of the epoch, e.g. "expressionism".
             start_index (int, optional): For downloading part of the pictures. Defaults to None.
             end_index (int, optional): For downloading part of the pictures. Defaults to None.
         """
@@ -85,16 +87,23 @@ class WikiartImageScraper:
         self.start_index = start_index
         self.end_index = end_index
         self.url = f"https://www.wikiart.org/en/paintings-by-style/{epoch_name}?select=featured#!#filterName:featured,viewType:masonry"
-        self.output_dir = os.path.normpath(f"../data/images/{epoch_name}")
+        self.output_dir = os.path.join(PROJECT_ROOT, "data", epoch_name)
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.driver = webdriver.Chrome(options=self.options)
+        self.painters_dict = {}
+
+        if not os.path.exists(self.output_dir):
+            os.makedirs(self.output_dir)
+        
+        self.start_driver()
 
     def __del__(self):
         """
         Cleans up the webdriver instance when the object is deleted.
         """
         try:
+            self.driver.close()
             self.driver.quit()
             print("Webdriver closed.")
         except AttributeError:
@@ -264,14 +273,13 @@ class WikiartImageScraper:
         Get the painters of the featured images.
 
         Returns:
-            painters_list (list): list of the painters of the featured pictures
+            None
         """
         # Find the container that holds all the images.
         html_pictures_list = self.driver.find_element(
             By.CLASS_NAME, "wiki-masonry-container")
         # Get all the list items that contain the images.
         items = html_pictures_list.find_elements(By.TAG_NAME, "li")
-        painters_list = []
 
         # Loop through the list of images and extract their URLs and epochs.
         for item in items:
@@ -284,10 +292,11 @@ class WikiartImageScraper:
 
                 # Extract painter out from url
                 painter = self.get_painter_from_url(img_src)
-                # append painter name to list
-                painters_list.append(painter)
 
-        return painters_list
+                if painter in self.painters_dict:
+                    self.painters_dict[painter] += 1
+                else:
+                    self.painters_dict[painter] = 1
 
     def painter_counter(self):
         """
@@ -301,8 +310,7 @@ class WikiartImageScraper:
         counter = Counter(painter_list)
         return counter
 
-    # TODO: könnte erstellen der Datei, wenn nötig, hinzufügen
-    def save_to_file(self, file_name, object):
+    def save_to_file(self, file_name, dict):
         """
         Save object as text to file 
 
@@ -310,31 +318,26 @@ class WikiartImageScraper:
             file_name : name of file to write in
             object: object that should be written as text
         """
-        with open(self.output_dir + "/" + file_name, "w") as f:
-            f.write(str(object))
+        with open(os.path.join(self.output_dir, file_name), "w") as f:
+            json.dump(dict, f)
 
-    def read_painters_from_file(self, file_name):
-        """
-        Get list of painters and the count of their featured pictures from file
+    # def read_painters_from_file(self, file_name):
+    #     """
+    #     Get list of painters and the count of their featured pictures from file
 
-        Parameter:
-            file_name : name of file with counter object of painters
+    #     Parameter:
+    #         file_name : name of file with counter object of painters
 
-        Returns:
-            painter_list (list) : painters named in file
-            image_count_list (list)
-        """
+    #     Returns:
+    #         painter_list (list) : painters named in file
+    #         image_count_list (list)
+    #     """
 
-        with open(self.output_dir + "/" + file_name, "r") as r:
-            text = r.read()
+    #     # with open(file_name, "r") as r:
+            
+    #     #     return painter_list, image_count_list
 
-            painter_list = re.findall("\'(.+?)\':", text)
-            image_count_list = re.findall(": (.+?)[,\}]", text)
-            # TODO: Dictionary zurückgeben:
-            # return dict(zip(painter_list, image_count_list))
-            return painter_list, image_count_list
-
-    def get_count_of_available_images_from_authors(self, painters_list, epoch):
+    def count_images_via_painters(self):
         """
         Get count of pictures reachable from the painters of epoch
 
@@ -346,14 +349,13 @@ class WikiartImageScraper:
             image_count : count of reachable images
         """
         total_image_count = 0
-
-        for painter in painters_list:
+        for painter in self.painters_dict:
             try:
                 painter_image_count = 0
 
                 # Get Url of the pictures from the author of the chosen epoch
                 self.navigate_to_url("https://www.wikiart.org/en/" +
-                                     painter + "/all-works#!#filterName:Style_" + epoch + ",resultType:masonry")
+                                    painter + "/all-works#!#filterName:Style_" + self.epoch_name + ",resultType:masonry")
                 self.driver.implicitly_wait(10)
                 # TODO: eventuell WebDriverWait.until verwenden
 
@@ -382,7 +384,7 @@ class WikiartImageScraper:
                 total_image_count = total_image_count + painter_image_count
             except:
                 print("Images of " +
-                      str(painter) + " not reachable")
+                    str(painter) + " not reachable")
 
         return total_image_count
 
@@ -474,3 +476,11 @@ class WikiartImageScraper:
                     # If the download still fails, print an error message and move on to the next image.
                     print(f"Error downloading image from URL: {image.url}")
                     print(e)
+
+
+    def load_all_pictures(self):
+        """_summary_
+
+        """
+        refreshCount = self.count_refresh_actions()
+        self.load_more(refreshCount=refreshCount)
