@@ -1,15 +1,13 @@
 import os
 from src.preprocess_images import Preprocess_Images
+from config import PROJECT_ROOT
 
 
 print("##### Started preprocess pipeline. #####")
 print("-----   Installing own packages.   -----")
 os.system("pip install -e .")
 
-current_file_path = os.path.abspath(__file__)
-root_path = os.path.dirname(os.path.dirname(current_file_path))
-images_path = os.path.join(root_path, "data", "images")
-print(images_path)
+images_path = os.path.join(PROJECT_ROOT, "data", "images")
 
 pre1 = Preprocess_Images(images_path, images_path, grayscale=True)
 
