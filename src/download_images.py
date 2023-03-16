@@ -154,8 +154,16 @@ class WikiartImageScraper:
         self.driver.implicitly_wait(20)
 
         # Click on the image to open it and extract the epoch information.
-        img_element.click()
-        self.driver.implicitly_wait(20)
+        protected = True
+        while protected:
+            try:
+                img_element.click()
+                self.driver.implicitly_wait(20)
+                protected = False
+            except:
+                buttons = self.driver.find_elements(by=By.TAG_NAME, value="button")
+                buttons[0].click()
+        
 
         try:
             # Gets Element where the epochs are listed
