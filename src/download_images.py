@@ -45,6 +45,7 @@ class WikiartImageScraper:
         
         self.start_driver()
 
+
     def __del__(self):
         """
         Cleans up the webdriver instance when the object is deleted.
@@ -56,14 +57,6 @@ class WikiartImageScraper:
         except AttributeError:
             pass
 
-    def navigate_to_url(self, url):
-        """
-        Navigate the webdriver to the specified URL.
-
-        Args:
-            url (string): The URL to navigate to.
-        """
-        self.driver.get(url)
 
     def start_driver(self):
         """
@@ -74,6 +67,17 @@ class WikiartImageScraper:
         self.navigate_to_url(self.url)
         print("Webdriver started...")
         time.sleep(3)
+    
+
+    def navigate_to_url(self, url):
+        """
+        Navigate the webdriver to the specified URL.
+
+        Args:
+            url (string): The URL to navigate to.
+        """
+        self.driver.get(url)
+
 
     def count_refresh_actions(self):
         """
@@ -97,6 +101,7 @@ class WikiartImageScraper:
 
         return refreshCount
 
+
     def load_more(self, refreshCount):
         """
         Clicks on the "load more" button 'refreshCount' times to load more images on the webpage.
@@ -118,15 +123,53 @@ class WikiartImageScraper:
                 i = i - 1
             time.sleep(5)
 
+
+    def load_all_images(self):
+        """
+        Refreshes the page and scrolls to show all images.
+
+        """
+        refreshCount = self.count_refresh_actions()
+        self.load_more(refreshCount=refreshCount)
+    
+
+    def get_painters(self):
+        """
+        Get the painters of the featured images.
+        """
+        # Find the container that holds all the images.
+        html_pictures_list = self.driver.find_element(
+            By.CLASS_NAME, "wiki-masonry-container")
+        # Get all the list items that contain the images.
+        items = html_pictures_list.find_elements(By.TAG_NAME, "li")
+
+        # Loop through the list of images and extract their URLs and epochs.
+        for item in items:
+            img_elements = item.find_elements(By.TAG_NAME, "img")
+            for img_element in img_elements:
+                # Scroll to the image and extract its source URL.
+                self.driver.execute_script(
+                    "arguments[0].scrollIntoView();", img_element)
+                img_src = img_element.get_attribute("src")
+
+                # Extract painter out from url
+                painter = self.get_painter_from_url(img_src)
+
+                if painter in self.painters_dict:
+                    self.painters_dict[painter] += 1
+                else:
+                    self.painters_dict[painter] = 1
+
+
     def get_painter_from_url(self, img_src):
         """
-        Gets painter of a picture.
+        Gets the painter of an image.
 
         Args:
-            img_src (string): Name of the image path.
+            img_src (string): String representing the image path.
 
         Returns:
-            string: Name of painter of the image
+            string: Name of the painter of the image.
         """
         try:
             # Looks for a string that starts with "images/",
@@ -140,57 +183,133 @@ class WikiartImageScraper:
         return painter_name
 
 
-    def get_epochs(self, img_element):
+    def get_painters_of_epoch(self):
         """
-        Gets the epochs of an image element.
-
-        Args:
-            img_element (object): HTML element of the image.
-
-        Returns:
-            list of strings: Epochs of the image.
+        Get the important painters of epoch via epoch painters overview site.
         """
-        epoch_list = []
-        self.driver.implicitly_wait(20)
 
-        # Click on the image to open it and extract the epoch information.
-        protected = True
-        while protected:
-            try:
-                img_element.click()
-                self.driver.implicitly_wait(20)
-                protected = False
-            except:
-                buttons = self.driver.find_elements(by=By.TAG_NAME, value="button")
-                buttons[0].click()
-        
+        # Handle differnet naming of art-nouveau-modern
+        epoch = self.epoch_name
+        if self.epoch_name == "art-nouveau-modern":
+            epoch = "art-nouveau"
 
         try:
-            # Gets Element where the epochs are listed
-            information = self.driver.find_elements(
-                by=By.CLASS_NAME, value="dictionary-values")[0]
-            epochs = information.find_elements(by=By.TAG_NAME, value="a")
-            for epoch in epochs:
-                epoch_list.append(epoch.text)
-            # Last element gets removed because it isn't an epoch
-            epoch_list.remove(epoch_list[len(epoch_list)-1])
+            self.navigate_to_url(f"https://www.wikiart.org/en/artists-by-art-movement/{epoch}#!#resultType:masonry")
+            self.driver.implicitly_wait(30)
         except:
-            epoch_list.append(self.epoch_name)
+            print(f"URL of important painters of {epoch} not found.")
 
-        # Go back to the previous page and wait for it to load.
-        self.driver.back()
-        self.driver.implicitly_wait(30)
 
-        return epoch_list
+        calculated = False
+
+        while not calculated:
+            try:
+                self.driver.implicitly_wait(5)
+                informationSections = self.driver.find_elements(by=By.CLASS_NAME, value="count.ng-binding")
+                self.driver.implicitly_wait(5)
+                pictureCount = int(informationSections.pop().text.split(" ").pop())
+                calculated = True
+            except:
+                time.sleep(2)
+
+        # Divide the total number of pictures by 60, which is the default number of pictures loaded per page.
+        refreshCount = int(pictureCount/60)
+
+        self.load_more(refreshCount=refreshCount)
+
+        try: 
+            # Find the container that holds all the images.
+            html_pictures_list = self.driver.find_elements(
+                By.CLASS_NAME, "wiki-artistgallery-container.ng-isolate-scope")
+            # Get all the list items that contain the images.
+            items = html_pictures_list[0].find_elements(By.TAG_NAME, "li")
+
+            # Loop through the list of images and extract their URLs and epochs.
+            for item in items:
+                img_elements = item.find_elements(By.CLASS_NAME, "image-wrapper")
+                for img_element in img_elements:
+                    # Scroll to the image and extract its source URL.
+                    self.driver.execute_script(
+                        "arguments[0].scrollIntoView();", img_element)
+                    href = img_element.get_attribute("href")
+
+                    # Extract painter out from href
+                    painter = href.split("/")[4]
+
+                    if painter in self.painters_dict:
+                        self.painters_dict[painter] += 1
+                    else:
+                        self.painters_dict[painter] = 1
+        except:
+            print(f"Finding important painters of epoch {epoch} failed.")
+            return
+
+
+    def get_images_from_painters(self):
+        """
+        Get the image objects of the pictures of the painters.
+        """
+
+        for painter in self.painters_dict:
+            self.image_list += self.get_images_from_painter(painter=painter)
+
+
+    def get_images_from_painter(self, painter):
+        """
+        Get the image objects of the pictures of the painter.
+
+        Args:
+            painter (string): The painter of the image.
+
+        Returns:
+            list of images: List containing the image objects.
+        """
+        if not self.is_painter_available(painter=painter):
+            return []
+        
+        try:
+            # Get Url
+            self.navigate_to_url("https://www.wikiart.org/en/" + painter + "/all-works#!#filterName:Style_" + self.epoch_name + ",resultType:masonry")
+            self.driver.implicitly_wait(40)
+        except:
+            print(f"Cant find URL of {painter}.")
+            return []
+        
+        try:
+            # Find Load More Button
+            load_more_button = self.driver.find_elements(
+                by=By.CLASS_NAME, value="masonry-load-more-button")[0]
+            rawCountText = load_more_button.find_elements(
+                by=By.CLASS_NAME, value="count")[0].text
+
+            # If not all Pictures visible click onto load more button
+            if rawCountText != "":
+                label = self.driver.find_elements(
+                    by=By.CLASS_NAME, value="count.ng-binding")
+                self.driver.implicitly_wait(5)
+                pictureNumber = int(label.pop().text.split(" ").pop())
+
+                # Calculate number of needed load more clicks
+                refresh_number = (pictureNumber - 20) / 60
+                refresh_number = int(refresh_number) + 1
+
+                self.load_more(refresh_number)
+        except:
+            print(f"Images of painter {painter} not reachable.")
+            return []
+
+        return self.get_image_list(painter=painter)
+
 
     def get_image_list(self, painter=None):
         """
         Gets the URLs of the images and the epochs in which they belong.
 
         Args:
-            painter (string): name of the painter if driver is on a painter site.        
+            painter (string, optional): Name of the painter if driver is on a painter site. 
+
         Returns:
-            img_list (list): List of image urls
+            img_list (list): List of image urls.
         """
         # Find the container that holds all the images.
         html_pictures_list = self.driver.find_element(
@@ -225,74 +344,185 @@ class WikiartImageScraper:
 
         return img_list
 
-    def get_painters(self):
+
+    def get_epochs(self, img_element):
         """
-        Get the painters of the featured images.
+        Gets the epochs of an image element.
+
+        Args:
+            img_element (object): The HTML element of the image.
 
         Returns:
-            None
+            list of strings: Epochs of the image.
         """
-        # Find the container that holds all the images.
-        html_pictures_list = self.driver.find_element(
-            By.CLASS_NAME, "wiki-masonry-container")
-        # Get all the list items that contain the images.
-        items = html_pictures_list.find_elements(By.TAG_NAME, "li")
+        epoch_list = []
+        self.driver.implicitly_wait(20)
 
-        # Loop through the list of images and extract their URLs and epochs.
-        for item in items:
-            img_elements = item.find_elements(By.TAG_NAME, "img")
-            for img_element in img_elements:
-                # Scroll to the image and extract its source URL.
-                self.driver.execute_script(
-                    "arguments[0].scrollIntoView();", img_element)
-                img_src = img_element.get_attribute("src")
+        # Click on the image to open it and extract the epoch information.
+        protected = True
+        while protected:
+            try:
+                img_element.click()
+                self.driver.implicitly_wait(20)
+                protected = False
+            except:
+                buttons = self.driver.find_elements(by=By.TAG_NAME, value="button")
+                buttons[0].click()
+        
+        try:
+            # Gets Element where the epochs are listed
+            information = self.driver.find_elements(
+                by=By.CLASS_NAME, value="dictionary-values")[0]
+            epochs = information.find_elements(by=By.TAG_NAME, value="a")
+            for epoch in epochs:
+                epoch_name = ""
+                # Because of python 3.8
+                switch = {
+                    "Realism": "realism",
+                    "Impressionism": "impressionism",
+                    "Romanticism": "romanticism",
+                    "Expressionism": "expressionism",
+                    "Post-Impressionism": "post-impressionism",
+                    "Baroque": "baroque",
+                    "Art Nouveau (Modern)": "art-nouveau-modern",
+                    "Surrealism": "surrealism",
+                    "Symbolism": "symbolism"
+                }
+                epoch_name = switch.get(epoch.text)
+                if epoch_name != None:
+                    epoch_list.append(epoch_name)
 
-                # Extract painter out from url
-                painter = self.get_painter_from_url(img_src)
+            # Last element gets removed because it isn't an epoch
+            # epoch_list.remove(epoch_list[len(epoch_list)-1])
+        except:
+            epoch_list.append(self.epoch_name)
 
-                if painter in self.painters_dict:
-                    self.painters_dict[painter] += 1
-                else:
-                    self.painters_dict[painter] = 1
+        # Go back to the previous page and wait for it to load.
+        self.driver.back()
+        self.driver.implicitly_wait(30)
 
-    def painter_counter(self):
+        return epoch_list
+
+
+    def is_painter_available(self, painter):
         """
-        Get the Counter of the painters from the featured painters of the epoch
+        Check if pictures of the painter are available and not restricted.
+
+        Args:
+            painter (string): Painter of the image.
 
         Returns:
-            counter : Counter object of the painters from the featured painters of the epoch
+            boolean: Boolean indicating the availability of the images.
         """
+        try:
+            # Get Url
+            self.navigate_to_url(f"https://www.wikiart.org/en/{painter}")
+            self.driver.implicitly_wait(1)
+        except:
+            print(f"Cant find page of {painter}.")
+            return  False
+        
+        privacy_hint = self.driver.find_elements(by=By.CLASS_NAME, value="wiki-layout-restricted-msg-wrapper")
 
-        painter_list = self.get_painters()
-        counter = Counter(painter_list)
-        return counter
+        if len(privacy_hint) > 0:
+            return False
+
+        return True
+    
+
+    def download_images(self, number_of_images):
+        """
+        Download images from a list of image URLs and saves them to the specified output directory.
+
+        Args:
+            img_url_list (list of Image): List of data of images
+
+        Raises:
+            ValueError: If an image URL does not contain a valid image extension.
+        """
+        # Loop through the requested image URLs and download the images.
+        for index, image_url in enumerate(self.image_list[:number_of_images]):
+        
+            image: Image = image_url
+            local_file_name = image.generate_filename(index)
+
+            # Download picture from url.
+            try:
+                urllib.request.urlretrieve(image.url, os.path.join(
+                    self.output_dir, f"{local_file_name}.jpg"))
+            except Exception as e:
+                # If the initial download fails, try removing any suffixes from the image URL.
+                try:
+                    img_url = image.url.replace("!Large.jpg", "").replace(
+                        "!Large.png", "").replace("!Large.jpeg", "")
+                    urllib.request.urlretrieve(img_url, os.path.join(
+                        self.output_dir, f"{local_file_name}.jpg"))
+                except Exception as e:
+                    # If the download still fails, print an error message and move on to the next image.
+                    print(f"Error downloading image from URL: {image.url}")
+                    print(e)
+
 
     def save_to_file(self, file_name, dict):
         """
-        Save object as text to file 
+        Save objects in a json file.
 
-        Parameter:
-            file_name : name of file to write in
-            object: object that should be written as text
+        Args:
+            file_name (string): The name of file to write in.
+            dict (object): The object that should be written as JSON.
         """
         with open(os.path.join(self.output_dir, file_name), "w") as f:
             json.dump(dict, f)
 
+
     def save_painters(self):
-        """_summary_
+        """
+        Saves the painters_dict of an instance to a json file called "painters.json".
         """
         self.save_to_file("painters.json", self.painters_dict)
 
+
+    def save_images(self):
+        """
+        Saves the image_list of an instance to a json file called "images.json".
+        """
+        json_image_list = []
+
+        for image in self.image_list:
+            image_data = {
+                "url": image.url,
+                "epochs": image.epochs
+            }
+
+            json_image_list.append(image_data)
+
+        self.save_to_file("images.json", json_image_list)
+
+
+    def read_images_from_json(self, file_name):
+        """
+        Get list of images from json file and write it to the image_list attribute of the class.
+
+        Args:
+            file_name (string): Name of the file.
+        """
+        with open(os.path.join(self.output_dir, file_name), "r") as file:
+            json_image_list = json.load(file)
+        
+        self.image_list = []
+
+        for image in json_image_list:
+            print(image)
+            image_object = Image(url=image["url"], epochs=image["epochs"])
+            self.image_list.append(image_object)
+
+    
     def read_painters_from_json(self, file_name):
         """
-        Get list of painters and the count of their featured pictures from file
+        Get list of painters and write it to the painters_dict attribute of the class.
 
-        Parameter:
-            file_name : name of file with counter object of painters
-
-        Returns:
-            painter_list (list) : painters named in file
-            image_count_list (list)
+        Args:
+            file_name (string): Name of the file.
         """
 
         with open(os.path.join(self.output_dir, file_name), "r") as file:
@@ -300,6 +530,8 @@ class WikiartImageScraper:
         
         self.painters_dict = painters_dict
 
+
+    ##### Not part of ImageScraper pipeline #####
     def count_images_via_painters(self):
         """
         Get count of pictures reachable from the painters of epoch
@@ -352,132 +584,3 @@ class WikiartImageScraper:
                     str(painter) + " not reachable")
 
         return total_image_count
-
-    def get_images_from_painters(self):
-        """
-        Get the image URLs of the painters
-
-        Parameter:
-            painters_list (list) : names of painters
-            epoch (String): name of epoch
-
-        Returns:
-            None
-        """
-
-        for painter in self.painters_dict:
-            self.image_list.append(self.get_images_from_painter(painter))
-
-    def is_painter_available(self, painter):
-        """_summary_
-
-        Args:
-            painter (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        try:
-            # Get Url
-            self.navigate_to_url(f"https://www.wikiart.org/en/{painter}")
-            self.driver.implicitly_wait(1)
-        except:
-            print(f"Cant find page of {painter}.")
-            return  False
-        
-        privacy_hint = self.driver.find_elements(by=By.CLASS_NAME, value="wiki-layout-restricted-msg-wrapper")
-
-        if len(privacy_hint) > 0:
-            return False
-
-        return True
-
-    def get_images_from_painter(self, painter):
-        """_summary_
-
-        Args:
-            painter (_type_): _description_
-            epoch (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        if not self.is_painter_available(painter=painter):
-            return []
-        
-        try:
-            # Get Url
-            self.navigate_to_url("https://www.wikiart.org/en/" + painter + "/all-works#!#filterName:Style_" + self.epoch_name + ",resultType:masonry")
-            self.driver.implicitly_wait(40)
-        except:
-            print(f"Cant find URL of {painter}.")
-            return []
-        
-        try:
-            # Find Load More Button
-            load_more_button = self.driver.find_elements(
-                by=By.CLASS_NAME, value="masonry-load-more-button")[0]
-            rawCountText = load_more_button.find_elements(
-                by=By.CLASS_NAME, value="count")[0].text
-
-            # If not all Pictures visible click onto load more button
-            if rawCountText != "":
-                label = self.driver.find_elements(
-                    by=By.CLASS_NAME, value="count.ng-binding")
-                self.driver.implicitly_wait(5)
-                pictureNumber = int(label.pop().text.split(" ").pop())
-
-                # Calculate number of needed load more clicks
-                refresh_number = (pictureNumber - 20) / 60
-                refresh_number = int(refresh_number) + 1
-
-                self.load_more(refresh_number)
-        except:
-            print(f"Images of painter {painter} not reachable.")
-            return []
-
-        return self.get_image_list(painter=painter)
-
-    def download_images(self, number_of_images):
-        """
-        Download images from a list of image URLs and saves them to the specified output directory.
-
-        Args:
-            img_url_list (list of Image): List of data of images
-
-        Raises:
-            ValueError: If an image URL does not contain a valid image extension.
-        """
-        # Loop through the requested image URLs and download the images.
-        for index, image_url in enumerate(self.image_list[:number_of_images]):
-        
-            image: Image = image_url
-            local_file_name = image.generate_filename(index)
-
-            # Download picture from url.
-            try:
-                urllib.request.urlretrieve(image.url, os.path.join(
-                    self.output_dir, f"{local_file_name}.jpg"))
-            except Exception as e:
-                # If the initial download fails, try removing any suffixes from the image URL.
-                try:
-                    img_url = image.url.replace("!Large.jpg", "").replace(
-                        "!Large.png", "").replace("!Large.jpeg", "")
-                    urllib.request.urlretrieve(img_url, os.path.join(
-                        self.output_dir, f"{local_file_name}.jpg"))
-                except Exception as e:
-                    # If the download still fails, print an error message and move on to the next image.
-                    print(f"Error downloading image from URL: {image.url}")
-                    print(e)
-
-    def save_image_urls():
-        """_summary_
-        """
-
-
-    def load_all_pictures(self):
-        """_summary_
-
-        """
-        refreshCount = self.count_refresh_actions()
-        self.load_more(refreshCount=refreshCount)

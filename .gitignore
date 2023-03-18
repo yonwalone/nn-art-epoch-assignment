@@ -1,4 +1,11 @@
 **/__pycache__/
 *.egg-info
-data/images
 node_modules
+*.png
+*.jpg
+*.gif
+*.bmp
+*.jpeg
+*.ico
+*.svg
+!banner.png

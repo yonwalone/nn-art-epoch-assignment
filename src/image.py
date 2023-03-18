@@ -1,6 +1,7 @@
 import regex as re
 
 
+
 class Image:
     """
     Represents an image with a URL, name, painter, and associated epochs.
@@ -21,6 +22,7 @@ class Image:
         self.painter = painter
         self.epochs = epochs
 
+
     def generate_filename(self, index):
         """
         Generates a filename for the image based on its URL and associated epochs.
@@ -34,7 +36,7 @@ class Image:
         # Set filename from url if possible otherwise use string of i.
         epoch_string = ""
         if self.epochs != None:
-            epoch_string = "-".join(self.epochs) + "-"
+            epoch_string = ";".join(self.epochs) + ";"
 
         try:
             # Use regular expressions to extract the filename from the URL.
