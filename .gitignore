@@ -1,3 +1,12 @@
+**/__pycache__/
 *.egg-info
-data
 node_modules
+*.DS_Store
+*.png
+*.jpg
+*.gif
+*.bmp
+*.jpeg
+*.ico
+*.svg
+!banner.png
