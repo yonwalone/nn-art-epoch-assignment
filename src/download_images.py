@@ -512,7 +512,6 @@ class WikiartImageScraper:
         self.image_list = []
 
         for image in json_image_list:
-            print(image)
             image_object = Image(url=image["url"], epochs=image["epochs"])
             self.image_list.append(image_object)
 

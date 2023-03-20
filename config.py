@@ -9,7 +9,7 @@ EPOCHS = [
 # "expressionism",
 # "post-impressionism",
 # "baroque",
-# "art-nouveau-modern",
-# "surrealism",
-"symbolism",
+# "art-nouveau-modern", # 6914
+"surrealism", # 4309
+# "symbolism", # 5302
 ]
