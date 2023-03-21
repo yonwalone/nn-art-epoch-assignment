@@ -97,7 +97,7 @@ class WikiartImageScraper:
         refreshCount = int(pictureCount/60)
 
         # Correct refresh number because at the beginning the first pictures are visible.
-        refreshCount = refreshCount - 2
+        refreshCount = refreshCount - 1
 
         return refreshCount
 
@@ -251,8 +251,27 @@ class WikiartImageScraper:
         """
 
         for painter in self.painters_dict:
-            self.image_list += self.get_images_from_painter(painter=painter)
+            try:
+                self.image_list += self.get_images_from_painter(painter=painter)
+            except:
+                print(f"Error by getting images from {painter}")
 
+    def get_images_from_painters(self, startIndex, endIndex):
+        """
+        Get the image objects of the pictures of the painters.
+        """
+        index = 0
+        for painter in self.painters_dict:
+            if index < startIndex:
+                index += 1
+                continue
+            if index > endIndex:
+                return
+            index += 1
+            try:
+                self.image_list += self.get_images_from_painter(painter=painter)
+            except:
+                print(f"Error by getting images from {painter}")
 
     def get_images_from_painter(self, painter):
         """
@@ -356,14 +375,14 @@ class WikiartImageScraper:
             list of strings: Epochs of the image.
         """
         epoch_list = []
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
 
         # Click on the image to open it and extract the epoch information.
         protected = True
         while protected:
             try:
                 img_element.click()
-                self.driver.implicitly_wait(20)
+                self.driver.implicitly_wait(10)
                 protected = False
             except:
                 buttons = self.driver.find_elements(by=By.TAG_NAME, value="button")
@@ -395,6 +414,7 @@ class WikiartImageScraper:
             # Last element gets removed because it isn't an epoch
             # epoch_list.remove(epoch_list[len(epoch_list)-1])
         except:
+            print("Epoch not found")
             epoch_list.append(self.epoch_name)
 
         # Go back to the previous page and wait for it to load.
