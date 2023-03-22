@@ -1,0 +1,392 @@
+1 images from william-turner found.
+20 images from johan-jongkind found.
+Not all images may be available: johan-jongkind
+20 images from edgar-degas found.
+Not all images may be available: edgar-degas
+20 images from martin-rico found.
+Not all images may be available: martin-rico
+8 images from thomas-eakins found.
+20 images from pierre-auguste-renoir found.
+Not all images may be available: pierre-auguste-renoir
+240 images from berthe-morisot found.
+7 images from giuseppe-abbati found.
+25 images from silvestro-lega found.
+121 images from edouard-manet found.
+87 images from james-mcneill-whistler found.
+793 images from camille-pissarro found.
+498 images from eugene-boudin found.
+1353 images from claude-monet found.
+Could't get the image of soure: https://uploads8.wikiart.org/images/claude-monet/in-the-norvegienne-boat-at-giverny.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads5.wikiart.org/images/claude-monet/in-the-woods-at-giverny-blanche-hoschede.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads5.wikiart.org/images/claude-monet/landscape-at-giverny-1.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads7.wikiart.org/images/claude-monet/path-in-the-fog.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads1.wikiart.org/images/claude-monet/poplars-at-giverny.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads1.wikiart.org/images/claude-monet/poppies-at-giverny.jpg!PinterestSmall.jpg
+20 images from frederic-bazille found.
+Not all images may be available: frederic-bazille
+
+//hier Log mal wieder verloren
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+4680 images already there
+Get image list from painters of impressionism.
+30 images from giuseppe-de-nittis found.
+19 images from marie-bracquemond found.
+11 images from jules-dupre found.
+4 images from carolus-duran found.
+9 images from telemaco-signorini found.
+340 images from william-merritt-chase found.
+Could't get the image of soure: https://uploads6.wikiart.org/images/william-merritt-chase/shinnecock-landscape-02.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads6.wikiart.org/images/william-merritt-chase/shinnecock-landscape-03.jpg!PinterestSmall.jpg
+20 images from max-liebermann found.
+Not all images may be available: max-liebermann
+15 images from marianne-north found.
+Images of painter p-ricl-s-pantazis not reachable.
+37 images from louise-abbema found.
+Save images data.
+5145 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####Webdriver started...
+270 painters found
+5145 images already there
+Get image list from painters of impressionism.
+153 images from paul-gauguin found.
+121 images from arkhip-kuindzhi found.
+223 images from john-henry-twachtman found.
+20 images from john-singer-sargent found.
+Not all images may be available: john-singer-sargent
+5 images from ioannis-altamouras found.
+20 images from nicolae-grigorescu found.
+Not all images may be available: nicolae-grigorescu
+17 images from francisco-oller found.
+1 images from georges-rochegrosse found.
+20 images from john-atkinson-grimshaw found.
+Not all images may be available: john-atkinson-grimshaw
+17 images from konstantinos-volanakis found.
+20 images from nathaniel-hone-the-younger found.
+Not all images may be available: nathaniel-hone-the-younger
+6 images from maurice-poirson found.
+4 images from raimundo-madrazo found.
+14 images from james-ensor found.
+14 images from jean-beraud found.
+20 images from maximilien-luce found.
+Not all images may be available: maximilien-luce
+122 images from willard-metcalf found.
+20 images from julian-alden-weir found.
+Not all images may be available: julian-alden-weir
+7 images from ant-nio-de-carvalho-da-silva-porto found.
+6 images from robert-harris found.
+Save images data.
+5855 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+5855 images already there
+Get image list from painters of impressionism.
+17 images from james-campbell-noble found.
+20 images from paul-albert-besnard found.
+Not all images may be available: paul-albert-besnard
+15 images from henri-gervex found.
+20 images from laszlo-mednyanszky found.
+Not all images may be available: laszlo-mednyanszky
+1 images from francesc-masriera found.
+15 images from frank-omeara found.
+11 images from vincenzo-migliaro found.
+32 images from georges-seurat found.
+12 images from ilya-repin found.
+32 images from henri-de-toulouse-lautrec found.
+6 images from ferdinand-hodler found.
+20 images from federico-zandomeneghi found.
+Not all images may be available: federico-zandomeneghi
+5 images from theodor-aman found.
+19 images from ion-andreescu found.
+2 images from albert-dubois-pillet found.
+20 images from eugene-girardet found.
+Not all images may be available: eugene-girardet
+68 images from theodore-robinson found.
+20 images from hugo-muhlig found.
+Not all images may be available: hugo-muhlig
+37 images from maxime-maufra found.
+22 images from konstantin-makovsky found.
+Save images data.
+6149 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+6149 images already there
+Get image list from painters of impressionism.
+40 images from frits-thaulow found.
+9 images from columbano-bordalo-pinheiro found.
+4 images from mihaly-munkacsy found.
+14 images from karl-edvard-diriks found.
+14 images from pierre-emmanuel-damoye found.
+19 images from charles-sprague-pearce found.
+4 images from giovanni-segantini found.
+10 images from albert-aublet found.
+20 images from joaquin-sorolla found.
+Not all images may be available: joaquin-sorolla
+15 images from mikhail-nesterov found.
+41 images from philip-wilson-steer found.
+59 images from henry-herbert-la-thangue found.
+13 images from leon-wyczolkowski found.
+14 images from william-logsdail found.
+25 images from paul-signac found.
+20 images from childe-hassam found.
+Not all images may be available: childe-hassam
+30 images from theo-van-rysselberghe found.
+20 images from t-c-steele found.
+Not all images may be available: t-c-steele
+3 images from julius-leblanc-stewart found.
+6 images from henrique-pousao found.
+Save images data.
+6469 images found for impressionism.
+Webdriver closed.
+
+Webdriver started...
+270 painters found
+6469 images already there
+Get image list from painters of impressionism.
+36 images from peder-severin-kroyer found.
+5 images from aleksander-gierymski found.
+25 images from emil-carlsen found.
+20 images from george-henry found.
+Not all images may be available: george-henry
+20 images from isaac-israels found.
+Not all images may be available: isaac-israels
+11 images from edvard-munch found.
+16 images from jan-toorop found.
+7 images from carl-larsson found.
+20 images from tom-roberts found.
+Not all images may be available: tom-roberts
+44 images from james-charles found.
+17 images from anna-ancher found.
+20 images from walter-osborne found.
+Not all images may be available: walter-osborne
+11 images from leo-gausson found.
+0 images from harriet-backer found.
+6 images from niccolo-cannicci found.
+20 images from lilla-cabot-perry found.
+Not all images may be available: lilla-cabot-perry
+10 images from sarah-purser found.
+25 images from pericles-pantazis found.
+23 images from emile-claus found.
+3 images from nikolai-dmitriyevich-kuznetsov found.
+20 images from julian-ashton found.
+Not all images may be available: julian-ashton
+75 images from thomas-dewing found.
+16 images from thomas-pollock-anshutz found.
+20 images from edward-e-simmons found.
+Not all images may be available: edward-e-simmons
+23 images from antonio-mancini found.
+Save images data.
+6822 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+6822 images already there
+Get image list from painters of impressionism.
+7 images from julian-falat found.
+13 images from jane-sutherland found.
+4 images from tom-scott found.
+20 images from marianne-stokes found.
+Not all images may be available: marianne-stokes
+20 images from frederick-mccubbin found.
+Not all images may be available: frederick-mccubbin
+15 images from georg-pauli found.
+18 images from john-lavery found.
+20 images from ivan-mrkvicka found.
+Not all images may be available: ivan-mrkvicka
+20 images from fernand-combes found.
+Not all images may be available: fernand-combes
+17 images from maurice-bompard found.
+6 images from jose-malhoa found.
+20 images from edward-henry-potthast found.
+Not all images may be available: edward-henry-potthast
+30 images from hoca-ali-riza found.
+11 images from mildred-anne-butler found.
+20 images from henry-scott-tuke found.
+Not all images may be available: henry-scott-tuke
+10 images from john-peter-russell found.
+20 images from lovis-corinth found.
+Not all images may be available: lovis-corinth
+37 images from joseph-decamp found.
+5 images from ludovic-alleaume found.
+20 images from anders-zorn found.
+Not all images may be available: anders-zorn
+20 images from walter-sickert found.
+Not all images may be available: walter-sickert
+20 images from vincenzo-irolli found.
+Not all images may be available: vincenzo-irolli
+12 images from clara-southern found.
+4 images from roderic-oconor found.
+27 images from alfredo-andersen found.
+Save images data.
+7038 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+7038 images already there
+Get image list from painters of impressionism.
+10 images from andres-de-santa-maria found.
+13 images from charles-courtney-curran found.
+6 images from jacques-emile-blanche found.
+49 images from lesser-ury found.
+18 images from aristide-maillol found.
+12 images from antonio-de-la-gandara found.
+30 images from karoly-ferenczy found.
+20 images from frank-w-benson found.
+Not all images may be available: frank-w-benson
+31 images from henry-tonks found.
+22 images from edmund-charles-tarbell found.
+82 images from robert-lewis-reid found.
+6 images from mariano-benlliure found.
+66 images from lucien-pissarro found.
+320 images from joaqu-n-sorolla found.
+5 images from jessie-willcox-smith found.
+46 images from albert-julius-olsson found.
+39 images from ferdinand-du-puigaudeau found.
+21 images from vilhelm-hammershoi found.
+13 images from david-davies found.
+53 images from rupert-bunny found.
+14 images from camille-claudel found.
+10 images from hans-am-ende found.
+91 images from valentin-serov found.
+2 images from arthur-lowe found.
+21 images from benjamin-brown found.
+Save images data.
+8018 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+8018 images already there
+Get image list from painters of impressionism.
+24 images from ramon-casas found.
+44 images from richard-jack found.
+18 images from eliseu-visconti found.
+47 images from nicolae-vermont found.
+4 images from jozef-pankiewicz found.
+7 images from boris-schatz found.
+120 images from guy-rose found.
+26 images from arthur-streeton found.
+22 images from ivan-grohar found.
+102 images from fujishima-takeji found.
+20 images from pierre-jacques-pelletier found.
+Not all images may be available: pierre-jacques-pelletier
+71 images from stefan-luchian found.
+17 images from arthur-verona found.
+28 images from max-slevogt found.
+13 images from charles-conder found.
+106 images from nikolay-bogdanov-belsky found.
+13 images from philip-de-laszlo found.
+22 images from anne-brigman found.
+26 images from ferdynand-ruszczyc found.
+54 images from william-james-glackens found.
+14 images from matej-sternen found.
+4 images from yeghishe-tadevosyan found.
+36 images from constantin-artachino found.
+15 images from thalia-flora-karavia found.
+Save images data.
+8851 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+8851 images already there
+Get image list from painters of impressionism.
+15 images from thalia-flora-karavia found.
+20 images from algernon-talmage found.
+Not all images may be available: algernon-talmage
+5 images from armando-montaner-valdueza found.
+16 images from granville-redmond found.
+23 images from ipolit-strambu found.
+49 images from theodor-pallady found.
+37 images from stefan-popescu found.
+13 images from ethel-carrick found.
+16 images from vilhelms-purvitis found.
+8 images from vasyl-hryhorovych-krychevsky found.
+20 images from ernest-lawson found.
+Not all images may be available: ernest-lawson
+16 images from pieter-wenning found.
+27 images from nadezda-petrovic found.
+39 images from frederick-carl-frieseke found.
+12 images from firmin-baes found.
+89 images from winston-churchill found.
+Epoch not found
+31 images from maynard-dixon found.
+13 images from oleksandr-murashko found.
+16 images from dimitrie-paciurea found.
+10 images from emmanuel-zairis found.
+5 images from paul-mathiopoulos found.
+20 images from asgrimur-jonsson found.
+Not all images may be available: asgrimur-jonsson
+4 images from petro-kholodny-elder found.
+33 images from laura-knight found.
+14 images from maurice-braun found.
+79 images from robert-spencer found.
+50 images from cornelis-vreedenburgh found.
+13 images from camil-ressu found.
+4 images from sir-william-russell-flint found.
+18 images from jean-alexandru-steriadi found.
+0 images from theophrastos-triantafyllidis found.
+80 images from clarence-gagnon found.
+7 images from ibrahim-calli found.
+20 images from robert-julian-onderdonk found.
+Not all images may be available: robert-julian-onderdonk
+Save images data.
+9593 images found for impressionism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+270 painters found
+9593 images already there
+Get image list from painters of impressionism.
+13 images from nicolae-darascu found.
+14 images from fern-coppedge found.
+5 images from ivan-mestrovic found.
+58 images from samuel-mutzner found.
+14 images from georgina-de-albuquerque found.
+9 images from stefan-dimitrescu found.
+61 images from rudolf-schweitzer-cumpana found.
+18 images from nina-arbore found.
+19 images from benito-quinquela-martin found.
+13 images from periklis-vyzantios found.
+28 images from lucian-grigorescu found.
+15 images from henri-catargi found.
+13 images from sever-burada found.
+5 images from robert-brackman found.
+21 images from dobri-dobrev found.
+51 images from adam-baltatu found.
+5 images from chang-dai-chien found.
+17 images from horace-trenerry found.
+14 images from micaela-eleutheriade found.
+21 images from colette-pope-heldner found.
+4 images from roman-selsky found.
+20 images from octav-angheluta found.
+Not all images may be available: octav-angheluta
+33 images from jaroslav-keluc found.
+1 images from petre-abrudan found.
+13 images from medi-wechsler-dinu found.
+0 images from gregoire-boonzaier found.
+3 images from sattar-bahlulzadeh found.
+178 images from antoine-blanchard found.
+18 images from maurice-boitel found.
+6 images from pino-daeni found.
+3 images from alexander-belyaev found.
+Save images data.
+10297 images found for impressionism.
+Webdriver closed.

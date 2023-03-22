@@ -256,22 +256,6 @@ class WikiartImageScraper:
             except:
                 print(f"Error by getting images from {painter}")
 
-    def get_images_from_painters(self, startIndex, endIndex):
-        """
-        Get the image objects of the pictures of the painters.
-        """
-        index = 0
-        for painter in self.painters_dict:
-            if index < startIndex:
-                index += 1
-                continue
-            if index > endIndex:
-                return
-            index += 1
-            try:
-                self.image_list += self.get_images_from_painter(painter=painter)
-            except:
-                print(f"Error by getting images from {painter}")
 
     def get_images_from_painter(self, painter):
         """
@@ -300,6 +284,8 @@ class WikiartImageScraper:
                 by=By.CLASS_NAME, value="masonry-load-more-button")[0]
             rawCountText = load_more_button.find_elements(
                 by=By.CLASS_NAME, value="count")[0].text
+            
+            self.driver.implicitly_wait(5)
 
             # If not all Pictures visible click onto load more button
             if rawCountText != "":
@@ -603,3 +589,24 @@ class WikiartImageScraper:
                     str(painter) + " not reachable")
 
         return total_image_count
+    
+    def get_images_from_painters(self, startIndex, endIndex):
+        """
+        Get the image objects of the pictures of the painters in range from start to end index.
+
+        Parameter:
+            startIndex : index of first used painter
+            endIndex : index of last used painter
+        """
+        index = 0
+        for painter in self.painters_dict:
+            if index < startIndex:
+                index += 1
+                continue
+            if index > endIndex:
+                return
+            index += 1
+            try:
+                self.image_list += self.get_images_from_painter(painter=painter)
+            except:
+                print(f"Error by getting images from {painter}")

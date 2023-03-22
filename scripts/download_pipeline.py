@@ -32,3 +32,18 @@ for epoch in EPOCHS:
     print(f"Started download for {image_scraper.epoch_name}")
     image_scraper.download_images(5)
     print(f"Finished download for {image_scraper.epoch_name}")
+
+    ### For loading imag list in parts ###
+
+    #image_scraper.read_painters_from_json("painters.json")
+    #print(f"{len(image_scraper.painters_dict)} painters found")
+
+    #image_scraper.read_images_from_json("images.json")
+    #print(f"{len(image_scraper.image_list)} images already there")
+
+    #print(f"Get image list from painters of {epoch}.")
+    #image_scraper.get_images_from_painters(startIndex=236, endIndex=270)
+
+    #print("Save images data.")
+    #image_scraper.save_images()
+    #print(f"{len(image_scraper.image_list)} images found for {epoch}.")
