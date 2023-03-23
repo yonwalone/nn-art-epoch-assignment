@@ -245,7 +245,7 @@ class WikiartImageScraper:
             return
 
 
-    def get_images_from_painters(self, startIndex = 0, endIndex = len(self.painters_dict)):
+    def get_images_from_painters(self, startIndex = 0, endIndex = None):
         """
         Get the image objects of the pictures of the painters in range from start to end index.
 
@@ -253,6 +253,8 @@ class WikiartImageScraper:
             startIndex : index of first used painter
             endIndex : index of last used painter
         """
+        if endIndex == None:
+            endIndex = len(self.painters_dict)
         for painter in dict(list(self.painters_dict.items())[startIndex:endIndex+1]):
             try:
                 self.image_list += self.get_images_from_painter(painter=painter)
