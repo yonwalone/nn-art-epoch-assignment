@@ -4,8 +4,8 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 EPOCHS = [
 # "realism", #14054
- "impressionism", #10297
-# "romanticism",
+# "impressionism", #10297
+# "romanticism", #10242
 # "expressionism", #8244
 # "post-impressionism",
 # "baroque",
