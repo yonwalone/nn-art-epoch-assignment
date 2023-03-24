@@ -8,7 +8,7 @@ EPOCHS = [
 # "romanticism", #10242
 # "expressionism", #8244
 # "post-impressionism", #4647
-# "baroque",
+"baroque", # 7358 painter 38-41 missing, francisco-(de-)zurbaran doppelt, giovanni-battista-pranesi fehlt einiges
 # "art-nouveau-modern", # 6914
 #"surrealism", # 4309
 # "symbolism", # 5302

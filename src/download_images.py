@@ -53,10 +53,36 @@ class WikiartImageScraper:
         try:
             self.driver.close()
             self.driver.quit()
-            print("Webdriver closed.")
+            self.log("Webdriver closed.")
         except AttributeError:
             pass
 
+    def log(self, info, noprint=False):
+        """
+        Prints out the info and saves it in the log_file
+
+        Args:
+            info (string): The info which should be printed and logged.
+        """
+        if not noprint:
+            print(info)
+
+        log_file_path = os.path.join(self.output_dir, "log.txt")
+        with open(log_file_path, 'a') as log_file:
+            log_file.write(info + "\n")
+    
+    def print_progress_bar(self, amount, of, start_text = "Progress", end_text = "", new_line = True):
+        progress = int(((amount)/of)*100)
+        progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
+        print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
+
+    def remove_image_duplicates(self):
+        """
+        Removes duplicates in the image_list.
+        """
+        self.log(f"Removed image duplicates of {self.epoch_name}")
+        self.image_list = list(set(self.image_list))
+        print(self.image_list)
 
     def start_driver(self):
         """
@@ -65,7 +91,7 @@ class WikiartImageScraper:
         """
         self.driver = webdriver.Chrome(options=self.options)
         self.navigate_to_url(self.url)
-        print("Webdriver started...")
+        self.log("Webdriver started...")
         time.sleep(3)
     
 
@@ -122,6 +148,7 @@ class WikiartImageScraper:
                 buttons[0].click()
                 i = i - 1
             time.sleep(5)
+            self.print_progress_bar(i+1, refreshCount, start_text ="Load more", new_line = False)
 
 
     def load_all_images(self):
@@ -144,7 +171,7 @@ class WikiartImageScraper:
         items = html_pictures_list.find_elements(By.TAG_NAME, "li")
 
         # Loop through the list of images and extract their URLs and epochs.
-        for item in items:
+        for index, item in enumerate(items):
             img_elements = item.find_elements(By.TAG_NAME, "img")
             for img_element in img_elements:
                 # Scroll to the image and extract its source URL.
@@ -159,6 +186,7 @@ class WikiartImageScraper:
                     self.painters_dict[painter] += 1
                 else:
                     self.painters_dict[painter] = 1
+            self.print_progress_bar(index+1, len(items), start_text="Scanned images for painters", new_line = False)
 
 
     def get_painter_from_url(self, img_src):
@@ -197,7 +225,7 @@ class WikiartImageScraper:
             self.navigate_to_url(f"https://www.wikiart.org/en/artists-by-art-movement/{epoch}#!#resultType:masonry")
             self.driver.implicitly_wait(30)
         except:
-            print(f"URL of important painters of {epoch} not found.")
+            self.log(f"URL of important painters of {epoch} not found.")
 
 
         calculated = False
@@ -225,7 +253,7 @@ class WikiartImageScraper:
             items = html_pictures_list[0].find_elements(By.TAG_NAME, "li")
 
             # Loop through the list of images and extract their URLs and epochs.
-            for item in items:
+            for index, item in enumerate(items):
                 img_elements = item.find_elements(By.CLASS_NAME, "image-wrapper")
                 for img_element in img_elements:
                     # Scroll to the image and extract its source URL.
@@ -240,8 +268,9 @@ class WikiartImageScraper:
                         self.painters_dict[painter] += 1
                     else:
                         self.painters_dict[painter] = 1
+                self.print_progress_bar(index+1, len(items),start_text="Scanned epoch painters", new_line=False)
         except:
-            print(f"Finding important painters of epoch {epoch} failed.")
+            self.log(f"Finding important painters of epoch {epoch} failed.")
             return
 
 
@@ -255,11 +284,14 @@ class WikiartImageScraper:
         """
         if endIndex == None:
             endIndex = len(self.painters_dict)
-        for painter in dict(list(self.painters_dict.items())[startIndex:endIndex+1]):
+        self.log(f"Get images of {endIndex-startIndex} painters ({startIndex}-{endIndex-1})")
+        for index, painter in enumerate(dict(list(self.painters_dict.items())[startIndex:endIndex+1])):
             try:
                 self.image_list += self.get_images_from_painter(painter=painter)
             except:
-                print(f"Error by getting images from {painter}")
+                self.log(f"Error by getting images from {painter}")
+            self.log(f"Finished painter {painter} ({index})", noprint=True)
+            self.print_progress_bar(index+1, endIndex-startIndex, start_text="Get images from painters", end_text = f"Finished {painter}")
 
 
     def get_images_from_painter(self, painter):
@@ -280,7 +312,7 @@ class WikiartImageScraper:
             self.navigate_to_url("https://www.wikiart.org/en/" + painter + "/all-works#!#filterName:Style_" + self.epoch_name + ",resultType:masonry")
             self.driver.implicitly_wait(40)
         except:
-            print(f"Cant find URL of {painter}.")
+            self.log(f"Cant find URL of {painter}.")
             return []
         
         try:
@@ -305,7 +337,7 @@ class WikiartImageScraper:
 
                 self.load_more(refresh_number)
         except:
-            print(f"Images of painter {painter} not reachable.")
+            self.log(f"Images of painter {painter} not reachable.")
             return []
 
         return self.get_image_list(painter=painter)
@@ -328,13 +360,13 @@ class WikiartImageScraper:
         items = html_pictures_list.find_elements(By.TAG_NAME, "li")
         img_list = []
 
-        print(f"{len(items)} images from {painter} found.")
+        self.log(f"{len(items)} images from {painter} found.")
         if len(items) == 20 and painter != None:
-            print("Not all images may be available: " + str(painter))
+            self.log("Not all images may be available: " + str(painter))
             return []
 
         # Loop through the list of images and extract their URLs and epochs.
-        for item in items:
+        for index, item in enumerate(items):
             img_elements = item.find_elements(By.TAG_NAME, "img")
             for img_element in img_elements:
                 # Scroll to the image and extract its source URL.
@@ -344,13 +376,14 @@ class WikiartImageScraper:
                 try:
                     epoch_list = self.get_epochs(img_element)
                 except:
-                    print(f"Could't get the image of soure: {img_src}")
+                    self.log(f"Could't get the image of soure: {img_src}")
                     epoch_list = [self.epoch_name]
                 # Replace the small image URL with the large one and add it to the list.
                 img_src = img_src.replace("PinterestSmall", "Large")
 
                 # Appends the created Image to the img list
                 img_list.append(Image(url=img_src, epochs=epoch_list))
+            self.print_progress_bar(index+1, len(items), start_text="Images found: ", new_line=False)
 
         return img_list
 
@@ -405,7 +438,7 @@ class WikiartImageScraper:
             # Last element gets removed because it isn't an epoch
             # epoch_list.remove(epoch_list[len(epoch_list)-1])
         except:
-            print("Epoch not found")
+            self.log(f"Epochs not found")
             epoch_list.append(self.epoch_name)
 
         # Go back to the previous page and wait for it to load.
@@ -430,7 +463,7 @@ class WikiartImageScraper:
             self.navigate_to_url(f"https://www.wikiart.org/en/{painter}")
             self.driver.implicitly_wait(1)
         except:
-            print(f"Cant find page of {painter}.")
+            self.log(f"Cant find page of {painter}.")
             return  False
         
         privacy_hint = self.driver.find_elements(by=By.CLASS_NAME, value="wiki-layout-restricted-msg-wrapper")
@@ -470,8 +503,8 @@ class WikiartImageScraper:
                         self.output_dir, f"{local_file_name}.jpg"))
                 except Exception as e:
                     # If the download still fails, print an error message and move on to the next image.
-                    print(f"Error downloading image from URL: {image.url}")
-                    print(e)
+                    self.log(f"Error downloading image from URL: {image.url}")
+                    self.log(e)
 
 
     def save_to_file(self, file_name, dict):
@@ -491,6 +524,7 @@ class WikiartImageScraper:
         Saves the painters_dict of an instance to a json file called "painters.json".
         """
         self.save_to_file("painters.json", self.painters_dict)
+        self.log(f"Saved painters of epoch {self.epoch_name}")
 
 
     def save_images(self):
@@ -590,7 +624,7 @@ class WikiartImageScraper:
                 # Add found images from the author to total count
                 total_image_count = total_image_count + painter_image_count
             except:
-                print("Images of " +
+                self.log("Images of " +
                     str(painter) + " not reachable")
 
         return total_image_count

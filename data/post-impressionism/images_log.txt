@@ -1,0 +1,164 @@
+##### Started download pipeline. #####
+Webdriver started...
+Load painters of featured images of post-impressionism.
+Load important painters of post-impressionism.
+Save all painters to file.
+Get painters of post-impressionism from file.
+Get image list from painters of post-impressionism.
+20 images from vincent-van-gogh found.
+Not all images may be available: vincent-van-gogh
+20 images from paul-cezanne found.
+Not all images may be available: paul-cezanne
+26 images from louis-comfort-tiffany found.
+Images of painter no_painter not reachable.
+222 images from henri-de-toulouse-lautrec found.
+28 images from ferdinand-hodler found.
+12 images from medardo-rosso found.
+52 images from georges-seurat found.
+250 images from paul-gauguin found.
+168 images from pierre-bonnard found.
+6 images from henri-rousseau found.
+258 images from gustave-loiseau found.
+22 images from santiago-rusinol found.
+3 images from karoly-ferenczy found.
+9 images from meijer-de-haan found.
+2 images from george-henry found.
+19 images from roger-fry found.
+9 images from charles-maurin found.
+122 images from maxime-maufra found.
+49 images from suzanne-valadon found.
+48 images from maurice-denis found.
+246 images from maurice-prendergast found.
+6 images from alfred-sisley found.
+382 images from pyotr-konchalovsky found.
+17 images from piet-mondrian found.
+29 images from victor-borisov-musatov found.
+136 images from david-burliuk found.
+62 images from theo-van-rysselberghe found.
+20 images from felix-vallotton found.
+Not all images may be available: felix-vallotton
+18 images from walter-sickert found.
+23 images from wassily-kandinsky found.
+40 images from albert-marquet found.
+68 images from william-orpen found.
+20 images from samuel-peploe found.
+Not all images may be available: samuel-peploe
+21 images from tivadar-kosztka-csontvary found.
+13 images from hippolyte-petitjean found.
+8 images from ivan-mrkvicka found.
+29 images from walter-osborne found.
+5 images from leo-gausson found.
+51 images from henri-martin found.
+57 images from roderic-oconor found.
+9 images from jacques-emile-blanche found.
+10 images from jozsef-rippl-ronai found.
+11 images from charles-laval found.
+12 images from charles-reiffel found.
+16 images from charles-cottet found.
+32 images from paul-ranson found.
+6 images from louis-hayet found.
+12 images from paul-serusier found.
+23 images from jozef-pankiewicz found.
+44 images from cuno-amiet found.
+Epoch not found
+6 images from emile-bernard found.
+20 images from jules-alexandre-grun found.
+Not all images may be available: jules-alexandre-grun
+23 images from georges-lacombe found.
+64 images from edouard-vuillard found.
+11 images from janos-tornyai found.
+11 images from jozef-mehoffer found.
+17 images from frances-hodgkins found.
+26 images from louis-valtat found.
+17 images from harry-phelan-gibb found.
+8 images from theodor-pallady found.
+43 images from emily-carr found.
+1 images from alice-bailly found.
+20 images from oleksa-novakivskiy found.
+Not all images may be available: oleksa-novakivskiy
+31 images from istvan-nagy found.
+27 images from nadezda-petrovic found.
+19 images from john-duncan-fergusson found.
+12 images from henri-manguin found.
+2 images from edgar-chahine found.
+20 images from paul-henry found.
+Not all images may be available: paul-henry
+254 images from konstantin-ivanovich-gorbatov found.
+45 images from gwen-john found.
+11 images from kees-van-dongen found.
+31 images from tom-thomson found.
+24 images from francisc-sirato found.
+7 images from emilie-charmy found.
+72 images from augustus-john found.
+7 images from konstantinos-parthenis found.
+33 images from konstantinos-maleas found.
+13 images from edvard-weie found.
+4 images from othon-friesz found.
+1 images from vahram-gaifedjyan found.
+20 images from vanessa-bell found.
+Not all images may be available: vanessa-bell
+20 images from matthew-smith found.
+Not all images may be available: matthew-smith
+22 images from bertalan-por found.
+12 images from theophrastos-triantafyllidis found.
+79 images from ilya-mashkov found.
+13 images from jan-sluyters found.
+33 images from ion-theodorescu-sion found.
+33 images from vladimir-dimitrov found.
+11 images from arthur-beecher-carles found.
+17 images from auguste-herbin found.
+2 images from rik-wouters found.
+24 images from lili-elbe found.
+14 images from bela-czobel found.
+33 images from nicolae-darascu found.
+12 images from leon-kroll found.
+20 images from eugeniusz-ak found.
+Not all images may be available: eugeniusz-ak
+4 images from milton-avery found.
+8 images from lajos-tihanyi found.
+18 images from stefan-dimitrescu found.
+20 images from nicolae-tonitza found.
+Not all images may be available: nicolae-tonitza
+14 images from georgi-mashev found.
+11 images from ryuzaburo-umehara found.
+19 images from dumitru-ghiatza found.
+18 images from nina-arbore found.
+14 images from nikola-tanev found.
+34 images from adalbert-erdeli found.
+39 images from grace-cossington-smith found.
+15 images from periklis-vyzantios found.
+9 images from winifred-nicholson found.
+20 images from irma-stern found.
+Not all images may be available: irma-stern
+6 images from lucian-grigorescu found.
+13 images from nutzi-acontz found.
+13 images from istvan-ilosvai-varga found.
+22 images from lucia-demetriade-balacescu found.
+156 images from paul-jacoulet found.
+10 images from pierre-daura found.
+25 images from max-gubler found.
+3 images from gohar-fermanyan found.
+25 images from margit-selska found.
+27 images from christopher-wood found.
+9 images from guan-zilan found.
+27 images from roman-selsky found.
+16 images from alexandru-ciucurencu found.
+11 images from corneliu-baba found.
+46 images from le-pho found.
+12 images from tran-van-can found.
+18 images from emilio-grau-sala found.
+22 images from amrita-sher-gil found.
+45 images from george-stefanescu found.
+10 images from carlos-nadal found.
+9 images from albert-huie found.
+20 images from ion-pacea found.
+Not all images may be available: ion-pacea
+42 images from panayiotis-tetsis found.
+5 images from minas-avetisyan found.
+55 images from constantin-piliuta found.
+1 images from gogi-khutsishvili found.
+Save images data.
+4647 images found for post-impressionism.
+Started download for post-impressionism
+Finished download for post-impressionism
+Webdriver closed.
