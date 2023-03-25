@@ -1,0 +1,60 @@
+Webdriver started...                              24 painters found                                 4465 images already there
+Get image list from painters of surrealism.       
+0 images from yazep-drozdovich found.
+3 images from franciska-clausen found.
+1 images from jean-carzou found.
+9 images from lee-miller found.
+14 images from nikos-engonopoulos found.
+2 images from harold-lehman found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+61 images from evan-magar found.
+245 images from martin-pereira found.
+0 images from mormen found.
+55 images from carloluigi-colombo found.
+4 images from alondra-mijangos found.
+0 images from zahra-bayat found.
+20 images from obnubilant found.
+Not all images may be available: obnubilant
+22 images from brian-huntress found.
+Epoch not found
+18 images from ash-ellis found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+36 images from michael-cheung found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Save images data.
+5031 images found for surrealism.
+Webdriver closed.
