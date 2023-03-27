@@ -57,3 +57,9 @@ class Image:
             local_file_name = epoch_string + str(index)
 
         return local_file_name
+
+    def __eq__(self, other):
+        return self.url == other.url
+
+    def __hash__(self):
+        return hash(self.url)
