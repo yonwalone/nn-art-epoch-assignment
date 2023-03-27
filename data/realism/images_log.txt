@@ -1,0 +1,296 @@
+1007 painters found
+Get image list from painters of realism.
+31 images from george-catlin found.14 images from achille-pinelli found.
+16 images from mikhail-lebedev found.
+1 images from owen-jones found.
+29 images from jules-dupre found.
+96 images from albert-anker found.
+Save images data.
+1194 images found for realism.
+Started download for realism
+Finished download for realism
+Webdriver closed.
+
+Webdriver started...
+247 painters found
+1 images from theodore-chasseriau found.
+276 images from gustave-courbet found.
+42 images from pavel-fedotov found.                                             27 images from ippolito-caffi found.
+129 images from jean-francois-millet found.
+10 images from francisco-oller found.
+25 images from charles-jacque found.                                            2 images from david-cox found.             27 images from ippolito-ka27 images from ippolito-kaffi found.
+118 images from august-von-pettenkofen found.
+7 images from taras-shevchenko found.
+95 images from charles-francois-daubigny found.
+81 images from nikolai-ge found.
+109 images from rosa-bonheur found.
+18 images from johan-jongkind found.
+9 images from richard-caton-woodville-sr found.
+82 images from johan-hendrik-weissenbruch found.
+1 images from anton-melbye found.
+54 images from alexandre-antigna found.
+114 images from edouard-manet found.
+56 images from john-everett-millais found.
+238 images from aleksey-savrasov found.
+62 images from eugene-boudin found.
+
+Bis eastman-johnson alles ok
+
+Webdriver started...
+247 painters found
+15 images from edgar-degas found.                                                                   67 images from james-mcneill-whistler found.
+26 images from constantin-guys found.
+131 images from silvestro-lega found.
+129 images from giovanni-boldini found.
+13 images from claude-monet found.
+24 images from pierre-auguste-renoir found.
+1 images from berthe-morisot found.
+299 images from thomas-eakins found.
+24 images from fyodor-bronnikov found.
+11 images from albert-bierstadt found.
+529 images from ilya-repin found.
+82 images from carolus-duran found.
+157 images from ivan-kramskoy found.
+Save images data.
+6248 images found for realism.
+Webdriver closed.
+
+#####                                                        Webdriver started...
+247 painters found
+6248 painters found
+Get image list from painters of realism.
+266 images from james-tissot found.
+222 images from vasily-polenov found.
+25 images from alexey-bogolyubov found.
+21 images from maxime-lalanne found.
+36 images from theodule-ribot found.
+22 images from giuseppe-abbati found.
+1 images from john-frederick-kensett found.
+27 images from vincenzo-cabianca found.
+28 images from grigoriy-myasoyedov found.
+144 images from vladimir-makovsky found.
+38 images from telemaco-signorini found.
+888 images from vincent-van-gogh found.
+Could't get the image of soure: https://uploads0.wikiart.org/images/vincent-van-gogh/two-hands-and-two-arms.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads0.wikiart.org/images/vincent-van-gogh/two-hands-with-a-stick.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads6.wikiart.org/images/vincent-van-gogh/cottage(1).jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads5.wikiart.org/00215/images/vincent-van-gogh/vvg.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads0.wikiart.org/images/vincent-van-gogh/basket-of-carnations-and-zinnias-1886(1).jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads4.wikiart.org/images/vincent-van-gogh/bowl-with-peonies-and-roses-1886(1).jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads0.wikiart.org/images/vincent-van-gogh/four-sketches-of-a-foot-1886(1).jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads2.wikiart.org/images/vincent-van-gogh/glass-with-roses-1886(1).jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads0.wikiart.org/images/vincent-van-gogh/idol.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads2.wikiart.org/images/vincent-van-gogh/idol-1.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads2.wikiart.org/images/vincent-van-gogh/idol-2.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads2.wikiart.org/images/vincent-van-gogh/idol-3.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads2.wikiart.org/images/vincent-van-gogh/idol-4.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads4.wikiart.org/images/vincent-van-gogh/idol-and-sketches-of-venus.jpg!PinterestSmall.jpg
+rait-with-cap-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads6.wikiart.org/images/vincent-van-gogh/self-portrait-with-pipe-1886.jpg!PinterestSmall.jpg
+-a-knee-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads1.wikiart.org/images/vincent-van-gogh/sketch-of-a-knee-1886-1.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads4.wikiart.org/images/vincent-van-gogh/sketch-of-a-left-hand-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads6.wikiart.org/images/vincent-van-gogh/sketch-of-a-left-hand-1886-1.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/vincent-van-gogh/sketch-of-a-right-arm-and-shoulder-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads3.wikiart.org/images/vincent-van-gogh/still-life-with-apples-meat-and-a-roll-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads1.wikiart.org/images/vincent-van-gogh/still-life-with-mackerels-lemons-and-tomatoes-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads4.wikiart.org/images/vincent-van-gogh/still-life-with-scabiosa-and-ranunculus-1886.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads1.wikiart.org/images/vincent-van-gogh/tabernacle-in-the-heath.jpg!PinterestSmall.jpg
+243 images from vasily-vereshchagin found.
+5 images from jean-georges-vibert found.
+24 images from wilhelm-leibl found.
+Save images data.
+8238 images found for realism.
+Webdriver closed.
+
+154 images from jose-maria-velasco found.
+6 images from maria-fortuny found.51 images from raimundo-madrazo found.
+3 images from giuseppe-de-nittis found.48 images from john-leech found.
+Images of painter 57726d7eedc2cb3880b47e3f not reachable.7 images from alfred-sisley found.
+261 images from vasily-surikov found.13 images from henry-moore-ra found.
+2 images from louis-comfort-tiffany found.27 images from daniel-ridgway-knight found.
+92 images from abbott-handerson-thayer found.13 images from andre-gill found.
+2 images from gustave-dore found.
+Save images data.9240 images found for realism.
+Webdriver closed.                                               //Alles ok
+
+
+Webdriver started...
+247 painters found
+9240 painters found
+Get image list from painters of realism.
+72 images from viktor-vasnetsov found.
+29 images from mihaly-munkacsy found.
+16 images from charles-hermans found.
+17 images from eduard-von-gebhardt found.
+82 images from joseph-farquharson found.
+11 images from joaquin-agrasot found.
+24 images from mary-cassatt found.
+Images of painter 57726d7eedc2cb3880b47e5b not reachable.
+84 images from odilon-redon found.
+66 images from volodymyr-orlovsky found.
+20 images from nathaniel-hone-the-younger found.
+Not all images may be available: nathaniel-hone-the-younger
+21 images from adolf-eberle found.
+57 images from arkhip-kuindzhi found.
+42 images from william-merritt-chase found.
+44 images from konstantinos-volanakis found.
+44 images from peder-severin-kroyer found.
+43 images from antonio-jacobsen found.
+21 images from jozef-chelmonski found.
+119 images from fyodor-vasilev found.
+23 images from nikolaos-gyzis found.
+34 images from efim-volkov found.
+16 images from constantin-stahi found.
+19 images from wilhelm-trubner found.
+68 images from alexei-harlamoff found.
+4 images from paul-kane found.
+Save images data.
+10196 images found for realism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+16 images from john-o-connor found.
+12 images from maurice-poirson found.
+3 images from william-adolphe-bouguereau found.
+243 images from vasiliy-vereshchagin found.
+Images of painter 57726d84edc2cb3880b48a43 not reachable.
+8 images from john-henry-twachtman found.
+14 images from ant-nio-de-carvalho-da-silva-porto found.
+Images of painter 57726dcbedc2cb3880b507ce not reachable.
+8 images from henry-william-banks-davis found.
+34 images from david-bates found.
+13 images from mykola-murashko found.
+23 images from eugene-burnand found.
+33 images from leon-wyczolkowski found.
+20 images from noe-bordignon found.
+Not all images may be available: noe-bordignon
+47 images from jules-bastien-lepage found.
+22 images from joaquin-dominguez-becquer found.
+6 images from el-hispaleto found.
+20 images from anton-mauve found.
+Not all images may be available: anton-mauve
+8 images from pedro-americo found.
+33 images from kitty-lange-kielland found.
+14 images from achille-dorsi found.
+20 images from niccolo-cannicci found.
+Not all images may be available: niccolo-cannicci
+31 images from mykola-yaroshenko found.
+21 images from alfred-parsons found.
+Save images data.
+10785 images found for realism.
+Webdriver closed.
+
+//Einträge zwischendurch verloren, kp. warum
+
+13 images from aleksander-gierymski found.
+19 images from nikolai-dmitriyevich-kuznetsov found.
+18 images from james-charles found.
+83 images from pasquale-celommi found.11 images from julian-ashton found.
+13 images from thomas-pollock-anshutz found.
+25 images from ioannis-altamouras found.
+16 images from klavdy-lebedev found.
+28 images from david-james found.
+27 images from georgios-jakobides found.
+22 images from tom-scott found.
+83 images from edelfelt-albert found.
+12 images from homer-watson found.
+17 images from jakub-schikaneder found.
+65 images from julius-leblanc-stewart found.
+6 images from walter-gay found.
+30 images from ivan-mrkvicka found.
+17 images from jose-malhoa found.
+8 images from gevorg-bashindzhagian found.
+Save images data.
+11465 images found for realism.
+Webdriver closed.
+
+//etwas an log verloren
+
+59 images from henry-ossawa-tanner found.
+8 images from anna-ancher found.
+14 images from rubens-santoro found.
+29 images from ettore-tito found.
+5 images from john-henderson found.
+92 images from anders-zorn found.
+1 images from archibald-thorburn found.
+425 images from isaac-levitan found.
+61 images from danielson-gambogi-elin found.
+29 images from andrei-ryabushkin found.
+13 images from anton-mitov found.
+17 images from anton-azbe found.
+11 images from helene-schjerfbeck found.
+62 images from emile-friant found.
+32 images from arturo-michelena found.
+52 images from jarnefelt-eero found.
+65 images from enrico-nardi found.
+Save images data.
+12560 images found for realism.
+Webdriver closed.
+
+Webdriver started...247 painters found
+12560 painters found
+Get image list from painters of realism.
+12 images from filippo-cifariello found.
+20 images from valentin-serov found.
+Not all images may be available: valentin-serov
+7 images from isaac-israels found.
+54 images from halonen-pekka found.
+4 images from arshak-fetvadjian found.
+31 images from nicolae-vermont found.
+1 images from jozef-pankiewicz found.
+97 images from nikolay-bogdanov-belsky found.
+7 images from janos-tornyai found.
+6 images from vartan-mahokian found.
+65 images from ivan-vladimirov found.
+2 images from yeghishe-tadevosyan found.
+15 images from armando-montaner-valdueza found.
+40 images from octav-bancila found.
+12 images from antonio-carneiro found.
+2 images from charles-atamian found.
+20 images from julio-romero-de-torres found.
+Not all images may be available: julio-romero-de-torres
+16 images from armand-henrion found.
+17 images from oleksandr-murashko found.
+12 images from joseph-urbania found.
+36 images from hans-heysen found.
+18 images from abdullah-suriosubroto found.
+5 images from leo-steel found.
+413 images from boris-kustodiev found.
+112 images from martiros-sarian found.
+Epoch not found
+Save images data.
+13544 images found for realism.
+Webdriver closed.
+
+##### Started download pipeline. #####
+Webdriver started...
+247 painters found
+13544 painters found
+Get image list from painters of realism.
+36 images from n-c-wyeth found.
+5 images from sedrak-arakelyan found.
+12 images from simeon-velkov found.
+15 images from karpo-trokhymenko found.
+5 images from mihri-musfik found.
+6 images from georgi-mashev found.
+72 images from david-kakabadze found.
+14 images from george-ault found.
+24 images from robert-brackman found.
+21 images from dobri-dobrev found.
+0 images from jordao-de-oliveira found.
+60 images from charles-tunnicliffe found.
+15 images from nikola-martinoski found.
+10 images from giacomo-manzu found.
+103 images from yiannis-tsaroychis found.
+Epoch not found
+2 images from ara-bekaryan found.
+36 images from basuki-abdullah found.
+22 images from wlodzimierz-zakrzewski found.
+2 images from hovhannes-zardaryan found.
+38 images from sergey-ryabchenko found.
+12 images from francisco-serra-andres found.
+Save images data.
+14054 images found for realism.
+Webdriver closed.

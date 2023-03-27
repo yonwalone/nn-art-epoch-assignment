@@ -97,7 +97,7 @@ class WikiartImageScraper:
         refreshCount = int(pictureCount/60)
 
         # Correct refresh number because at the beginning the first pictures are visible.
-        refreshCount = refreshCount - 2
+        refreshCount = refreshCount - 1
 
         return refreshCount
 
@@ -245,13 +245,21 @@ class WikiartImageScraper:
             return
 
 
-    def get_images_from_painters(self):
+    def get_images_from_painters(self, startIndex = 0, endIndex = None):
         """
-        Get the image objects of the pictures of the painters.
-        """
+        Get the image objects of the pictures of the painters in range from start to end index.
 
-        for painter in self.painters_dict:
-            self.image_list += self.get_images_from_painter(painter=painter)
+        Parameter:
+            startIndex : index of first used painter
+            endIndex : index of last used painter
+        """
+        if endIndex == None:
+            endIndex = len(self.painters_dict)
+        for painter in dict(list(self.painters_dict.items())[startIndex:endIndex+1]):
+            try:
+                self.image_list += self.get_images_from_painter(painter=painter)
+            except:
+                print(f"Error by getting images from {painter}")
 
 
     def get_images_from_painter(self, painter):
@@ -281,6 +289,8 @@ class WikiartImageScraper:
                 by=By.CLASS_NAME, value="masonry-load-more-button")[0]
             rawCountText = load_more_button.find_elements(
                 by=By.CLASS_NAME, value="count")[0].text
+            
+            self.driver.implicitly_wait(5)
 
             # If not all Pictures visible click onto load more button
             if rawCountText != "":
@@ -356,14 +366,14 @@ class WikiartImageScraper:
             list of strings: Epochs of the image.
         """
         epoch_list = []
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
 
         # Click on the image to open it and extract the epoch information.
         protected = True
         while protected:
             try:
                 img_element.click()
-                self.driver.implicitly_wait(20)
+                self.driver.implicitly_wait(10)
                 protected = False
             except:
                 buttons = self.driver.find_elements(by=By.TAG_NAME, value="button")
@@ -395,6 +405,7 @@ class WikiartImageScraper:
             # Last element gets removed because it isn't an epoch
             # epoch_list.remove(epoch_list[len(epoch_list)-1])
         except:
+            print("Epoch not found")
             epoch_list.append(self.epoch_name)
 
         # Go back to the previous page and wait for it to load.
@@ -583,3 +594,4 @@ class WikiartImageScraper:
                     str(painter) + " not reachable")
 
         return total_image_count
+    
