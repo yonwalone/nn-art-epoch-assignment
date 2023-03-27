@@ -1,0 +1,396 @@
+Webdriver started...                              24 painters found                                 4465 images already there
+Get image list from painters of surrealism.       
+0 images from yazep-drozdovich found.
+3 images from franciska-clausen found.
+1 images from jean-carzou found.
+9 images from lee-miller found.
+14 images from nikos-engonopoulos found.
+2 images from harold-lehman found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+61 images from evan-magar found.
+245 images from martin-pereira found.
+0 images from mormen found.
+55 images from carloluigi-colombo found.
+4 images from alondra-mijangos found.
+0 images from zahra-bayat found.
+20 images from obnubilant found.
+Not all images may be available: obnubilant
+22 images from brian-huntress found.
+Epoch not found
+18 images from ash-ellis found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+36 images from michael-cheung found.
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Epoch not found
+Save images data.
+5031 images found for surrealism.
+Webdriver closed.
+
+
+Versuch 2:
+
+Webdriver started...
+62 painters found
+4362 images already there
+Get image list from painters of surrealism.
+1 images from oleksandr-hnylyzkyj found.
+2 images from f-lix-del-marle found.
+9 images from leon-underwood found.
+13 images from franz-sedlacek found.
+18 images from josef-sima found.
+28 images from georges-papazoff found.
+9 images from enrico-prampolini found.
+7 images from jean-hugo found.
+2 images from m-h-maxy found.
+4 images from carlos-orozco-romero found.
+76 images from andre-masson found.
+9 images from mordecai-ardon found.
+1 images from mahmoud-saiid found.
+10 images from jock-macdonald found.
+20 images from kay-sage found.
+Not all images may be available: kay-sage
+25 images from alexander-calder found.
+2 images from henri-michaux found.
+60 images from brassai found.
+10 images from pierre-molinier found.
+15 images from richard-oelze found.
+5 images from alberto-giacometti found.
+27 images from angel-planells found.
+22 images from wifredo-lam found.
+14 images from gr-goire-michonze found.
+21 images from boris-margo found.
+11 images from anton-prinner found.
+9 images from maruja-mallo found.
+39 images from toyen found.
+25 images from sven-jonson found.
+3 images from adolph-gottlieb found.
+2 images from roman-selsky found.
+40 images from graham-sutherland found.
+16 images from serge-brignoni found.
+28 images from joseph-cornell found.
+20 images from arshile-gorky found.
+Not all images may be available: arshile-gorky
+12 images from alekos-kontopoulos found.
+2 images from balcomb-greene found.
+7 images from francis-bott found.
+20 images from clarence-holbrook-carter found.
+Not all images may be available: clarence-holbrook-carter
+1 images from werner-berg found.
+23 images from leon-arthur-tutundjian found.
+24 images from felix-labisse found.
+3 images from antonio-berni found.
+16 images from wolfgang-paalen found.
+38 images from frederick-sommer found.
+13 images from philippe-halsman found.
+48 images from georges-hugnet found.
+10 images from etienne-hajdu found.
+1 images from rafael-zabaleta found.
+14 images from dora-maar found.
+29 images from jean-david found.
+10 images from balthus found.
+4 images from rita-angus found.
+9 images from maria-helena-vieira-da-silva found.
+29 images from vajda-lajos found.
+10 images from leonor-fini found.
+103 images from remedios-varo found.
+24 images from enrico-donati found.
+9 images from frantisek-hudecek found.
+3 images from yiannis-tsaroychis found.
+3 images from helene-de-beauvoir found.
+14 images from hedda-sterne found.
+41 images from dorothea-tanning found.
+15 images from raoul-ubac found.
+35 images from jacques-h-rold found.
+20 images from jacqueline-lamba found.
+Not all images may be available: jacqueline-lamba
+10 images from taro-okamoto found.
+22 images from roberto-matta found.
+1 images from alfred-manessier found.
+5 images from william-baziotes found.
+12 images from max-walter-svanberg found.
+3 images from ilka-gedo found.
+54 images from conroy-maddox found.
+3 images from adrien-dax found.
+22 images from wols found.
+3 images from conrad-marca-relli found.
+37 images from gherasim-luca found.
+21 images from esteban-frances found.
+18 images from meret-oppenheim found.
+18 images from fornasetti found.
+23 images from endre-rozsda found.
+26 images from piroska-szanto found.
+12 images from endre-balint found.
+37 images from kansuke-yamamoto found.
+57 images from jules-perahim found.
+13 images from saul-steinberg found.
+13 images from antonio-dacosta found.
+8 images from mathias-goeritz found.
+11 images from gunther-gerzso found.
+2 images from paul-paun found.
+24 images from dolfi-trost found.
+1 images from brion-gysin found.
+2 images from elmer-bischoff found.
+8 images from mario-prassinos found.
+3 images from tetyana-yablonska found.
+11 images from david-hare found.
+33 images from leonora-carrington found.
+17 images from sidney-nolan found.
+13 images from kazimierz-mikulski found.
+7 images from jacqueline-hick found.
+10 images from alejandro-obregon found.
+17 images from marcel-marien found.
+12 images from yves-laloy found.
+16 images from vlady-kibalchich-rusakov found.
+7 images from jimmy-ernst found.
+1 images from gene-davis found.
+12 images from luchita-hurtado found.
+5 images from jeffrey-smart found.
+18 images from jean-benoit found.
+5 images from jaroslav-serpan found.
+12 images from roberto-aizenberg found.
+5 images from simon-hantai found.
+24 images from lucian-freud found.
+1 images from ellsworth-kelly found.
+19 images from mario-cesariny found.
+3 images from antoni-tapies found.
+21 images from vangel-naumovski found.
+12 images from stanley-pinker found.
+5 images from sergei-parajanov found.
+2 images from eduardo-chillida found.
+18 images from ramon-oviedo found.
+22 images from mimi-parent found.
+8 images from enrico-baj found.
+15 images from jose-manuel-capuletti found.
+4 images from bruno-canova found.
+17 images from gustavo-foppiani found.
+12 images from marcelino-vespeira found.
+2 images from modest-cuixart found.
+10 images from alina-szapocznikow found.
+26 images from dominique-appia found.
+4 images from oswaldo-vigas found.
+20 images from mikulas-medek found.
+Not all images may be available: mikulas-medek
+14 images from agustin-cardenas found.
+18 images from paul-wunderlich found.
+1 images from andrzej-wroblewski found.
+58 images from joan-ponc found.
+11 images from jacques-le-marechal found.
+38 images from desmond-morris found.
+19 images from theo-gerber found.
+22 images from jagdish-swaminathan found.
+1 images from alberto-sughi found.
+1 images from friedensreich-hundertwasser found.
+708 images from zdzislaw-beksinski found.
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-64.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-62.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-60.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-59.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-57.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-56.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-55.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-54.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-53.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-52.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-51.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-50.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-49.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-48.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-47.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-46.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-45.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-44.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-43.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-42.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-41.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-40.jpg!PinterestSmall.jpg
+Could't get the image of soure: https://uploads8.wikiart.org/images/zdislav-beksinski/untitled-38.jpg!PinterestSmall.jpg
+4 images from christo-coetzee found.
+7 images from alberto-gironella found.
+3 images from arnulf-rainer found.
+10 images from ibrahim-salahi found.
+5 images from niki-de-sainte-phalle found.
+8 images from benny-andrews found.
+16 images from fabio-de-sanctis found.
+3 images from erro found.
+7 images from erol-akyavas found.
+8 images from leonid-sejka found.
+4 images from abdul-mati-klarwein found.
+20 images from leonid-sejka-0 found.
+Not all images may be available: leonid-sejka-0
+65 images from sabin-balasa found.
+19 images from dado found.
+17 images from domenico-gnoli found.
+17 images from samuel-bak found.
+2 images from guntis-strupulis found.
+3 images from dimitris-mytaras found.
+10 images from antonio-areal found.
+19 images from jose-escada found.
+10 images from jorge-camacho found.
+6 images from rene-bertholo found.
+11 images from jean-claude-silbermann found.
+6 images from paula-rego found.
+27 images from ivan-eyre found.
+20 images from albin-brunovsky found.
+Not all images may be available: albin-brunovsky
+3 images from constantin-flondor found.
+3 images from antonio-lopez found.
+1 images from hubertine-heijermans found.
+3 images from ali-akbar-sadeghi found.
+4 images from eduardo-arroyo found.
+10 images from alexander-boghossian found.
+9 images from herve-telemaque found.
+1 images from edward-ruscha found.
+9 images from brett-whiteley found.
+17 images from the-game-of-marseille found.
+36 images from francisco-toledo found.
+1 images from aydin-aghdashloo found.
+2 images from vigen-vartanov found.
+13 images from ivan-tovar found.
+2 images from gil-nicolescu found.
+15 images from sorin-ilfoveanu found.
+4 images from konstantin-vasilyev found.
+36 images from octavio-ocampo found.
+23 images from lubo-kristek found.
+5 images from morteza-katouzian found.
+2 images from anselm-kiefer found.
+5 images from david-lynch found.
+20 images from sorin-dumitrescu found.
+Not all images may be available: sorin-dumitrescu
+29 images from kit-williams found.
+14 images from mark-tansey found.
+12 images from luigi-serafini found.
+7 images from enzo-cucchi found.
+7 images from eva-janina-wieczorek found.
+308 images from jacek-yerka found.
+6 images from nzante-spee found.
+4 images from francesca-woodman found.
+12 images from sarunas-sauka3 found.
+6 images from nina-tokhtaman-valetova found.
+25 images from julio-galan found.
+15 images from aleksandr-borodin found.
+26 images from agim-sulaj found.
+6 images from erik-masskholder found.
+1 images from oleksandr-hnylyzkyj found.
+21 images from mark-ryden found.
+1 images from dmytro-kavsan found.
+4 images from glenn-brown found.
+7 images from iurie-matei found.
+55 images from alfred-freddy-krupa found.
+2 images from matthias-weischer found.
+12 images from tetsuya-ishida found.
+7 images from erik-sigerud found.
+20 images from achraf-baznani found.
+Not all images may be available: achraf-baznani
+1 images from samira-eskandarfar found.
+14 images from marina-pallares found.
+2 images from matthias-laurenz-graff found.
+7 images from stepan-ryabchenko found.
+3 images from victo-ngai found.
+4 images from nemanja-vuckovic found.
+Save images data.
+4051 images found for surrealism.
+Webdriver closed.
+
+288 painters found
+4051 images already there
+Get image list from painters of surrealism.
+1 images from albin-egger-lienz found.
+1 images from jacques-villon found.
+3 images from boleslas-biegas found.
+20 images from paul-klee found.
+Not all images may be available: paul-klee
+8 images from pierre-roy found.
+1 images from john-heartfield found.
+5 images from carlos-merida found.
+1 images from stanislaw-szukalski found.
+9 images from claude-cahun found.
+4 images from guignard found.
+15 images from maurice-tabard found.
+4 images from lorser-feitelson found.
+9 images from henryk-streng found.
+131 images from m-c-escher found.
+5 images from ben-shahn found.
+31 images from jindrich-styrsky found.
+Save images data.
+4480 images found for surrealism.
+Webdriver closed.
+
+// Veruch auf nicht gefunden
+##### Started download pipeline. #####
+Webdriver started...
+10 painters found
+4480 images already there
+Get image list from painters of surrealism.
+20 images from kay-sage found.
+Not all images may be available: kay-sage
+24 images from arshile-gorky found.
+20 images from clarence-holbrook-carter found.
+Not all images may be available: clarence-holbrook-carter
+20 images from jacqueline-lamba found.
+Not all images may be available: jacqueline-lamba
+20 images from mikulas-medek found.
+Not all images may be available: mikulas-medek
+20 images from leonid-sejka-0 found.
+Not all images may be available: leonid-sejka-0
+20 images from albin-brunovsky found.
+Not all images may be available: albin-brunovsky
+20 images from sorin-dumitrescu found.
+Not all images may be available: sorin-dumitrescu
+20 images from achraf-baznani found.
+Not all images may be available: achraf-baznani
+31 images from paul-klee found.
+Save images data.
+4535 images found for surrealism.
+Webdriver closed.
+
+Nach Entfernung der 20er Überprüfung
+
+##### Started download pipeline. #####
+Webdriver started...
+8 painters found
+4535 images already there
+Get image list from painters of surrealism.
+20 images from kay-sage found.
+20 images from clarence-holbrook-carter found.
+20 images from jacqueline-lamba found.
+20 images from mikulas-medek found.
+20 images from leonid-sejka-0 found.
+20 images from albin-brunovsky found.
+20 images from sorin-dumitrescu found.
+20 images from achraf-baznani found.
+Save images data.
+4695 images found for surrealism.
+Webdriver closed.
