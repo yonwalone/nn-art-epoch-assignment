@@ -82,7 +82,6 @@ class WikiartImageScraper:
         """
         self.log(f"Removed image duplicates of {self.epoch_name}")
         self.image_list = list(set(self.image_list))
-        print(self.image_list)
 
     def start_driver(self):
         """
