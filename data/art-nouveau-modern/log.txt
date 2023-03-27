@@ -1,0 +1,12 @@
+Webdriver started...
+6820 images found for art-nouveau-modern.
+Removed image duplicates and images not in epoch of art-nouveau-modern
+After duplicate removal 6586 images left.
+6586 images left.
+Webdriver closed.
+Webdriver started...
+6586 images found for art-nouveau-modern.
+Removed image duplicates and images not in epoch of art-nouveau-modern
+After duplicate removal 6586 images left.
+6586 images left.
+Webdriver closed.

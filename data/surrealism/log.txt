@@ -1,0 +1,12 @@
+Webdriver started...
+4695 images found for surrealism.
+Removed image duplicates and images not in epoch of surrealism
+After duplicate removal 4694 images left.
+4694 images left.
+Webdriver closed.
+Webdriver started...
+4694 images found for surrealism.
+Removed image duplicates and images not in epoch of surrealism
+After duplicate removal 4694 images left.
+4694 images left.
+Webdriver closed.

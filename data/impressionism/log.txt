@@ -1,0 +1,12 @@
+Webdriver started...
+10088 images found for impressionism.
+Removed image duplicates and images not in epoch of impressionism
+After duplicate removal 10073 images left.
+10073 images left.
+Webdriver closed.
+Webdriver started...
+10073 images found for impressionism.
+Removed image duplicates and images not in epoch of impressionism
+After duplicate removal 10073 images left.
+10073 images left.
+Webdriver closed.

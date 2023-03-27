@@ -2395,3 +2395,15 @@ Webdriver started...
 Removed image duplicates of baroque
 7358 images found for baroque.
 Webdriver closed.
+Webdriver started...
+7358 images found for baroque.
+Removed image duplicates and images not in epoch of baroque
+After duplicate removal 7358 images left.
+6265 images left.
+Webdriver closed.
+Webdriver started...
+6265 images found for baroque.
+Removed image duplicates and images not in epoch of baroque
+After duplicate removal 6265 images left.
+6265 images left.
+Webdriver closed.

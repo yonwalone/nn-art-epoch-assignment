@@ -1,0 +1,12 @@
+Webdriver started...
+4647 images found for post-impressionism.
+Removed image duplicates and images not in epoch of post-impressionism
+After duplicate removal 4646 images left.
+4316 images left.
+Webdriver closed.
+Webdriver started...
+4316 images found for post-impressionism.
+Removed image duplicates and images not in epoch of post-impressionism
+After duplicate removal 4316 images left.
+4316 images left.
+Webdriver closed.

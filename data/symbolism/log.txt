@@ -1,0 +1,12 @@
+Webdriver started...
+5238 images found for symbolism.
+Removed image duplicates and images not in epoch of symbolism
+After duplicate removal 5057 images left.
+5057 images left.
+Webdriver closed.
+Webdriver started...
+5057 images found for symbolism.
+Removed image duplicates and images not in epoch of symbolism
+After duplicate removal 5057 images left.
+5057 images left.
+Webdriver closed.

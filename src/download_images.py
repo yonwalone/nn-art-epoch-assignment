@@ -76,13 +76,6 @@ class WikiartImageScraper:
         progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
         print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
 
-    def remove_image_duplicates(self):
-        """
-        Removes duplicates in the image_list.
-        """
-        self.log(f"Removed image duplicates of {self.epoch_name}")
-        self.image_list = list(set(self.image_list))
-
     def start_driver(self):
         """
         Initializes and start the Chrome webdriver with the provided options and
@@ -227,6 +220,7 @@ class WikiartImageScraper:
 
         self.get_painters_of_overview()
 
+
     def get_painters_of_overview(self, epoch_name):
         """
         Get the list of painters from an overview site.
@@ -277,7 +271,7 @@ class WikiartImageScraper:
                         self.painters_dict[painter] = 1
                 self.print_progress_bar(index+1, len(items),start_text="Scanned epoch painters", new_line=False)
         except:
-            self.log(f"Finding painters of epoch {epoch} failed.")
+            self.log(f"Finding painters of epoch {epoch_name} failed.")
             return
 
     def get_images_from_painters(self, startIndex = 0, endIndex = None):
@@ -702,8 +696,13 @@ class WikiartImageScraper:
 
     def clear_images(self):
         """
-        Clear list of images so they only contain images from selected epoch
+        Removed image duplicates and images not in epoch
         """
+
+        self.log(f"Removed image duplicates and images not in epoch of {self.epoch_name}")
+        self.image_list = list(set(self.image_list))
+
+        self.log(f"After duplicate removal {len(self.image_list)} images left.")
 
         new_list = []
 
@@ -719,7 +718,7 @@ class WikiartImageScraper:
                 new_list.append(img)
 
         self.image_list = new_list
-    
+
 
     def remove_images_of_painter(self, painter_name):
         """
@@ -728,6 +727,7 @@ class WikiartImageScraper:
         Parameter:
             painter_name (string): name of painter
         """
+
         new_list = []
 
         for img in self.image_list:

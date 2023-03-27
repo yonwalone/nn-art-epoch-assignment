@@ -1,0 +1,12 @@
+Webdriver started...
+10242 images found for romanticism.
+Removed image duplicates and images not in epoch of romanticism
+After duplicate removal 9876 images left.
+9556 images left.
+Webdriver closed.
+Webdriver started...
+9556 images found for romanticism.
+Removed image duplicates and images not in epoch of romanticism
+After duplicate removal 9556 images left.
+9556 images left.
+Webdriver closed.

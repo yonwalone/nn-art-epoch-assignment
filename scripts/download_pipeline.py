@@ -8,6 +8,15 @@ print("##### Started download pipeline. #####")
 for epoch in EPOCHS:
     image_scraper = WikiartImageScraper(epoch_name=epoch)
 
+    image_scraper.read_images_from_json("images.json")
+    image_scraper.log(f"{len(image_scraper.image_list)} images found for {epoch}.")
+
+    image_scraper.clear_images()
+    image_scraper.log(f"{len(image_scraper.image_list)} images left.")
+    image_scraper.save_images()
+
+    continue
+
     # image_scraper.log(f"Load painters of featured images of {epoch}.")
     # image_scraper.load_all_images()
     # image_scraper.get_painters()

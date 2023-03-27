@@ -1,0 +1,12 @@
+Webdriver started...
+8097 images found for expressionism.
+Removed image duplicates and images not in epoch of expressionism
+After duplicate removal 8041 images left.
+8041 images left.
+Webdriver closed.
+Webdriver started...
+8041 images found for expressionism.
+Removed image duplicates and images not in epoch of expressionism
+After duplicate removal 8041 images left.
+8041 images left.
+Webdriver closed.

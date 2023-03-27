@@ -1,0 +1,12 @@
+Webdriver started...
+13693 images found for realism.
+Removed image duplicates and images not in epoch of realism
+After duplicate removal 13286 images left.
+13286 images left.
+Webdriver closed.
+Webdriver started...
+13286 images found for realism.
+Removed image duplicates and images not in epoch of realism
+After duplicate removal 13286 images left.
+13286 images left.
+Webdriver closed.
