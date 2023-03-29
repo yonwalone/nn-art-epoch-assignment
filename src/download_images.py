@@ -273,6 +273,7 @@ class WikiartImageScraper:
         except:
             self.log(f"Finding painters of epoch {epoch_name} failed.")
             return
+    
 
     def get_images_from_painters(self, startIndex = 0, endIndex = None):
         """
@@ -284,12 +285,15 @@ class WikiartImageScraper:
         """
         if endIndex == None:
             endIndex = len(self.painters_dict)
+
         self.log(f"Get images of {endIndex-startIndex} painters ({startIndex}-{endIndex-1})")
+
         for index, painter in enumerate(dict(list(self.painters_dict.items())[startIndex:endIndex+1])):
             try:
                 self.image_list += self.get_images_from_painter(painter=painter)
             except:
                 self.log(f"Error by getting images from {painter}")
+            
             self.log(f"Finished painter {painter} ({index})", noprint=True)
             self.print_progress_bar(index+1, endIndex-startIndex, start_text="Get images from painters", end_text = f"Finished {painter}")
 
@@ -305,6 +309,7 @@ class WikiartImageScraper:
             list of images: List containing the image objects.
         """
         if not self.is_painter_available(painter=painter):
+            self.log(f"Images of {painter} not available by copyright.")
             return []
         
         try:
@@ -321,11 +326,11 @@ class WikiartImageScraper:
             subtitles = self.driver.find_elements(by=By.CLASS_NAME, value="subtitle.ng-binding.ng-scope")
             text = subtitles[0].text
             if self.epoch_name not in text.lower():
-                print(f"Might show all images of painter {painter}")
-                return
+                self.log(f"Might show all images of painter {painter}")
+                return []
         except:
-            print(f"Error acessing subtitle: {painter}")
-            return
+            self.log(f"Error acessing subtitle: {painter}")
+            return []
         
         try:
             # Find Load More Button
@@ -392,10 +397,10 @@ class WikiartImageScraper:
                     if epochs != None:
                         epoch_list = epochs
                     else:
-                        print(f"No chosen epochs found for image {img_src}. Not added to list")
+                        self.log(f"No chosen epochs found for image {img_src}. Not added to list")
                         continue
                 except:
-                    self.log(f"Could't get the image of soure: {img_src}")
+                    self.log(f"Could't get information of the image of soure: {img_src}")
                     epoch_list = [self.epoch_name]
                 # Replace the small image URL with the large one and add it to the list.
                 img_src = img_src.replace("PinterestSmall", "Large")
@@ -453,9 +458,9 @@ class WikiartImageScraper:
                 epoch_name = switch.get(epoch.text)
                 if epoch_name != None:
                     epoch_list.append(epoch_name)
-                else:
-                    return None
 
+            if len(epoch_list) == 0:
+                return None
             # Last element gets removed because it isn't an epoch
             # epoch_list.remove(epoch_list[len(epoch_list)-1])
         except:
@@ -661,7 +666,7 @@ class WikiartImageScraper:
                 self.navigate_to_url(f"https://www.wikiart.org/en/artistadvancedsearch#!#filter:advanced,minYear:-50000,maxYear:2023,dictionaries:57726a67edc2ca38801d4e11")
                 self.driver.implicitly_wait(30)
             except:
-                print(f"URL of important painters of {self.epoch_name} not found.")
+                self.log(f"URL of important painters of {self.epoch_name} not found.")
 
             self.get_painters_of_overview(self.epoch_name)
 
@@ -745,11 +750,11 @@ class WikiartImageScraper:
 
         for index in range(15,21):
 
-            print(f"Get url of century {index}")
+            self.log(f"Get url of century {index}")
             self.navigate_to_url(f"https://www.wikiart.org/en/artists-by-century/{index}#!#resultType:masonry")
             self.driver.implicitly_wait(30)
 
-            print(f"Find painters of century {index}")
+            self.log(f"Find painters of century {index}")
             self.get_painters_of_overview(epoch_name="foo")
         
         self.save_painters()
@@ -777,7 +782,7 @@ class WikiartImageScraper:
                                     painter + "/all-works#!#filterName:Style_" + self.epoch_name + ",resultType:masonry")
                 self.driver.implicitly_wait(10)
             except:
-                print(f"Error with url:{painter}")
+                self.log(f"Error with url:{painter}")
                 continue
             
             # Check the subtitle
@@ -792,7 +797,7 @@ class WikiartImageScraper:
                     else:
                         painter_selected[painter] = 1
             except:
-                print(f"Error acessing subtitle: {painter}")
+                self.log(f"Error acessing subtitle: {painter}")
                 continue
 
         self.painters_dict = painter_selected
