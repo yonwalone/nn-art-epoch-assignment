@@ -773,8 +773,12 @@ class WikiartImageScraper:
         if endIndex == None:
             endIndex = len(self.painters_dict)
 
+        find_name = self.epoch_name
+        if self.epoch_name == "abstract-expressionism":
+            find_name = "abstract expressionism"
+
         # Go through all painters
-        for painter in dict(list(self.painters_dict.items())[startIndex:endIndex+1]):
+        for index, painter in enumerate(dict(list(self.painters_dict.items())[startIndex:endIndex+1])):
 
             # Get URL
             try:
@@ -791,7 +795,7 @@ class WikiartImageScraper:
                 text = subtitles[0].text
 
                 # Check if painter has images of epoch than add to dictionary
-                if self.epoch_name in text.lower():
+                if find_name in text.lower():
                     if painter in painter_selected:
                         painter_selected[painter] += 1
                     else:
@@ -799,5 +803,8 @@ class WikiartImageScraper:
             except:
                 self.log(f"Error acessing subtitle: {painter}")
                 continue
+
+            self.print_progress_bar(index+1, endIndex-startIndex, start_text=f"Check painters made from {self.epoch_name} ", end_text = f"Finished {painter}")
+
 
         self.painters_dict = painter_selected
