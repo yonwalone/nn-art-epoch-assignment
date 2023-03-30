@@ -592,3 +592,50 @@ Removed image duplicates and images not in epoch of abstract-expressionism
 After duplicate removal 4244 images left.
 4244 images now available.
 Webdriver closed.
+Webdriver started...
+7 painters found
+Get images of abstract-expressionism from file.
+4244 already there
+Get images of 7 painters (0-6)
+20 images from bradley-walker-tomlin found.
+Not all images may be available: bradley-walker-tomlin
+Finished painter bradley-walker-tomlin (0)
+20 images from kenzo-okada found.
+Not all images may be available: kenzo-okada
+Finished painter kenzo-okada (1)
+36 images from richard-diebenkorn found.
+Finished painter richard-diebenkorn (2)
+28 images from moshe-kupferman found.
+Finished painter moshe-kupferman (3)
+42 images from lee-bontecou found.
+Finished painter lee-bontecou (4)
+20 images from howard-hodgkin found.
+Not all images may be available: howard-hodgkin
+Finished painter howard-hodgkin (5)
+20 images from joe-goode found.
+Not all images may be available: joe-goode
+Finished painter joe-goode (6)
+4350 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4350 images left.
+4350 images now available.
+Webdriver closed.
+Webdriver started...
+4 painters found
+Get images of abstract-expressionism from file.
+4350 already there
+Get images of 4 painters (0-3)
+20 images from bradley-walker-tomlin found.
+Finished painter bradley-walker-tomlin (0)
+20 images from kenzo-okada found.
+Epochs not found
+Finished painter kenzo-okada (1)
+20 images from howard-hodgkin found.
+Finished painter howard-hodgkin (2)
+20 images from joe-goode found.
+Finished painter joe-goode (3)
+4430 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4430 images left.
+4430 images now available.
+Webdriver closed.
