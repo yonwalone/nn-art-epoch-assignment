@@ -813,3 +813,27 @@ class WikiartImageScraper:
 
 
         self.painters_dict = painter_selected
+
+
+    def print_found_epochs(self):
+        """
+        Print for epoch how many other epochs are found in their images
+        """
+
+        epoch_dict = {}
+        total = 0
+
+        for img in self.image_list:
+            image : Image = img
+            for epoch in image.epochs:
+                foo = 7
+                if epoch != self.epoch_name:
+                    total += 1
+                    if epoch in epoch_dict:
+                        epoch_dict[epoch] += 1
+                    else:
+                        epoch_dict[epoch] = 1
+        
+        print(epoch_dict)
+        self.log(f"Gesamtanzahl >1 Epoch: {total}")
+

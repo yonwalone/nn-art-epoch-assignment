@@ -1,0 +1,61 @@
+##### Started download pipeline. #####
+Webdriver started...
+Epoch: realism
+13286 images found
+{'impressionism': 230, 'romanticism': 47, 'symbolism': 35, 'expressionism': 4, 'post-impressionism': 20, 'art-nouveau-modern': 16, 'baroque': 1}
+Gesamtanzahl >1 Epoch: 353
+Webdriver started...
+Webdriver closed.
+Epoch: impressionism
+10073 images found
+{'realism': 186, 'post-impressionism': 24, 'art-nouveau-modern': 42, 'symbolism': 29, 'romanticism': 16, 'expressionism': 1}
+Gesamtanzahl >1 Epoch: 298
+Webdriver started...
+Webdriver closed.
+Epoch: romanticism
+9556 images found
+{'realism': 36, 'baroque': 30, 'symbolism': 31, 'art-nouveau-modern': 62, 'impressionism': 12}
+Gesamtanzahl >1 Epoch: 171
+Webdriver started...
+Webdriver closed.
+Epoch: expressionism
+8041 images found
+{'surrealism': 83, 'impressionism': 45, 'realism': 51, 'symbolism': 53, 'post-impressionism': 18, 'art-nouveau-modern': 49}
+Gesamtanzahl >1 Epoch: 299
+Webdriver started...
+Webdriver closed.
+Epoch: post-impressionism
+7140 images found
+{'expressionism': 36, 'impressionism': 31, 'art-nouveau-modern': 87, 'surrealism': 4, 'symbolism': 12, 'realism': 24}
+Gesamtanzahl >1 Epoch: 194
+Webdriver started...
+Webdriver closed.
+Epoch: baroque
+6265 images found
+{}
+Gesamtanzahl >1 Epoch: 0
+Webdriver started...
+Webdriver closed.
+Epoch: art-nouveau-modern
+6586 images found
+{'impressionism': 55, 'realism': 56, 'post-impressionism': 79, 'symbolism': 222, 'romanticism': 73, 'expressionism': 34}
+Gesamtanzahl >1 Epoch: 519
+Webdriver started...
+Webdriver closed.
+Epoch: surrealism
+4694 images found
+{'expressionism': 159, 'realism': 2, 'symbolism': 17, 'post-impressionism': 4, 'impressionism': 1, 'art-nouveau-modern': 1}
+Gesamtanzahl >1 Epoch: 184
+Webdriver started...
+Webdriver closed.
+Epoch: symbolism
+5057 images found
+{'romanticism': 58, 'realism': 50, 'art-nouveau-modern': 198, 'impressionism': 37, 'expressionism': 58, 'surrealism': 4, 'post-impressionism': 13}
+Gesamtanzahl >1 Epoch: 418
+Webdriver started...
+Webdriver closed.
+Epoch: abstract-expressionism
+4430 images found
+{'expressionism': 32, 'surrealism': 34, 'symbolism': 2, 'art-nouveau-modern': 1}
+Gesamtanzahl >1 Epoch: 69
+Webdriver closed.
