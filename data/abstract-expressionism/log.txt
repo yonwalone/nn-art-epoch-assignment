@@ -1,0 +1,641 @@
+Webdriver started...
+3518 painters found
+Filter painters
+265 found for epoch
+Saved painters of epoch abstract-expressionism
+Webdriver closed.
+Webdriver started...
+3 painters found
+Get images of abstract-expressionism from file.
+0 already there
+Get images of 50 painters (0-49)
+9 images from victor-hugo found.
+Finished painter victor-hugo (0)
+1 images from hilma-af-klint found.
+Finished painter hilma-af-klint (1)
+1 images from wassily-kandinsky found.
+Finished painter wassily-kandinsky (2)
+11 images now available.
+Webdriver closed.
+Webdriver started...
+265 painters found
+Get images of abstract-expressionism from file.
+11 already there
+Get images of 47 painters (3-49)
+Images of henri-matisse not available by copyright.
+Finished painter henri-matisse (0)
+1 images from vahram-gaifedjyan found.
+Finished painter vahram-gaifedjyan (1)
+1 images from paul-klee found.
+Finished painter paul-klee (2)
+1 images from franz-marc found.
+Finished painter franz-marc (3)
+75 images from hans-hofmann found.
+Finished painter hans-hofmann (4)
+2 images from georgia-o-keeffe found.
+Finished painter georgia-o-keeffe (5)
+Images of mark-tobey not available by copyright.
+Finished painter mark-tobey (6)
+3 images from alma-woodsey-thomas found.
+Finished painter alma-woodsey-thomas (7)
+Images of joan-miro not available by copyright.
+Finished painter joan-miro (8)
+20 images from bradley-walker-tomlin found.
+Not all images may be available: bradley-walker-tomlin
+Finished painter bradley-walker-tomlin (9)
+26 images from anne-ryan found.
+Finished painter anne-ryan (10)
+7 images from mordecai-ardon found.
+Finished painter mordecai-ardon (11)
+5 images from jock-macdonald found.
+Finished painter jock-macdonald (12)
+4 images from reuben-nakian found.
+Finished painter reuben-nakian (13)
+22 images from alexander-calder found.
+Finished painter alexander-calder (14)
+15 images from louise-nevelson found.
+Finished painter louise-nevelson (15)
+19 images from jack-tworkov found.
+Finished painter jack-tworkov (16)
+9 images from adja-yunkers found.
+Finished painter adja-yunkers (17)
+32 images from betty-parsons found.
+Finished painter betty-parsons (18)
+11 images from beauford-delaney found.
+Finished painter beauford-delaney (19)
+20 images from kenzo-okada found.
+Not all images may be available: kenzo-okada
+Finished painter kenzo-okada (20)
+11 images from louis-schanker found.
+Finished painter louis-schanker (21)
+43 images from esteban-vicente found.
+Finished painter esteban-vicente (22)
+41 images from adolph-gottlieb found.
+Finished painter adolph-gottlieb (23)
+Images of mark-rothko not available by copyright.
+Finished painter mark-rothko (24)
+23 images from aaron-siskind found.
+Finished painter aaron-siskind (25)
+27 images from alfred-jensen found.
+Finished painter alfred-jensen (26)
+11 images from arshile-gorky found.
+Finished painter arshile-gorky (27)
+11 images from giorgio-cavallon found.
+Finished painter giorgio-cavallon (28)
+17 images from clarence-holbrook-carter found.
+Finished painter clarence-holbrook-carter (29)
+Images of willem-de-kooning not available by copyright.
+Finished painter willem-de-kooning (30)
+Images of salvador-dali not available by copyright.
+Finished painter salvador-dali (31)
+19 images from alice-rahon found.
+Finished painter alice-rahon (32)
+17 images from noguchi-isamu found.
+Finished painter noguchi-isamu (33)
+15 images from clyfford-still found.
+Finished painter clyfford-still (34)
+25 images from perle-fine found.
+Finished painter perle-fine (35)
+22 images from john-ferren found.
+Finished painter john-ferren (36)
+Images of barnett-newman not available by copyright.
+Finished painter barnett-newman (37)
+5 images from wolfgang-paalen found.
+Finished painter wolfgang-paalen (38)
+11 images from david-smith found.
+Finished painter david-smith (39)
+38 images from james-brooks found.
+Finished painter james-brooks (40)
+11 images from ulfert-wilke found.
+Finished painter ulfert-wilke (41)
+3 images from myron-stout found.
+Finished painter myron-stout (42)
+12 images from william-saroyan found.
+Finished painter william-saroyan (43)
+22 images from lee-krasner found.
+Finished painter lee-krasner (44)
+9 images from victor-pasmore found.
+Finished painter victor-pasmore (45)
+14 images from norman-lewis found.
+Finished painter norman-lewis (46)
+16 images from antonio-corpora found.
+Finished painter antonio-corpora (47)
+667 images now available.
+Webdriver closed.
+Webdriver started...
+265 painters found
+Get images of abstract-expressionism from file.
+667 already there
+Get images of 49 painters (51-99)
+15 images from hedda-sterne found.
+Finished painter hedda-sterne (0)
+12 images from morris-graves found.
+Finished painter morris-graves (1)
+26 images from raoul-ubac found.
+Finished painter raoul-ubac (2)
+5 images from romare-bearden found.
+Finished painter romare-bearden (3)
+2 images from roberto-matta found.
+Finished painter roberto-matta (4)
+30 images from william-baziotes found.
+Finished painter william-baziotes (5)
+5 images from bruno-cassinari found.
+Finished painter bruno-cassinari (6)
+Images of jackson-pollock not available by copyright.
+Finished painter jackson-pollock (7)
+15 images from william-congdon found.
+Finished painter william-congdon (8)
+26 images from vasile-dobrian found.
+Finished painter vasile-dobrian (9)
+5 images from alexander-liberman found.
+Finished painter alexander-liberman (10)
+25 images from john-cage found.
+Finished painter john-cage (11)
+12 images from morris-louis found.
+Finished painter morris-louis (12)
+13 images from ralph-rosenborg found.
+Finished painter ralph-rosenborg (13)
+26 images from william-scott found.
+Finished painter william-scott (14)
+Images of abidin-dino not available by copyright.
+Finished painter abidin-dino (15)
+26 images from toko-shinoda found.
+Finished painter toko-shinoda (16)
+59 images from conrad-marca-relli found.
+Finished painter conrad-marca-relli (17)
+15 images from philip-guston found.
+Finished painter philip-guston (18)
+5 images from ad-reinhardt found.
+Finished painter ad-reinhardt (19)
+6 images from endre-balint found.
+Finished painter endre-balint (20)
+17 images from arthur-pinajian found.
+Finished painter arthur-pinajian (21)
+31 images from jose-guerrero found.
+Finished painter jose-guerrero (22)
+90 images from george-stefanescu found.
+Finished painter george-stefanescu (23)
+4 images from peter-busa found.
+Finished painter peter-busa (24)
+5 images from tove-jansson found.
+Finished painter tove-jansson (25)
+47 images from robert-motherwell found.
+Finished painter robert-motherwell (26)
+2 images from basuki-abdullah found.
+Finished painter basuki-abdullah (27)
+9 images from mathias-goeritz found.
+Finished painter mathias-goeritz (28)
+23 images from friedel-dzubas found.
+Finished painter friedel-dzubas (29)
+13 images from hassel-smith found.
+Finished painter hassel-smith (30)
+1 images from carmen-herrera found.
+Finished painter carmen-herrera (31)
+15 images from m-f-husain found.
+Finished painter m-f-husain (32)
+30 images from terry-frost found.
+Finished painter terry-frost (33)
+49 images from alexander-bogen found.
+Finished painter alexander-bogen (34)
+43 images from richard-pousette-dart found.
+Finished painter richard-pousette-dart (35)
+7 images from elmer-bischoff found.
+Finished painter elmer-bischoff (36)
+21 images from milton-resnick found.
+Finished painter milton-resnick (37)
+7 images from david-hare found.
+Finished painter david-hare (38)
+1 images from martyl-langsdorf found.
+Finished painter martyl-langsdorf (39)
+5 images from rene-marcil found.
+Finished painter rene-marcil (40)
+10 images from nicolas-carone found.
+Finished painter nicolas-carone (41)
+40 images from robert-goodnough found.
+Finished painter robert-goodnough (42)
+31 images from elaine-de-kooning found.
+Finished painter elaine-de-kooning (43)
+12 images from jane-frank found.
+Finished painter jane-frank (44)
+25 images from paul-reed found.
+Finished painter paul-reed (45)
+13 images from robert-nickle found.
+Finished painter robert-nickle (46)
+1 images from frederick-hammersley found.
+Finished painter frederick-hammersley (47)
+9 images from edward-corbett found.
+Finished painter edward-corbett (48)
+23 images from wu-guanzhong found.
+Finished painter wu-guanzhong (49)
+1579 images now available.
+Webdriver closed.
+Webdriver started...
+265 painters found
+Get images of abstract-expressionism from file.
+1579 already there
+Get images of 49 painters (101-149)
+13 images from taro-yamamoto found.
+Finished painter taro-yamamoto (0)
+7 images from bui-xuan-phai found.
+Finished painter bui-xuan-phai (1)
+1 images from paul-wonner found.
+Finished painter paul-wonner (2)
+39 images from jimmy-ernst found.
+Finished painter jimmy-ernst (3)
+19 images from gene-davis found.
+Finished painter gene-davis (4)
+7 images from luchita-hurtado found.
+Finished painter luchita-hurtado (5)
+16 images from frank-lobdell found.
+Finished painter frank-lobdell (6)
+7 images from norman-bluhm found.
+Finished painter norman-bluhm (7)
+27 images from manoucher-yektai found.
+Finished painter manoucher-yektai (8)
+23 images from william-turnbull found.
+Finished painter william-turnbull (9)
+9 images from pedro-coronel found.
+Finished painter pedro-coronel (10)
+20 images from richard-diebenkorn found.
+Not all images may be available: richard-diebenkorn
+Finished painter richard-diebenkorn (11)
+Images of pol-bury not available by copyright.
+Finished painter pol-bury (12)
+15 images from albert-irvin found.
+Finished painter albert-irvin (13)
+39 images from theodoros-stamos found.
+Finished painter theodoros-stamos (14)
+310 images from sam-francis found.
+Finished painter sam-francis (15)
+2 images from rosemarie-beck found.
+Finished painter rosemarie-beck (16)
+Images of paul-jenkins not available by copyright.
+Finished painter paul-jenkins (17)
+6 images from mario-cesariny found.
+Finished painter mario-cesariny (18)
+1 images from karlo-zvirynsky found.
+Finished painter karlo-zvirynsky (19)
+1 images from sonya-rapoport found.
+Finished painter sonya-rapoport (20)
+22 images from jean-paul-riopelle found.
+Finished painter jean-paul-riopelle (21)
+8 images from miriam-schapiro found.
+Finished painter miriam-schapiro (22)
+10 images from charles-garabedian found.
+Finished painter charles-garabedian (23)
+1 images from douglas-huebler found.
+Finished painter douglas-huebler (24)
+17 images from gandy-brodie found.
+Finished painter gandy-brodie (25)
+10 images from kazuo-shiraga found.
+Finished painter kazuo-shiraga (26)
+1 images from sally-gabori found.
+Finished painter sally-gabori (27)
+9 images from anton-heyboer found.
+Finished painter anton-heyboer (28)
+15 images from behjat-sadr found.
+Finished painter behjat-sadr (29)
+22 images from huang-yongyu found.
+Finished painter huang-yongyu (30)
+23 images from manabu-mabe found.
+Finished painter manabu-mabe (31)
+9 images from tsuruko-yamazaki found.
+Finished painter tsuruko-yamazaki (32)
+18 images from richards-ruben found.
+Finished painter richards-ruben (33)
+4 images from victor-zaretsky found.
+Finished painter victor-zaretsky (34)
+62 images from joan-mitchell found.
+Finished painter joan-mitchell (35)
+10 images from marcel-barbeau found.
+Finished painter marcel-barbeau (36)
+3 images from etel-adnan found.
+Finished painter etel-adnan (37)
+14 images from martin-chirino found.
+Finished painter martin-chirino (38)
+Images of robert-rauschenberg not available by copyright.
+Finished painter robert-rauschenberg (39)
+8 images from john-altoon found.
+Finished painter john-altoon (40)
+1 images from karl-benjamin found.
+Finished painter karl-benjamin (41)
+3 images from paul-guiragossian found.
+Finished painter paul-guiragossian (42)
+13 images from julio-pomar found.
+Finished painter julio-pomar (43)
+18 images from geta-bratescu found.
+Finished painter geta-bratescu (44)
+21 images from ed-clark found.
+Finished painter ed-clark (45)
+17 images from hannelore-baron found.
+Finished painter hannelore-baron (46)
+5 images from oswaldo-vigas found.
+Finished painter oswaldo-vigas (47)
+20 images from moshe-kupferman found.
+Not all images may be available: moshe-kupferman
+Finished painter moshe-kupferman (48)
+28 images from kazuo-nakamura found.
+Finished painter kazuo-nakamura (49)
+2493 images now available.
+Webdriver closed.
+Webdriver started...
+265 painters found
+Get images of abstract-expressionism from file.
+2493 already there
+Get images of 49 painters (151-199)
+3 images from adnan-coker found.
+Finished painter adnan-coker (0)
+4 images from warren-rohrer found.
+Finished painter warren-rohrer (1)
+7 images from manuel-cargaleiro found.
+Finished painter manuel-cargaleiro (2)
+6 images from john-chamberlain found.
+Finished painter john-chamberlain (3)
+4 images from allan-kaprow found.
+Finished painter allan-kaprow (4)
+3 images from al-held found.
+Finished painter al-held (5)
+2 images from oyvind-fahlstrom found.
+Finished painter oyvind-fahlstrom (6)
+85 images from cy-twombly found.
+Finished painter cy-twombly (7)
+Images of donald-judd not available by copyright.
+Finished painter donald-judd (8)
+4 images from andy-warhol found.
+Finished painter andy-warhol (9)
+18 images from alice-baber found.
+Finished painter alice-baber (10)
+4 images from joe-tilson found.
+Finished painter joe-tilson (11)
+11 images from sohrab-sepehri found.
+Finished painter sohrab-sepehri (12)
+73 images from helen-frankenthaler found.
+Finished painter helen-frankenthaler (13)
+7 images from nathan-oliveira found.
+Finished painter nathan-oliveira (14)
+18 images from jay-defeo found.
+Finished painter jay-defeo (15)
+5 images from marcia-hafif found.
+Finished painter marcia-hafif (16)
+8 images from yayoi-kusama found.
+Finished painter yayoi-kusama (17)
+11 images from avigdor-arikha found.
+Finished painter avigdor-arikha (18)
+2 images from neil-welliver found.
+Finished painter neil-welliver (19)
+3 images from burhan-dogancay found.
+Finished painter burhan-dogancay (20)
+8 images from armand-vaillancourt found.
+Finished painter armand-vaillancourt (21)
+19 images from walasse-ting found.
+Finished painter walasse-ting (22)
+9 images from rodolfo-arico found.
+Finished painter rodolfo-arico (23)
+126 images from makinti-napanangka found.
+Finished painter makinti-napanangka (24)
+3 images from manuel-neri found.
+Finished painter manuel-neri (25)
+1 images from dieter-roth found.
+Finished painter dieter-roth (26)
+1 images from yuriy-zlotnikov found.
+Finished painter yuriy-zlotnikov (27)
+Images of jasper-johns not available by copyright.
+Finished painter jasper-johns (28)
+4 images from marisol-escobar found.
+Finished painter marisol-escobar (29)
+5 images from gotthard-graubner found.
+Finished painter gotthard-graubner (30)
+4 images from frederic-matys-thursz found.
+Finished painter frederic-matys-thursz (31)
+37 images from vilen-barsky found.
+Finished painter vilen-barsky (32)
+5 images from audrey-flack found.
+Finished painter audrey-flack (33)
+12 images from howard-mehring found.
+Finished painter howard-mehring (34)
+8 images from richard-smith found.
+Finished painter richard-smith (35)
+20 images from lee-bontecou found.
+Not all images may be available: lee-bontecou
+Finished painter lee-bontecou (36)
+12 images from ralph-hotere found.
+Finished painter ralph-hotere (37)
+12 images from gebre-kristos-desta found.
+Finished painter gebre-kristos-desta (38)
+29 images from gerhard-richter found.
+Finished painter gerhard-richter (39)
+16 images from atsuko-tanaka found.
+Finished painter atsuko-tanaka (40)
+5 images from craig-kauffman found.
+Finished painter craig-kauffman (41)
+20 images from howard-hodgkin found.
+Not all images may be available: howard-hodgkin
+Finished painter howard-hodgkin (42)
+1 images from bernard-cohen found.
+Finished painter bernard-cohen (43)
+1 images from dan-flavin found.
+Finished painter dan-flavin (44)
+12 images from fernando-garcia-ponce found.
+Finished painter fernando-garcia-ponce (45)
+14 images from mark-di-suvero found.
+Finished painter mark-di-suvero (46)
+6 images from guido-molinari found.
+Finished painter guido-molinari (47)
+28 images from sam-gilliam found.
+Finished painter sam-gilliam (48)
+8 images from phillip-king found.
+Finished painter phillip-king (49)
+3157 images now available.
+Webdriver closed.
+Webdriver started...
+265 painters found
+Get images of abstract-expressionism from file.
+3157 already there
+Get images of 65 painters (200-264)
+8 images from phillip-king found.
+Finished painter phillip-king (0)
+2 images from irma-blank found.
+Finished painter irma-blank (1)
+35 images from john-hoyland found.
+Finished painter john-hoyland (2)
+5 images from john-mccracken found.
+Finished painter john-mccracken (3)
+17 images from basil-beattie found.
+Finished painter basil-beattie (4)
+2 images from robert-huot found.
+Finished painter robert-huot (5)
+2 images from william-tucker found.
+Finished painter william-tucker (6)
+1 images from ivan-eyre found.
+Finished painter ivan-eyre (7)
+3 images from lee-ufan found.
+Finished painter lee-ufan (8)
+1 images from leo-valledor found.
+Finished painter leo-valledor (9)
+7 images from eva-hesse found.
+Finished painter eva-hesse (10)
+10 images from frank-bowling found.
+Finished painter frank-bowling (11)
+39 images from frank-stella found.
+Finished painter frank-stella (12)
+1 images from ivan-marchuk found.
+Finished painter ivan-marchuk (13)
+2 images from rochelle-blumenfeld found.
+Finished painter rochelle-blumenfeld (14)
+2 images from samia-halaby found.
+Finished painter samia-halaby (15)
+4 images from ronald-davis found.
+Finished painter ronald-davis (16)
+20 images from joe-goode found.
+Not all images may be available: joe-goode
+Finished painter joe-goode (17)
+3 images from nasreen-mohamedi found.
+Finished painter nasreen-mohamedi (18)
+1 images from larry-zox found.
+Finished painter larry-zox (19)
+3 images from edward-ruscha found.
+Finished painter edward-ruscha (20)
+13 images from mark-lancaster found.
+Finished painter mark-lancaster (21)
+6 images from eduardo-nery found.
+Finished painter eduardo-nery (22)
+8 images from horia-bernea found.
+Finished painter horia-bernea (23)
+54 images from brice-marden found.
+Finished painter brice-marden (24)
+1 images from larry-bell found.
+Finished painter larry-bell (25)
+7 images from brett-whiteley found.
+Finished painter brett-whiteley (26)
+22 images from alvaro-lapa found.
+Finished painter alvaro-lapa (27)
+18 images from rafa-nasiri found.
+Finished painter rafa-nasiri (28)
+25 images from joan-snyder found.
+Finished painter joan-snyder (29)
+3 images from pat-lipsky found.
+Finished painter pat-lipsky (30)
+24 images from richard-tuttle found.
+Finished painter richard-tuttle (31)
+15 images from daan-lemaire found.
+Finished painter daan-lemaire (32)
+9 images from gil-nicolescu found.
+Finished painter gil-nicolescu (33)
+33 images from dan-christensen found.
+Finished painter dan-christensen (34)
+Images of blinky-palermo not available by copyright.
+Finished painter blinky-palermo (35)
+19 images from hassan-massoudy found.
+Finished painter hassan-massoudy (36)
+18 images from aki-kuroda found.
+Finished painter aki-kuroda (37)
+7 images from gary-wragg found.
+Finished painter gary-wragg (38)
+18 images from melissa-meyer found.
+Finished painter melissa-meyer (39)
+15 images from miguel-rio-branco found.
+Finished painter miguel-rio-branco (40)
+33 images from ronnie-landfield found.
+Finished painter ronnie-landfield (41)
+2 images from sherrie-levine found.
+Finished painter sherrie-levine (42)
+12 images from jurgen-partenheimer found.
+Finished painter jurgen-partenheimer (43)
+10 images from stephen-mueller found.
+Finished painter stephen-mueller (44)
+33 images from requena-nozal found.
+Finished painter requena-nozal (45)
+371 images from roger-weik found.
+Finished painter roger-weik (46)
+2 images from leiko-ikemura found.
+Finished painter leiko-ikemura (47)
+2 images from lech-twardowski found.
+Finished painter lech-twardowski (48)
+9 images from richard-hambleton found.
+Finished painter richard-hambleton (49)
+1 images from jeremy-henderson found.
+Finished painter jeremy-henderson (50)
+15 images from gunther-forg found.
+Finished painter gunther-forg (51)
+33 images from jack-armstrong found.
+Finished painter jack-armstrong (52)
+9 images from charles-gibbons found.
+Finished painter charles-gibbons (53)
+1 images from eleonora-brigalda-barbas found.
+Finished painter eleonora-brigalda-barbas (54)
+17 images from mostafa-dashti found.
+Finished painter mostafa-dashti (55)
+5 images from glenn-brown found.
+Finished painter glenn-brown (56)
+11 images from daniel-sambo-richter found.
+Finished painter daniel-sambo-richter (57)
+6 images from silvestre found.
+Finished painter silvestre (58)
+5 images from ilse-dhollander found.
+Finished painter ilse-dhollander (59)
+2 images from alfred-freddy-krupa found.
+Finished painter alfred-freddy-krupa (60)
+1 images from arne-quinze found.
+Finished painter arne-quinze (61)
+35 images from marc-horowitz found.
+Finished painter marc-horowitz (62)
+19 images from nemanja-vuckovic found.
+Finished painter nemanja-vuckovic (63)
+1 images from chaokun-wang found.
+Finished painter chaokun-wang (64)
+4255 images now available.
+Webdriver closed.
+Webdriver started...
+Get images of abstract-expressionism from file.
+4255 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4244 images left.
+4244 images now available.
+Webdriver closed.
+Webdriver started...
+7 painters found
+Get images of abstract-expressionism from file.
+4244 already there
+Get images of 7 painters (0-6)
+20 images from bradley-walker-tomlin found.
+Not all images may be available: bradley-walker-tomlin
+Finished painter bradley-walker-tomlin (0)
+20 images from kenzo-okada found.
+Not all images may be available: kenzo-okada
+Finished painter kenzo-okada (1)
+36 images from richard-diebenkorn found.
+Finished painter richard-diebenkorn (2)
+28 images from moshe-kupferman found.
+Finished painter moshe-kupferman (3)
+42 images from lee-bontecou found.
+Finished painter lee-bontecou (4)
+20 images from howard-hodgkin found.
+Not all images may be available: howard-hodgkin
+Finished painter howard-hodgkin (5)
+20 images from joe-goode found.
+Not all images may be available: joe-goode
+Finished painter joe-goode (6)
+4350 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4350 images left.
+4350 images now available.
+Webdriver closed.
+Webdriver started...
+4 painters found
+Get images of abstract-expressionism from file.
+4350 already there
+Get images of 4 painters (0-3)
+20 images from bradley-walker-tomlin found.
+Finished painter bradley-walker-tomlin (0)
+20 images from kenzo-okada found.
+Epochs not found
+Finished painter kenzo-okada (1)
+20 images from howard-hodgkin found.
+Finished painter howard-hodgkin (2)
+20 images from joe-goode found.
+Finished painter joe-goode (3)
+4430 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4430 images left.
+4430 images now available.
+Webdriver closed.
