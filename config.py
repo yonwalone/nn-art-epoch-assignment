@@ -12,5 +12,5 @@ EPOCHS = [
  #"art-nouveau-modern", # 6914, aC: 6820
  #"surrealism", # 4309, dann 4695
  #"symbolism", # 5302, aC: 5238
- "abstract-expressionism" # 4255
+ "abstract-expressionism" # 4255, then: 4430
 ]
