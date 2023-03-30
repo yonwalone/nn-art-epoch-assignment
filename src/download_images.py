@@ -322,10 +322,14 @@ class WikiartImageScraper:
         
         #Check if not all images of painter are shown and not only the epoch ones
         #That might happen if an wrong painter is in the list
+        find_name = self.epoch_name
+        if self.epoch_name == "abstract-expressionism":
+            find_name = "abstract expressionism"
+
         try:
             subtitles = self.driver.find_elements(by=By.CLASS_NAME, value="subtitle.ng-binding.ng-scope")
             text = subtitles[0].text
-            if self.epoch_name not in text.lower():
+            if find_name not in text.lower():
                 self.log(f"Might show all images of painter {painter}")
                 return []
         except:
@@ -453,7 +457,8 @@ class WikiartImageScraper:
                     "Baroque": "baroque",
                     "Art Nouveau (Modern)": "art-nouveau-modern",
                     "Surrealism": "surrealism",
-                    "Symbolism": "symbolism"
+                    "Symbolism": "symbolism",
+                    "Abstract Expressionism": "abstract-expressionism"
                 }
                 epoch_name = switch.get(epoch.text)
                 if epoch_name != None:

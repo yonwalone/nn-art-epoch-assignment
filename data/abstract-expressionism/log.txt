@@ -585,3 +585,10 @@ Finished painter nemanja-vuckovic (63)
 Finished painter chaokun-wang (64)
 4255 images now available.
 Webdriver closed.
+Webdriver started...
+Get images of abstract-expressionism from file.
+4255 images available before clearing.
+Removed image duplicates and images not in epoch of abstract-expressionism
+After duplicate removal 4244 images left.
+4244 images now available.
+Webdriver closed.
