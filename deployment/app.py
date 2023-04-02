@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from keras.models import load_model
+import numpy as np
 import tensorflow as tf
 
 #tf.saved_model.LoadOptions = '/job:localhost'
@@ -9,6 +10,8 @@ import tensorflow as tf
 #model = load_model('deployment\\test_model', options=options)
 #model = load_model(filepath='deployment/test_model')
 #model = tf.keras.models.load_model('deployment\\test_model')
+
+model = load_model(filepath="deployment\\firstModel")
 
 # Create the Flask application
 app = Flask(__name__, static_folder='static')
@@ -28,11 +31,14 @@ if __name__ == '__main__':
 def predict():
     # Get the data from the request
     data = request.get_json()
+    print(data)
+
+    data = np.random.random((128, 32))
 
     # Make a prediction using the loaded model
-    #prediction = model.predict(data)
+    prediction = model.predict(data)
 
     # Return the prediction as a JSON response
     #return jsonify(prediction.tolist())
-    epoch_list = ["expressionism", "realsim"]
-    return jsonify(epoch_list)
+    #epoch_list = ["expressionism", "realsim"]
+    return jsonify(prediction.tolist())
