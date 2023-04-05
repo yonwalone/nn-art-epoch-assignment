@@ -19,7 +19,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  late XFile _image;
+  XFile? _image;
+  bool imageChange = false;
 
   @override
   void initState() {
@@ -31,35 +32,36 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
-  void pickImage() async {
-    /*var image = await ImagePicker().getImage(source: ImageSource.gallery);
-    print(image);
-    setState(() {
-      _image = image;
-    });*/
-  }
-
-  Future<void> pickImageFromGallery() async {
+  Future<void> pickImageFromGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       print(pickedFile);
+      imageChange = true;
       _image = pickedFile;
+      handleImage(context, pickedFile);
     }
   }
 
-  Future<void> pickImageFromCamera() async {
+  Future<void> pickImageFromCamera(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       print(pickedFile);
+      imageChange = true;
       _image = pickedFile;
+      handleImage(context, pickedFile);
 
     }
   }
 
+  void handleImage(BuildContext context, XFile file) {
+    customModal(context: context, modal: ResultView(file: file,));
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                 icon: const Icon(
                   Icons.upload,
                 ),
-                onPressed: () => pickImageFromGallery()
+                onPressed: () => pickImageFromGallery(context)
                 //customModal(context: context, modal: const ResultView()),
               ),
               Text(
@@ -95,7 +97,7 @@ class _MainPageState extends State<MainPage> {
                     Icons.photo_camera,
                   ),
                   onPressed: () {
-                    pickImageFromCamera();
+                    pickImageFromCamera(context);
                   }),
               Text(
                 "Take a picture",

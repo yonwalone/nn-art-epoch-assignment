@@ -33,7 +33,7 @@ final ThemeData darktheme = ThemeData(
     displayLarge: TextStyle(
         fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
     displayMedium: TextStyle(
-      fontSize: 24, color: Colors.white, fontWeight: FontWeight.normal),
+      fontSize: 28, color: Colors.white, fontWeight: FontWeight.normal),
     displaySmall: TextStyle(
       fontSize: 15, color: Colors.white, fontWeight: FontWeight.normal),
   ),
