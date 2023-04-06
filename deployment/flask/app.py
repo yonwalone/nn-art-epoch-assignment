@@ -20,7 +20,7 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="192.168.178.77")
 
 # Define a route for the model prediction
 @app.route('/predict', methods=['POST'])
@@ -55,7 +55,7 @@ def predict():
     # Sort the list of predicted classes in decreasing order of probability
     predicted_classes = sorted(predicted_classes, key=lambda x: x[1], reverse=True)
 
-    print(predicted_classes)
+    print(predicted_classes) 
     result_text = ""
 
     for cla in predicted_classes:

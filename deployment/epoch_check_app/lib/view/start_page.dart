@@ -1,13 +1,19 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as IMG;
+import 'dart:typed_data';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:image_picker/image_picker.dart';
-//import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
+//import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 import 'package:epoch_check_app/view/result_view.dart';
 import 'package:epoch_check_app/handler/modal_create.dart';
+import 'package:epoch_check_app/handler/classifier.dart';
 
 /// builds the session page
 class MainPage extends StatefulWidget {
@@ -19,18 +25,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  XFile? _image;
+  File? _image;
   bool imageChange = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  Classifier clas = Classifier();
 
   Future<void> pickImageFromGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -38,7 +35,7 @@ class _MainPageState extends State<MainPage> {
     if (pickedFile != null) {
       print(pickedFile);
       imageChange = true;
-      _image = pickedFile;
+      _image = File(pickedFile.path);
       handleImage(context, pickedFile);
     }
   }
@@ -49,14 +46,15 @@ class _MainPageState extends State<MainPage> {
     if (pickedFile != null) {
       print(pickedFile);
       imageChange = true;
-      _image = pickedFile;
+      _image = File(pickedFile.path);
       handleImage(context, pickedFile);
 
     }
   }
 
-  void handleImage(BuildContext context, XFile file) {
-    customModal(context: context, modal: ResultView(file: file,));
+  void handleImage(BuildContext context, XFile file) async {
+    final prediction = await clas.classifyImage(_image);
+    customModal(context: context, modal: ResultView(file: file, prediction: prediction,));
   }
 
   @override

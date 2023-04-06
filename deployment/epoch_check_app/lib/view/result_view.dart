@@ -5,9 +5,10 @@ import 'package:image_picker/image_picker.dart';
 
 ///builds a widget to create a session to be shown as a ModalSheet
 class ResultView extends StatefulWidget {
-  const ResultView({Key? key, required this.file}) : super(key: key);
+  const ResultView({Key? key, required this.file, required this.prediction}) : super(key: key);
 
   final XFile file;
+  final List<Map<String, dynamic>> prediction;
 
   @override
   _ResultViewState createState() => _ResultViewState();
@@ -18,20 +19,9 @@ class _ResultViewState extends State<ResultView> {
   @override
   Widget build(BuildContext context) {
 
-    XFile file = widget.file;
+    List<Map<String, dynamic>> data = widget.prediction;
 
-    final List<List<String>> data = [    
-      ['realism', '0.11'],
-      ['impressionism', '0.11'],
-      ['romanticism', '0.11'],
-      ['expressionism', '0.11'],
-      ['post-impressionism', '0.11'],
-      ['baroque', '0.11'],
-      ['art-nouveau-modern', '0.11'],
-      ['surrealism', '0.11'],
-      ['symbolism', '0.11'],
-      ['abstract-expressionism', '0.11'],
-    ];
+    XFile file = widget.file;
 
     return SizedBox(
       height: 720,
@@ -63,13 +53,13 @@ class _ResultViewState extends State<ResultView> {
           const SizedBox(
             height: 5.0,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-                //mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 8.0, 16.0, 8.0),
+                  child: Row(
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
@@ -94,32 +84,37 @@ class _ResultViewState extends State<ResultView> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: [
-                        DataColumn(label: Text('Epoch')),
-                        DataColumn(label: Text('Probability in %')),
-                      ],
-                      rows: List<DataRow>.generate(
-                        data.length,
-                        (index) => DataRow(
-                          cells: List<DataCell>.generate(
-                            data[index].length,
-                            (index2) => DataCell(Text(data[index][index2])),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 200,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columns: [
+                            DataColumn(label: Text('Epoch')),
+                            DataColumn(label: Text('Probability in %')),
+                          ],
+                          rows: List<DataRow>.generate(
+                            data.length,
+                            (index) => DataRow(
+                              cells: [
+                                DataCell(Text(data[index][0].toString()) ?? const Text("Fehler")),
+                                DataCell(Text(data[index][1].toString()) ?? const Text("Fehler"))
+                              ]
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                                  ),
+                    ],
                   ),
-                ]),
-            ),
+                ),
+              ]),
         ]),
       ),
     );
