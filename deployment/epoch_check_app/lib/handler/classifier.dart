@@ -57,13 +57,15 @@ class Classifier{
 
     // Create a list of predicted classes with their corresponding probabilities
     List<Map<String, dynamic>> predictedClasses = [];
-    for (int index = 0; index < _labels.length - 1; index++) {
+    for (int index = 0; index < _labels.length; index++) {
       String classLabel = _labels[index];
       double probability = output[0][index].toDouble();
       predictedClasses.add({"class_label": classLabel, "probability": probability});
     }
     // Sort the list of predicted classes in decreasing order of probability
     predictedClasses.sort((a, b) => b["probability"].compareTo(a["probability"]));
+
+    loadModel();
 
     return predictedClasses;
   }
