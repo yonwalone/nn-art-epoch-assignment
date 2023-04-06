@@ -34,6 +34,8 @@ class Classifier{
     IMG.Image? foo1 = IMG.decodeImage(k);
     IMG.Image resized = IMG.copyResize(foo1!, width: 28, height: 28);
     var rezisedBytes = resized.getBytes();
+
+    // add grayscaling?
     
     final inputShape = _interpreter.getInputTensor(0).shape;
     final inputType = _interpreter.getInputTensor(0).type;

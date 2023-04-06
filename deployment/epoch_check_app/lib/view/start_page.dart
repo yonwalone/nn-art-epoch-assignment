@@ -53,8 +53,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   void handleImage(BuildContext context, XFile file) async {
-    final prediction = await clas.classifyImage(_image);
-    customModal(context: context, modal: ResultView(file: file, prediction: prediction,));
+    await clas.classifyImage(_image).then((value) {
+      customModal(context: context, modal: ResultView(file: file, prediction: value,));
+    },);
   }
 
   @override

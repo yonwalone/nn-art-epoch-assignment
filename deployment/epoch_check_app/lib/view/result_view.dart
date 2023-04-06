@@ -104,8 +104,8 @@ class _ResultViewState extends State<ResultView> {
                             data.length,
                             (index) => DataRow(
                               cells: [
-                                DataCell(Text(data[index][0].toString()) ?? const Text("Fehler")),
-                                DataCell(Text(data[index][1].toString()) ?? const Text("Fehler"))
+                                DataCell(Text(data[index]["class_label"].toString()) ?? const Text("Fehler")),
+                                DataCell(Text((data[index]["probability"]*100).toString()) ?? const Text("Fehler"))
                               ]
                             ),
                           ),
