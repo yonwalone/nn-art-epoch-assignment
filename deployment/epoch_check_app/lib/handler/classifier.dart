@@ -35,7 +35,16 @@ class Classifier{
     IMG.Image resized = IMG.copyResize(foo1!, width: 28, height: 28);
     var rezisedBytes = resized.getBytes();
 
-    // add grayscaling?
+    /*for (int i = 0; i < rezisedBytes.length; i++) {
+      for (int j = 0; j < rezisedBytes[i].length; j++) {
+        double grayscaleValue = 0.2989 * rezisedBytes[i][j][0] + 0.5870 * rezisedBytes[i][j][1] + 0.1140 * rezisedBytes[i][j][2];
+        rezisedBytes[i][j] = [grayscaleValue];
+      }
+    }
+
+    // Add channel and batch dimensions
+    rezisedBytes = [rezisedBytes]; // Add batch dimension
+    rezisedBytes = rezisedBytes.map((image) => image.map((row) => row.map((pixel) => [pixel]).toList()).toList()).toList(); // Add channel dimension*/
     
     final inputShape = _interpreter.getInputTensor(0).shape;
     final inputType = _interpreter.getInputTensor(0).type;
@@ -50,7 +59,6 @@ class Classifier{
 
     final outputShape = _interpreter.getOutputTensor(0).shape;
     final outputType = _interpreter.getOutputTensor(0).type;
-    //final outputBuffer = Float32List(outputShape.reduce((a, b) => a * b));
 
     // Run inference
     _interpreter.run(inputBuffer, output);
@@ -65,7 +73,7 @@ class Classifier{
     // Sort the list of predicted classes in decreasing order of probability
     predictedClasses.sort((a, b) => b["probability"].compareTo(a["probability"]));
 
-    loadModel();
+    //loadModel();
 
     return predictedClasses;
   }

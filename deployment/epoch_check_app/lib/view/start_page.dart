@@ -53,8 +53,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   void handleImage(BuildContext context, XFile file) async {
+    setState(() {});
     await clas.classifyImage(_image).then((value) {
+      imageChange = false;
       customModal(context: context, modal: ResultView(file: file, prediction: value,));
+      clas.loadModel();
+      setState(() {});
     },);
   }
 
@@ -62,7 +66,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
 
     return Center(
-      child: Column(
+      child: !imageChange ? Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -108,7 +112,7 @@ class _MainPageState extends State<MainPage> {
             height: 50,
           ),
         ],
-      ),
+      ): const CircularProgressIndicator(), 
     );
   }
 }
