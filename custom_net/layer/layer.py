@@ -21,4 +21,9 @@ class Layer:
         if not self.isOutput:
             outputs.append(self.biasValue)
 
+        self.lastResults = outputs
+
         return outputs
+    
+    def getLastResults(self):
+        return self.lastResults
