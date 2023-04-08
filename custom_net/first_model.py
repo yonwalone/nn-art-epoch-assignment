@@ -43,7 +43,7 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
     for epochIndex in range(0, epochs):
         for indexOutput in range(0, len(output)):
             model.react(input[indexOutput])
-            model.handleError(target=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
+            model.handleErrorOutput(target=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
             model.printWeights()
 
     return model
@@ -51,6 +51,15 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
 
 def main():
+
+
+    # Get errors for one layer
+    model = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,0],[1,0,0]], biasValue=1, isOutput=True)
+    model.act([0,1,1])
+    model.handleError([1,1], Functions.halfsquareError, 0.1)
+
+
+    return
     model = Percepton(func=Functions.tanh, weights=[1,1,0])
 
     epochs = 40

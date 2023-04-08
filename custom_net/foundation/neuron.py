@@ -58,7 +58,7 @@ class Percepton:
         self.out = self.sum
         return self.out
         
-    def handleError(self,target, errorFunc, learningRate):
+    def handleErrorOutput(self,target, errorFunc, learningRate):
         c = 9
 
         # Get error per output
@@ -71,20 +71,19 @@ class Percepton:
             # d out / d net = 1 - tanh(sum)^2
             errorFromNet = 1- (np.tanh(self.sum) * np.tanh(self.sum))
 
-        #print("Fehler:")
-        #print(errorFromOut)
-        #print(errorFromNet)
+        listOfErrorPerWeight = []
 
         for index in range(0, len(self.weights)):
-            #print("Weight geändert")
             netPerWeight = self.inputs[index]
-            #print(netPerWeight)
 
             #d Error / d Weight = errorFromOut * errorFromNet * netPerWeight
             errorFromWeight = errorFromOut * errorFromNet * netPerWeight
+            listOfErrorPerWeight.append(errorFromWeight)
             #print(f"ErrorFromWeight of index {index}: {errorFromWeight}")
             self.weights[index] -= learningRate * errorFromWeight
             #print(f"ResultingWeight: {self.weights[index]}")
+
+        return listOfErrorPerWeight
 
     def printWeights(self):
         print(f"Weights: {self.weights}")
