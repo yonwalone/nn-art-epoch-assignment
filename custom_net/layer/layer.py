@@ -5,6 +5,7 @@ class Layer:
     
     def __init__(self, count, function, initialWeights, isOutput = False):
         self.isOutput = isOutput
+        self.function = function
 
         if count != len(initialWeights):
             raise Exception("There must be initialWeights for each Percepton")
@@ -66,3 +67,6 @@ class Layer:
     
     def getLastResults(self):
         return self.lastResults
+    
+    def getStructure(self):
+        return [len(self.perceptrons), self.function.value, self.isOutput]

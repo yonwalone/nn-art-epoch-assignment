@@ -3,6 +3,7 @@ from foundation.functions import Functions
 from foundation.neuron import Percepton
 from layer.inputLayer import InputLayer
 from model import SequentialModel
+from load_save_model import saveModel, readModelFromStorage
 
 
 def getInclusiveOrModel():
@@ -90,6 +91,19 @@ def main():
     lerningRate = 0.1
     print(f"First values: {input[0]}")
     model = trainSequentialModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+
+    saveModel(model,'current_model.json')
+
+    print(model.act([0,0,0]))
+    print(model.act([0,0,1]))
+    print(model.act([0,1,0]))
+    print(model.act([0,1,1]))
+    print(model.act([1,0,0]))
+    print(model.act([1,0,1]))
+    print(model.act([1,1,0]))
+    print(model.act([1,1,1]))
+
+    model = readModelFromStorage('current_model.json')
 
     print(model.act([0,0,0]))
     print(model.act([0,0,1]))

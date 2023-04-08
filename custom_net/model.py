@@ -35,3 +35,9 @@ class SequentialModel:
         for index in range(0, len(self.layers)):
             weights.append(self.layers[index].getWeights())
         return weights
+    
+    def getStructure(self):
+        structure = []
+        for index in range(0, len(self.layers)):
+            structure.append(self.layers[index].getStructure())
+        return structure
