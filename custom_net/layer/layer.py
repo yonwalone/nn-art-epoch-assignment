@@ -3,9 +3,11 @@ from foundation.functions import Functions
 
 class Layer:
     
-    def __init__(self, count, function, initialWeights, biasValue = 1, isOutput = False):
+    def __init__(self, count, function, initialWeights, isOutput = False):
         self.isOutput = isOutput
-        self.biasValue = biasValue
+
+        if count != len(initialWeights):
+            raise Exception("There must be initialWeights for each Percepton")
 
         self.perceptrons = []
         for index in range(0, count):
@@ -17,9 +19,10 @@ class Layer:
         outputs = []
         for index in range (0, len(self.perceptrons)):
             outputs.append(self.perceptrons[index].react(inputs))
-
+        
+        # append bias
         if not self.isOutput:
-            outputs.append(self.biasValue)
+            outputs.append(1)
 
         self.lastResults = outputs
 
@@ -60,7 +63,6 @@ class Layer:
         for index in range(0, len(self.perceptrons)):
             weights.append(self.perceptrons[index].getWeights())
         return weights
-
     
     def getLastResults(self):
         return self.lastResults

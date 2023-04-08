@@ -54,17 +54,57 @@ def trainSequentialModel(model, input, output, errorFunc, learningRate, epochs):
     
     for epochIndex in range(0, epochs):
         for indexOutput in range(0, len(output)):
-            print(f"Ergebnis des Netz Ausfuhrens: {model.act(input[indexOutput])}")
+            #print(f"Ergebnis des Netz Ausfuhrens: {model.act(input[indexOutput])}")
+            model.act(input[indexOutput])
             model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
-            print(f"Gewichte: {model.getWeights()}")
+            #print(f"Gewichte: {model.getWeights()}")
 
+    print(f"Gewichte: {model.getWeights()}")
     return model 
 
 def main():
 
+    middleLayer1 = Layer(count=3, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5],[1,1,1,-0.5]])
+    middleLayer2 = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5]])
+    outputLayer = Layer(count=1, function=Functions.tanh, initialWeights=[[-1, 1, -0.5]], isOutput= True)
+    model =  SequentialModel([middleLayer1, middleLayer2, outputLayer])
+
+    #Build in check if count of input values are correct!
+
+    print(model.act([0,0,0]))
+    print(model.act([0,0,1]))
+    print(model.act([0,1,0]))
+    print(model.act([0,1,1]))
+    print(model.act([1,0,0]))
+    print(model.act([1,0,1]))
+    print(model.act([1,1,0]))
+    print(model.act([1,1,1]))
+
+    epochs = 60
+    # Ziel A u. (B o. C)
+    input = [[0,0,0], [0,0,1], [0,1,0], [0,1,1],
+             [1,0,0], [1,0,1], [1,1,0], [1,1,1]]
+    output = [[0],[0],[0],[0],
+              [0],[1],[1],[1]]
+    errorFunc = Functions.halfsquareError
+    lerningRate = 0.1
+    print(f"First values: {input[0]}")
+    model = trainSequentialModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+
+    print(model.act([0,0,0]))
+    print(model.act([0,0,1]))
+    print(model.act([0,1,0]))
+    print(model.act([0,1,1]))
+    print(model.act([1,0,0]))
+    print(model.act([1,0,1]))
+    print(model.act([1,1,0]))
+    print(model.act([1,1,1]))
+
+
+    return
     epochs = 100
     input = [[0,0,1], [1,0,1], [0,1,1], [1,1,1]]
-    output = [[0],[1],[1],[0]]
+    output = [[0],[0],[0],[1]]
     errorFunc = Functions.halfsquareError
     lerningRate = 0.1
     model = getXORModellSgn()
