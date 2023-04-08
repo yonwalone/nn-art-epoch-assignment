@@ -11,6 +11,13 @@ class SequentialModel:
             values = self.layers[index].act(values)
         return values
     
-    def handleError(error, function):
-        if function == Functions.halfsquareError:
-            b = 9
+    def handleError(self, targets, errorFunc, learningRate):
+        for index in range(0, len(self.layers)):
+            # handle error from last to first layer
+            targets = self.layers[len(self.layers) - index -1].handleError(targets, errorFunc, learningRate)
+
+    def getWeights(self):
+        weights = []
+        for index in range(0, len(self.layers)):
+            weights.append(self.layers[index].getWeights())
+        return weights

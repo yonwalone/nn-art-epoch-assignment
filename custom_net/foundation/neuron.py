@@ -58,35 +58,52 @@ class Percepton:
         self.out = self.sum
         return self.out
         
-    def handleErrorOutput(self,target, errorFunc, learningRate):
-        c = 9
+    def handleErrorOutput(self, target, errorFunc, learningRate):
 
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
+
+        return self.handleGeneralError(learningRate=learningRate, errorOut=errorFromOut)
         
+        
+    
+    def handleError(self, errors, learningRate):
+        #d E (total) / d out (of current percepton)
+        errorOut = 0
+        #print(f"Lange der erhaltenen Fehler: {len(errors)}")
+        for index in range(0, len(errors)):
+            errorOut += errors[index]
+        
+        return self.handleGeneralError(learningRate=learningRate, errorOut=errorOut)
+    
+    def handleGeneralError(self, learningRate, errorOut):
         # Get error from sum
         if self.func == Functions.tanh:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
             errorFromNet = 1- (np.tanh(self.sum) * np.tanh(self.sum))
 
-        listOfErrorPerWeight = []
+        #d Error / d Net
+        errorPerNet = errorOut * errorFromNet
+
+        listOfErrorPerPerceptron = []
 
         for index in range(0, len(self.weights)):
             netPerWeight = self.inputs[index]
 
             #d Error / d Weight = errorFromOut * errorFromNet * netPerWeight
-            errorFromWeight = errorFromOut * errorFromNet * netPerWeight
-            listOfErrorPerWeight.append(errorFromWeight)
+            errorFromWeight = errorOut * errorFromNet * netPerWeight
             #print(f"ErrorFromWeight of index {index}: {errorFromWeight}")
             self.weights[index] -= learningRate * errorFromWeight
             #print(f"ResultingWeight: {self.weights[index]}")
 
-        return listOfErrorPerWeight
+            listOfErrorPerPerceptron.append(errorPerNet * self.weights[index])
 
-    def printWeights(self):
-        print(f"Weights: {self.weights}")
+        return listOfErrorPerPerceptron
+
+    def getWeights(self):
+        return self.weights
 
 
         

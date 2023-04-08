@@ -48,10 +48,43 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
     return model
 
+def trainSequentialModel(model, input, output, errorFunc, learningRate, epochs):
+    if len(input) != len(output):
+        raise Exception("Len of inputs must equal the length of expected outputs")
+    
+    for epochIndex in range(0, epochs):
+        for indexOutput in range(0, len(output)):
+            print(f"Ergebnis des Netz Ausfuhrens: {model.act(input[indexOutput])}")
+            model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
+            print(f"Gewichte: {model.getWeights()}")
 
+    return model 
 
 def main():
 
+    epochs = 100
+    input = [[0,0,1], [1,0,1], [0,1,1], [1,1,1]]
+    output = [[0],[1],[1],[0]]
+    errorFunc = Functions.halfsquareError
+    lerningRate = 0.1
+    model = getXORModellSgn()
+    print("Result:")
+    print(model.act([0,0,1]))
+    print(model.act([1,0,1]))
+    print(model.act([0,1,1]))
+    print(model.act([1,1,1]))
+
+
+    model = trainSequentialModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+
+    print("Result:")
+    print(model.act([0,0,1]))
+    print(model.act([1,0,1]))
+    print(model.act([0,1,1]))
+    print(model.act([1,1,1]))
+
+
+    return
 
     # Get errors for one layer
     model = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,0],[1,0,0]], biasValue=1, isOutput=True)
