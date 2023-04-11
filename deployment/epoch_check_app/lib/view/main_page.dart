@@ -25,38 +25,19 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  File? _image;
   bool imageChange = false;
   Classifier clas = Classifier();
 
-  Future<void> pickImageFromGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      print(pickedFile);
-      imageChange = true;
-      _image = File(pickedFile.path);
-      handleImage(context, pickedFile);
-    }
-  }
-
-  Future<void> pickImageFromCamera(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      print(pickedFile);
-      imageChange = true;
-      _image = File(pickedFile.path);
-      handleImage(context, pickedFile);
-
-    }
-  }
-
-  void handleImage(BuildContext context, XFile file) async {
+  void handleImage(BuildContext context, ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile == null) {return;}
+    imageChange = true;
     setState(() {});
-    await clas.classifyImage(_image).then((value) {
+    
+    File image = File(pickedFile.path);
+    await clas.classifyImage(image).then((value) {
       imageChange = false;
-      customModal(context: context, modal: ResultView(file: file, prediction: value,));
+      customModal(context: context, modal: ResultView(file: pickedFile, prediction: value,));
       clas.loadModel();
       setState(() {});
     },);
@@ -80,8 +61,7 @@ class _MainPageState extends State<MainPage> {
                 icon: const Icon(
                   Icons.upload,
                 ),
-                onPressed: () => pickImageFromGallery(context)
-                //customModal(context: context, modal: const ResultView()),
+                onPressed: () => handleImage(context, ImageSource.gallery)
               ),
               Text(
                 "Upload Image",
@@ -100,7 +80,7 @@ class _MainPageState extends State<MainPage> {
                     Icons.photo_camera,
                   ),
                   onPressed: () {
-                    pickImageFromCamera(context);
+                    handleImage(context, ImageSource.camera)
                   }),
               Text(
                 "Take a picture",

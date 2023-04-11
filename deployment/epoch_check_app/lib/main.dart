@@ -1,5 +1,5 @@
 import 'package:epoch_check_app/handler/design_theme.dart';
-import 'package:epoch_check_app/view/start_page.dart';
+import 'package:epoch_check_app/view/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

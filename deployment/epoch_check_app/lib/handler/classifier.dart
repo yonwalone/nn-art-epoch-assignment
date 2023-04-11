@@ -33,32 +33,29 @@ class Classifier{
     var k = await _image!.readAsBytes();
     IMG.Image? foo1 = IMG.decodeImage(k);
     IMG.Image resized = IMG.copyResize(foo1!, width: 28, height: 28);
-    var rezisedBytes = resized.getBytes();
+    var resizedBytes = resized.getBytes();
 
-    /*for (int i = 0; i < rezisedBytes.length; i++) {
-      for (int j = 0; j < rezisedBytes[i].length; j++) {
-        double grayscaleValue = 0.2989 * rezisedBytes[i][j][0] + 0.5870 * rezisedBytes[i][j][1] + 0.1140 * rezisedBytes[i][j][2];
-        rezisedBytes[i][j] = [grayscaleValue];
+    /*for (int i = 0; i < resizedBytes.length; i++) {
+      for (int j = 0; j < resizedBytes[i].length; j++) {
+        double grayscaleValue = 0.2989 * resizedBytes[i][j][0] + 0.5870 * resizedBytes[i][j][1] + 0.1140 * resizedBytes[i][j][2];
+        resizedBytes[i][j] = [grayscaleValue];
       }
     }
 
     // Add channel and batch dimensions
-    rezisedBytes = [rezisedBytes]; // Add batch dimension
-    rezisedBytes = rezisedBytes.map((image) => image.map((row) => row.map((pixel) => [pixel]).toList()).toList()).toList(); // Add channel dimension*/
+    resizedBytes = [resizedBytes]; // Add batch dimension
+    resizedBytes = resizedBytes.map((image) => image.map((row) => row.map((pixel) => [pixel]).toList()).toList()).toList(); // Add channel dimension*/
     
     final inputShape = _interpreter.getInputTensor(0).shape;
     final inputType = _interpreter.getInputTensor(0).type;
-    final foo = rezisedBytes.map((value) => value / 255.0).toList();
-    final inputBuffer = Float32List.fromList(foo);
+    final normalizedBytes = resizedBytes.map((value) => value / 255.0).toList();
+    final inputBuffer = Float32List.fromList(normalizedBytes);
 
-    _interpreter.getInputTensor(0).data = rezisedBytes;
+    _interpreter.getInputTensor(0).data = resizedBytes;
 
     // Prepare output buffer
-    var outputShapeA = [4, 10];
-    var output = List.filled(outputShapeA.reduce((a, b) => a * b), 0).reshape(outputShapeA);
-
-    final outputShape = _interpreter.getOutputTensor(0).shape;
-    final outputType = _interpreter.getOutputTensor(0).type;
+    var outputShape = [4, 10];
+    var output = List.filled(outputShape.reduce((a, b) => a * b), 0).reshape(outputShape);
 
     // Run inference
     _interpreter.run(inputBuffer, output);
@@ -72,8 +69,6 @@ class Classifier{
     }
     // Sort the list of predicted classes in decreasing order of probability
     predictedClasses.sort((a, b) => b["probability"].compareTo(a["probability"]));
-
-    //loadModel();
 
     return predictedClasses;
   }
