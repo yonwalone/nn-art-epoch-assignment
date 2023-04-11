@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Epoch-Check</title>
+    <link rel="stylesheet" href="../flask/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.15.0"></script>
+    <script src="front-end.js"></script>
+    
+  </head>
+  <body onload="init()">
+    <h1>Epoch-Check</h1>
+    <div id="image-preview"></div>
+    <form>
+      <input type="file" name="imageFile" id="imageFile" onchange="previewImage()">
+      <button type="button" onclick="check(event)">Check</button>
+    </form>
+    <div id="epochs"></div>
+    <div id="table-container"></div>
+  </body>
+</html>

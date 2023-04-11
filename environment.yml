@@ -9,3 +9,6 @@ dependencies:
   - requests
   - regex
   - selenium
+  - tensorflow
+  - keras
+  - flask

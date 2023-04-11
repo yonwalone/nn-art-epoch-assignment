@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Epoch-Check</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='front-end.js') }}"></script>
+    
+  </head>
+  <body>
+    <h1>Epoch-Check</h1>
+    <div id="image-preview"></div>
+    <form>
+      <input type="file" name="imageFile" id="imageFile" onchange="previewImage()">
+      <button type="button" onclick="check(event)">Check</button>
+    </form>
+    <div id="epochs"></div>
+    <div id="table-container"></div>
+  </body>
+</html>
