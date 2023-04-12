@@ -3,8 +3,11 @@ from foundation.functions import Functions
 
 class SequentialModel:
 
-    def __init__(self, layers) -> None:
+    def __init__(self, layers, onlyMLP = True) -> None:
         self.layers = layers
+        self.onlyMLP = onlyMLP
+
+        return
 
         #Check if model is configured correct, so there are number of initial values as Perceptons of above layer + 1
         for index in range(1, len(layers)):
@@ -19,7 +22,8 @@ class SequentialModel:
 
         # Append bias for input layer
         values_modified = values[:]
-        values_modified.append(1)
+        if self.onlyMLP:
+            values_modified.append(1)
 
         for index in range(0, len(self.layers)):
             values_modified = self.layers[index].act(values_modified)

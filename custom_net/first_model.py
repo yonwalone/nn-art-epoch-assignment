@@ -3,6 +3,8 @@ from foundation.functions import Functions
 from foundation.neuron import Percepton
 from layer.inputLayer import InputLayer
 from model import SequentialModel
+from layer.conv_layer import CONVLayer
+from layer.pooling_layer import PoolLayer
 from load_save_model import saveModel, readModelFromStorage
 
 
@@ -64,6 +66,37 @@ def trainSequentialModel(model, input, output, errorFunc, learningRate, epochs):
     return model 
 
 def main():
+
+    
+
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1,8,-1],[-1,-1,-1]], stride=2, padding=True)
+    pol = PoolLayer(function=Functions.max, toList=True)
+    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5],[1,1,1,-0.5],[1,1,1,-0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[-1, 1, 1, 1, -0.5],[-1, 1, 1, 1, -0.5]], isOutput= True)
+
+    model =  SequentialModel([conv, pol, middleLayer, outputLayer], False)
+
+    #print(model.act([[1,1,1],[1,1,1],[0,0,0]]))
+    print(model.act([[1,1,1],[0,0,0],[0,0,0]]))
+
+    input = [[[1,1,1],[0,0,0],[0,0,0]]]
+    output = [[1,0]]
+
+    print(model.act(input[0]))
+
+    model = trainSequentialModel(model=model,input=input, output=output, errorFunc=Functions.halfsquareError,learningRate=0.1, epochs=50)
+
+    print(model.act(input[0]))
+
+
+
+    return
+
+    layer = CONVLayer([])
+    layer.act(image=[[1,1,1],[1,1,1],[1,1,1]], padding=True, stride=2)
+
+    pol = PoolLayer(function=Functions.avg)
+    print(pol.act([[-1, -3, -1], [-3, 0, -3], [-1, -3, -1]]))
 
     middleLayer1 = Layer(count=3, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5],[1,1,1,-0.5]])
     middleLayer2 = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5]])
