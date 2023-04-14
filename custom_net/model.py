@@ -1,7 +1,7 @@
 from layer.layer import Layer
 from foundation.functions import Functions
 
-class SequentialModel:
+class SeqModel:
 
     def __init__(self, layers, onlyMLP = True) -> None:
         self.layers = layers
@@ -25,6 +25,7 @@ class SequentialModel:
         if self.onlyMLP:
             values_modified.append(1)
 
+        # Provide input for each layer, process input, provide result as next input
         for index in range(0, len(self.layers)):
             values_modified = self.layers[index].act(values_modified)
         return values_modified

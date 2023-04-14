@@ -1,36 +1,35 @@
+from layer.layer_interface import LayerInterface
 
-
-class CONVLayer:
+class CONVLayer(LayerInterface):
 
     def __init__(self, matrix, stride = 1, padding = False):
         self.matrix = matrix
         self.stride = stride
         self.padding = padding
 
-        self.matrix_height = len(self.matrix)
-        
-        self.matrix_width = len(self.matrix[0])
-        for parameterIndex in range(0, self.matrix_height):
-            if(len(self.matrix[parameterIndex]) != self.matrix_width):
+        # Check if matrix is square
+        for parameterIndex in range(0, len(self.matrix)):
+            if(len(self.matrix[parameterIndex]) != len(self.matrix[0])):
                 raise Exception("Matrix must has the same width in all rows")
             
     def act(self, image):
-        # image is 3 dim array or 2dim ???
-        image_height = len(image)
-        image_width = len(image[0])
-        #print(image)
+
+        # Add padding around image
         if self.padding:
             image = self.addPadding(image)
-        #print(image)
+            
+        self.image = image 
 
+        # evaluate how often the matrix is moved down and moved right per row
         necessaryRows = int((len(image) - len(self.matrix))/self.stride + 1)
         necessaryColumns = int((len(image[0]) - len(self.matrix[0]))/self.stride + 1)
         
+        # move matrix over image
         newImage = []
         for row in range(0, necessaryRows):
             newRow = []
             for column in range(0, necessaryColumns):
-                # Get value for field
+                # multiply elements at the same spot in frame and add it together
                 result = 0
                 for matrixRow in range(0, len(self.matrix)):
                     for matrixCol in range(0, len(self.matrix[0])):
@@ -39,7 +38,6 @@ class CONVLayer:
                 newRow.append(result)
             newImage.append(newRow)
 
-        #print(newImage)
         return newImage
 
     def addPadding(self, image):
@@ -73,14 +71,27 @@ class CONVLayer:
         return newImage
 
 
-
     def handleError(self, targets, errorFunc, learningRate):
+        print(self.image)
+        print(targets)
+
+        for row in range(0, len(targets)):
+            for col in range(0, len(targets[0])):
+                if targets[row][col] == 0:
+                    continue
+
+                for rowMat in range(0, len(self.matrix)):
+                    for colMat in range(0, len(self.matrix[0])):
+                        g = 9
+
+        #TODO: Continue here
+
         return None
 
     def getWeights(self):
-        return None
-
+        pass
     
 
-
-    
+    def getStructure(self):
+        pass
+ 

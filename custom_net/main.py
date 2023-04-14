@@ -1,8 +1,7 @@
 from layer.layer import Layer
 from foundation.functions import Functions
 from foundation.neuron import Percepton
-from layer.inputLayer import InputLayer
-from model import SequentialModel
+from model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from load_save_model import saveModel, readModelFromStorage
@@ -24,19 +23,17 @@ def myAnd(a,b):
 def getXORModell():
     middleLayer = Layer(count=2, function=Functions.heaviside, initialWeights=[[1,1,-1.5],[1,1,-0.5]], biasValue= 1)
     outputLayer = Layer(count=1, function=Functions.heaviside, initialWeights=[[-1, 1, -0.5]], biasValue= 1, isOutput= True)
-    return SequentialModel([middleLayer, outputLayer])
+    return SeqModel([middleLayer, outputLayer])
 
 def getXORModellSgn():
     middleLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,-1.5],[1,1,-0.5]], biasValue= 1)
     outputLayer = Layer(count=1, function=Functions.tanh, initialWeights=[[-1, 1, -0.5]], biasValue= 1, isOutput= True)
-    return SequentialModel([middleLayer, outputLayer])
+    return SeqModel([middleLayer, outputLayer])
 
 
 def xOR(a,b):
-    bias = 1
-    inputLayer = InputLayer([a,b], bias)
     model = getXORModellSgn()
-    print(model.act(inputLayer.act()))
+    print(model.act([a,b]))
 
 
 def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
@@ -51,23 +48,19 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
     return model
 
-def trainSequentialModel(model, input, output, errorFunc, learningRate, epochs):
+def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
     if len(input) != len(output):
         raise Exception("Len of inputs must equal the length of expected outputs")
     
     for epochIndex in range(0, epochs):
         for indexOutput in range(0, len(output)):
-            #print(f"Ergebnis des Netz Ausfuhrens: {model.act(input[indexOutput])}")
             model.act(input[indexOutput])
             model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
-            #print(f"Gewichte: {model.getWeights()}")
 
     print(f"Gewichte: {model.getWeights()}")
     return model 
 
 def main():
-
-    
 
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1,8,-1],[-1,-1,-1]], stride=2, padding=True)
     pol = PoolLayer(function=Functions.max, toList=True)
@@ -77,7 +70,7 @@ def main():
     #outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[-1, 1, 1, -0.5],[-1, 1, 1, -0.5]], isOutput= True)
     outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[-1, 1, 1, 1, -0.5],[-1, 1, 1, 1, -0.5]], isOutput= True)
 
-    model =  SequentialModel([conv, pol, middleLayer, outputLayer], False)
+    model =  SeqModel([conv, pol, middleLayer, outputLayer], False)
 
     #print(model.act([[1,1,1],[1,1,1],[0,0,0]]))
     print(model.act([[1,1,1],[0,0,0],[0,0,0]]))
@@ -103,7 +96,7 @@ def main():
     for index in range(0, len(input)):
         print(model.act(input[index]))
 
-    model = trainSequentialModel(model=model,input=input, output=output, errorFunc=Functions.halfsquareError,learningRate=0.1, epochs=1)
+    model = trainSeqModel(model=model,input=input, output=output, errorFunc=Functions.halfsquareError,learningRate=0.1, epochs=1)
 
     for index in range(0, len(input)):
         print(model.act(input[index]))
@@ -127,10 +120,11 @@ def main():
     middleLayer1 = Layer(count=3, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5],[1,1,1,-0.5]])
     middleLayer2 = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5]])
     outputLayer = Layer(count=1, function=Functions.tanh, initialWeights=[[-1, 1, -0.5]], isOutput= True)
-    model =  SequentialModel([middleLayer1, middleLayer2, outputLayer])
+    model =  SeqModel([middleLayer1, middleLayer2, outputLayer])
 
     #Build in check if count of input values are correct!
 
+    #Train MLP
     print(model.act([0,0,0]))
     print(model.act([0,0,1]))
     print(model.act([0,1,0]))
@@ -149,7 +143,7 @@ def main():
     errorFunc = Functions.halfsquareError
     lerningRate = 0.1
     print(f"First values: {input[0]}")
-    model = trainSequentialModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
 
     saveModel(model,'current_model.json')
 
@@ -188,7 +182,7 @@ def main():
     print(model.act([1,1,1]))
 
 
-    model = trainSequentialModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
 
     print("Result:")
     print(model.act([0,0,1]))

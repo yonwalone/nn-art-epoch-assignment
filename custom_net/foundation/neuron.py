@@ -20,7 +20,6 @@ class Percepton:
         # Get Sum of inputs
         self.sum = 0
         for index in range(0, len(self.weights)):
-            #print("Added value")
             self.sum += inputs[index] * self.weights[index]
 
 
@@ -55,23 +54,19 @@ class Percepton:
             self.out = 0
             return 0
         
-        self.out = self.sum
-        return self.out
+        raise Exception("Use valid activation function")
         
     def handleErrorOutput(self, target, errorFunc, learningRate):
-
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
 
         return self.handleGeneralError(learningRate=learningRate, errorOut=errorFromOut)
-        
-        
+         
     
     def handleError(self, errors, learningRate):
         #d E (total) / d out (of current percepton)
         errorOut = 0
-        #print(f"Lange der erhaltenen Fehler: {len(errors)}")
         for index in range(0, len(errors)):
             errorOut += errors[index]
         
@@ -94,9 +89,9 @@ class Percepton:
 
             #d Error / d Weight = errorFromOut * errorFromNet * netPerWeight
             errorFromWeight = errorOut * errorFromNet * netPerWeight
-            #print(f"ErrorFromWeight of index {index}: {errorFromWeight}")
+            
+            # Change weights based on learning rate and error
             self.weights[index] -= learningRate * errorFromWeight
-            #print(f"ResultingWeight: {self.weights[index]}")
 
             listOfErrorPerPerceptron.append(errorPerNet * self.weights[index])
 

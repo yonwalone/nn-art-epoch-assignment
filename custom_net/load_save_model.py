@@ -1,4 +1,4 @@
-from model import SequentialModel
+from model import SeqModel
 from layer.layer import Layer
 import json
 from foundation.functions import Functions
@@ -26,5 +26,5 @@ def readModelFromStorage(file):
                 initialWeights=weights[layerIndex], isOutput=structure[layerIndex][2]))
 
     f.close()
-    return SequentialModel(layer)
+    return SeqModel(layer)
 
