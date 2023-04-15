@@ -4,6 +4,13 @@ import numpy as np
 class Percepton:
 
     def __init__(self, func, weights) -> None:
+        """
+        Initialize percepton.
+
+        Args:
+            - function (Functions): activation functions for percepton
+            - weights (1dim Array): Initial weights for inputs of percepton
+        """
         self.func = func
         self.weights = weights
 
@@ -12,6 +19,15 @@ class Percepton:
         return
     
     def react(self, inputs):
+        """
+        Predict based on inputs and return responses
+
+        Args:
+            - inputs (Array): Input values for percepton
+
+        Return:
+            - outputs (Int): output of percepton
+        """
         if len(self.weights) != len(inputs):
             raise Exception("Length of weights must be equal to length of inputs")
         
@@ -57,6 +73,18 @@ class Percepton:
         raise Exception("Use valid activation function")
         
     def handleErrorOutput(self, target, errorFunc, learningRate):
+        """
+        Handle target, calculate output error, adapt weights, calculate and propagate error per input
+
+        Params:
+            -  target: expected output at last layer
+            -  errorFunc: error function to calculate error
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - (1dim Array): error per input
+
+        """
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
@@ -65,6 +93,18 @@ class Percepton:
          
     
     def handleError(self, errors, learningRate):
+        """
+        Handle errors, adapt weights, calculate and propagate error per input
+
+        Params:
+            -  errors (1dim Array): errors from lower layer from this percepton
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - (1dim Array): error per input
+
+        """
+        
         #d E (total) / d out (of current percepton)
         errorOut = 0
         for index in range(0, len(errors)):
@@ -73,6 +113,18 @@ class Percepton:
         return self.handleGeneralError(learningRate=learningRate, errorOut=errorOut)
     
     def handleGeneralError(self, learningRate, errorOut):
+        """
+        Handle output error, adapt weights, calculate and propagate error per input
+
+        Params:
+            -  learningRate (Float): Factor how strong weights are changed based on error
+            -  errorOut: Output error that should be handled
+
+        Return:
+            - errorListSorted (1dim Array): error per input
+
+        """
+
         # Get error from sum
         if self.func == Functions.tanh:
             # out = tanh(sum)
@@ -98,6 +150,12 @@ class Percepton:
         return listOfErrorPerPerceptron
 
     def getWeights(self):
+        """
+        Get weights of perceptons
+
+        Returns:
+        - weights
+        """
         return self.weights
 
 

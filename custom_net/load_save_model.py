@@ -3,7 +3,16 @@ from layer.layer import Layer
 import json
 from foundation.functions import Functions
 
+#currently only working with SeqModel and only "normal" layers
+
 def saveModel(model, file):
+    """
+    Save model to file
+
+    Params:
+        - model: Model that should be saved
+        - file: json file to be saved to
+    """
     weights = model.getWeights()
     structure = model.getStructure()
     data = {}
@@ -15,6 +24,16 @@ def saveModel(model, file):
 
 
 def readModelFromStorage(file):
+    """
+    Save model from file
+
+    Params:
+        - file: json file including model
+
+    Returns:
+        - Model read from file
+    """
+
     f = open(file)
     data = json.load(f)
     weights = data['weights']

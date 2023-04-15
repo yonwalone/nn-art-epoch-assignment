@@ -4,12 +4,30 @@ from layer.layer_interface import LayerInterface
 class PoolLayer(LayerInterface):
 
     def __init__(self, function= Functions.max, poolSize = 2, stride=1, toList = False):
+        """
+        Initialize convolutional layer.
+
+        Args:
+            - fuction (Functions): Pooling Function to be used in process
+            - poolSize (Int): Width and length of area which should be used for pooling
+            - stride (Int): Distance to move over image between pooling
+            - toList (Bool): Should information be converted into an Array
+        """
         self.poolSize = poolSize
         self.stride = stride
         self.function = function
         self.toList = toList
 
     def act(self, image):
+        """
+        Transform image based on the settings of the layer.
+
+        Args:
+            - image (2dim Array): Image to put into layer
+
+        Return:
+            - newImage: Transformed image 
+        """
         self.image = image[:]
 
         # Find (max/avg) number in each frame
@@ -52,6 +70,18 @@ class PoolLayer(LayerInterface):
         return newImage
     
     def handleError(self, targets, errorFunc, learningRate): # currently only implemeted for max function
+        """
+        Handle error for layer, change weights of matrix and propagate error further
+
+        Params:
+            -  targets: recieved error / expected output at last layer
+            -  errorFunc: error function to initially calculate error
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - errors: propagage errors further
+
+        """
 
         # Get index of maximum value per frame
         maxIndexes = []
@@ -105,7 +135,19 @@ class PoolLayer(LayerInterface):
         return resultImage
     
     def getWeights(self):
+        """
+        Get weights of layer
+
+        Returns:
+        - 
+        """
         return None
     
     def getStructure(self):
+        """
+        Get structure of layer
+
+        Returns:
+        - 
+        """
         return None

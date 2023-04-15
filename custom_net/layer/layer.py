@@ -5,6 +5,15 @@ from layer.layer_interface import LayerInterface
 class Layer(LayerInterface):
     
     def __init__(self, count, function, initialWeights, isOutput = False):
+        """
+        Initialize layer with perceptons.
+
+        Args:
+            - count (int): Number of perceptons to be created in layer
+            - function (Functions): activation functions for perceptons
+            - initial Weights (2dim Array): Initial weights for inputs of perceptons
+            - isOutput (Bool): Is output layer
+        """
         self.isOutput = isOutput
         self.function = function
 
@@ -17,6 +26,15 @@ class Layer(LayerInterface):
             self.perceptrons.append(Percepton(func=function, weights=initialWeights[index]))
 
     def act(self, inputs):
+        """
+        Execute predictions for each perceptons with inputs and return responses
+
+        Args:
+            - inputs (Array): Input values for perceptons
+
+        Return:
+            - outputs (Array): outputs of each percepton
+        """
 
         outputs = []
         # run each perceptron with input and add to list
@@ -32,6 +50,18 @@ class Layer(LayerInterface):
         return outputs
     
     def handleError(self, targets, errorFunc, learningRate):
+        """
+        Handle error for layer, force perceptons to handle error and propagate error further
+
+        Params:
+            -  targets: recieved error / expected output at last layer
+            -  errorFunc: error function to initially calculate error
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - errorListSorted (2dim Array): errors clustered by input to which the errors should be propagated
+
+        """
 
         if len(targets) != len(self.perceptrons):
             raise Exception("There must be targets for each Perceptons")
@@ -61,13 +91,22 @@ class Layer(LayerInterface):
         return errorListSorted
     
     def getWeights(self):
+        """
+        Get weights of layer
+
+        Returns:
+        - weights (2dim Array): weights of each perceptons in layer
+        """
         weights = []
         for index in range(0, len(self.perceptrons)):
             weights.append(self.perceptrons[index].getWeights())
         return weights
     
-    def getLastResults(self):
-        return self.lastResults
-    
     def getStructure(self):
+        """
+        Get structure of layer
+
+        Returns:
+        - (Array): information about structure of layer
+        """
         return [len(self.perceptrons), self.function.value, self.isOutput]

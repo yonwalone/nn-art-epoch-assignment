@@ -3,6 +3,14 @@ from layer.layer_interface import LayerInterface
 class CONVLayer(LayerInterface):
 
     def __init__(self, matrix, stride = 1, padding = False):
+        """
+        Initialize convolutional layer.
+
+        Args:
+            - matrix (2dim Array): Matrix to use in transformation
+            - stride (Int): Distance to move matrix over image
+            - padding (Bool): Should padding be added to image
+        """
         self.matrix = matrix
         self.stride = stride
         self.padding = padding
@@ -13,6 +21,15 @@ class CONVLayer(LayerInterface):
                 raise Exception("Matrix must has the same width in all rows")
             
     def act(self, image):
+        """
+        Transform image based on the settings of the layer.
+
+        Args:
+            - image (2dim Array): Image to put into layer
+
+        Return:
+            - newImage: Transformed image 
+        """
 
         # Add padding around image
         if self.padding:
@@ -41,6 +58,16 @@ class CONVLayer(LayerInterface):
         return newImage
 
     def addPadding(self, image):
+        """
+        Add padding with number 0 around the image with the width based on the matrix size
+
+        Params:
+            - image (2dim Array): Image to be padded
+
+        Return:
+            - newImage (2dim Array): Image with padding
+
+        """
         paddingNumber = len(self.matrix) -1 # Expect square
 
         newImage = []
@@ -72,8 +99,18 @@ class CONVLayer(LayerInterface):
 
 
     def handleError(self, targets, errorFunc, learningRate):
-        print(self.image)
-        print(targets)
+        """
+        Handle error for layer, change weights of matrix and propagate error further
+
+        Params:
+            -  targets: recieved error / expected output at last layer
+            -  errorFunc: error function to initially calculate error
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - errors: propagage errors further
+
+        """
 
         for row in range(0, len(targets)):
             for col in range(0, len(targets[0])):
@@ -89,9 +126,21 @@ class CONVLayer(LayerInterface):
         return None
 
     def getWeights(self):
+        """
+        Get weights of layer
+
+        Returns:
+        - 
+        """
         pass
     
 
     def getStructure(self):
+        """
+        Get structure of layer
+
+        Returns:
+        - 
+        """
         pass
  
