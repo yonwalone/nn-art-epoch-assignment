@@ -125,27 +125,27 @@ class Percepton:
 
         """
 
-        # Get error from sum
+        # Get error from activaton function
         if self.func == Functions.tanh:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
-            errorFromNet = 1- (np.tanh(self.sum) * np.tanh(self.sum))
+            errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
 
-        #d Error / d Net
-        errorPerNet = errorOut * errorFromNet
+        #d Error / d Net = 
+        errorAfterSum = errorOut * errorChangeThroughFunction
 
         listOfErrorPerPerceptron = []
 
         for index in range(0, len(self.weights)):
-            netPerWeight = self.inputs[index]
+            inputOfWeight = self.inputs[index]
 
-            #d Error / d Weight = errorFromOut * errorFromNet * netPerWeight
-            errorFromWeight = errorOut * errorFromNet * netPerWeight
+            #d Error / d Weight = errorFromOut * errorFromNet * inputOfWeight
+            errorFromWeight = errorAfterSum * inputOfWeight
             
             # Change weights based on learning rate and error
             self.weights[index] -= learningRate * errorFromWeight
 
-            listOfErrorPerPerceptron.append(errorPerNet * self.weights[index])
+            listOfErrorPerPerceptron.append(errorAfterSum * self.weights[index])
 
         return listOfErrorPerPerceptron
 

@@ -6,6 +6,7 @@ class LayerInterface:
         pass
 
     # Handle recieving targets, change weights and return errors for higher layer
+    #TODO: Rename targets to inputErrors
     def handleError(self, targets, errorFunc, learningRate):
         pass
 

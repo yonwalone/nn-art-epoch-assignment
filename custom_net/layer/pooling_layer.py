@@ -74,7 +74,7 @@ class PoolLayer(LayerInterface):
         Handle error for layer, change weights of matrix and propagate error further
 
         Params:
-            -  targets: recieved error / expected output at last layer
+            -  targets: recieved error
             -  errorFunc: error function to initially calculate error
             -  learningRate (Float): Factor how strong weights are changed based on error
 
@@ -111,6 +111,9 @@ class PoolLayer(LayerInterface):
 
                 maxIndexes.append([yPosAbsolute, xPosAbsolute])
 
+
+        #TODO: Remove duplicates?
+
         # generate image filled with 0
         resultImage = []
         for row in range(0,len(self.image)):
@@ -119,7 +122,7 @@ class PoolLayer(LayerInterface):
                 imageRow.append(0)
             resultImage.append(imageRow)
 
-        # add incoming derivate together
+        # add incoming derivates together
         derivateIn = []
         for index in range(0,len(targets)):
             value = 0

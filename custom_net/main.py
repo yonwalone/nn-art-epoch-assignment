@@ -62,6 +62,45 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
 
 def main():
 
+    
+
+    return
+
+    layer1 = Layer(count = 3, function=Functions.tanh, initialWeights=[[0.5, 0.5, 0.5,-0.5],[0.5, 0.5, 0.5 ,-0.5],[0.5, 0.5, 0.5 ,-0.5]])
+    layer15 = Layer(count = 2, function=Functions.tanh, initialWeights=[[0.5, 0.5, 0.5,-0.5],[0.5, 0.5, 0.5 ,-0.5]])
+    layer2 = Layer(count=1, function=Functions.tanh, initialWeights=[[0.5, 0.5, -0.5]], isOutput=True)
+    model = SeqModel([layer1, layer15, layer2])
+    #model = readModelFromStorage("current_model.json")
+    #print(model.getStructure())
+
+
+
+    epochs = 100
+    # Ziel A u. (B o. C)
+    input = [[0,0,0], [0,0,1], [0,1,0], [0,1,1],
+             [1,0,0], [1,0,1], [1,1,0], [1,1,1]]
+    output = [[0],[0],[0],[0],
+              [0],[1],[1],[1]]
+    errorFunc = Functions.halfsquareError
+    lerningRate = 0.2
+    print(f"First values: {input[0]}")
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
+
+    #saveModel(model,'current_model.json')
+
+    print(model.act([0,0,0]))
+    print(model.act([0,0,1]))
+    print(model.act([0,1,0]))
+    print(model.act([0,1,1]))
+    print(model.act([1,0,0]))
+    print(model.act([1,0,1]))
+    print(model.act([1,1,0]))
+    print(model.act([1,1,1]))
+
+
+
+    return
+
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1,8,-1],[-1,-1,-1]], stride=2, padding=True)
     pol = PoolLayer(function=Functions.max, toList=True)
     middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])

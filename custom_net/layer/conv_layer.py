@@ -68,6 +68,7 @@ class CONVLayer(LayerInterface):
             - newImage (2dim Array): Image with padding
 
         """
+        #TODO: Support smaller padding
         paddingNumber = len(self.matrix) -1 # Expect square
 
         newImage = []
