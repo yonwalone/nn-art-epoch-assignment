@@ -19,7 +19,7 @@ class WikiartImageScraper:
     based on the provided URL and epoch name.
     """
 
-    def __init__(self, epoch_name, start_index=None, end_index=None, selenium_needed=True):
+    def __init__(self, epoch_name, start_index=None, end_index=None):
         """
         Initializes a new WikiartImageScraper object.
 
@@ -36,15 +36,14 @@ class WikiartImageScraper:
         self.output_dir = os.path.join(PROJECT_ROOT, "data", epoch_name)
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        self.driver = webdriver.Chrome(options=self.options)
         self.painters_dict = {}
         self.image_list = []
 
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
         
-        if selenium_needed:
-            self.driver = webdriver.Chrome(options=self.options)
-            self.start_driver()
+        self.start_driver()
 
 
     def __del__(self):
@@ -65,7 +64,6 @@ class WikiartImageScraper:
         Args:
             info (string): The info which should be printed and logged.
         """
-        info = str(info)
         if not noprint:
             print(info)
 
@@ -74,7 +72,6 @@ class WikiartImageScraper:
             log_file.write(info + "\n")
     
     def print_progress_bar(self, amount, of, start_text = "Progress", end_text = "", new_line = True):
-        amount += 1
         progress = int(((amount)/of)*100)
         progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
         print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
@@ -143,7 +140,7 @@ class WikiartImageScraper:
                 buttons[0].click()
                 i = i - 1
             time.sleep(5)
-            self.print_progress_bar(i, refreshCount, start_text ="Load more", new_line = False)
+            self.print_progress_bar(i+1, refreshCount, start_text ="Load more", new_line = False)
 
 
     def load_all_images(self):
@@ -181,7 +178,7 @@ class WikiartImageScraper:
                     self.painters_dict[painter] += 1
                 else:
                     self.painters_dict[painter] = 1
-            self.print_progress_bar(index, len(items), start_text="Scanned images for painters", new_line = False)
+            self.print_progress_bar(index+1, len(items), start_text="Scanned images for painters", new_line = False)
 
 
     def get_painter_from_url(self, img_src):
@@ -272,7 +269,7 @@ class WikiartImageScraper:
                         self.painters_dict[painter] += 1
                     else:
                         self.painters_dict[painter] = 1
-                self.print_progress_bar(index, len(items),start_text="Scanned epoch painters", new_line=False)
+                self.print_progress_bar(index+1, len(items),start_text="Scanned epoch painters", new_line=False)
         except:
             self.log(f"Finding painters of epoch {epoch_name} failed.")
             return
@@ -298,7 +295,7 @@ class WikiartImageScraper:
                 self.log(f"Error by getting images from {painter}")
             
             self.log(f"Finished painter {painter} ({index})", noprint=True)
-            self.print_progress_bar(index, endIndex-startIndex, start_text="Get images from painters", end_text = f"Finished {painter}")
+            self.print_progress_bar(index+1, endIndex-startIndex, start_text="Get images from painters", end_text = f"Finished {painter}")
 
 
     def get_images_from_painter(self, painter):
@@ -414,7 +411,7 @@ class WikiartImageScraper:
 
                 # Appends the created Image to the img list
                 img_list.append(Image(url=img_src, epochs=epoch_list))
-            self.print_progress_bar(index, len(items), start_text="Images found: ", new_line=False)
+            self.print_progress_bar(index+1, len(items), start_text="Images found: ", new_line=False)
 
         return img_list
 
@@ -518,14 +515,10 @@ class WikiartImageScraper:
         Raises:
             ValueError: If an image URL does not contain a valid image extension.
         """
-        if not os.path.exists(os.path.join(self.output_dir, "images")):
-            os.mkdir(os.path.join(self.output_dir, "images"))
 
         self.log(f"Start download images {start_index}-{end_index} of epoch {self.epoch_name}")
-        end_index = min(end_index, len(self.image_list))
         # Loop through the requested image URLs and download the images.
         for index, image_url in enumerate(self.image_list[start_index:end_index]):
-            end_info = f"Downloading image {index+start_index}"
         
             image: Image = image_url
             local_file_name = image.generate_filename(index)
@@ -533,22 +526,21 @@ class WikiartImageScraper:
             # Download picture from url.
             try:
                 urllib.request.urlretrieve(image.url, os.path.join(
-                    self.output_dir, "images", f"{local_file_name}.jpg"))
+                    self.output_dir, f"{local_file_name}.jpg"))
             except Exception as e:
-                self.log(f"First download of image {index} failed", noprint=True)
+                self.log(f"First download of image {index} failed")
                 # If the initial download fails, try removing any suffixes from the image URL.
                 try:
                     img_url = image.url.replace("!Large.jpg", "").replace(
                         "!Large.png", "").replace("!Large.jpeg", "")
                     urllib.request.urlretrieve(img_url, os.path.join(
-                        self.output_dir, "images", f"{local_file_name}.jpg"))
+                        self.output_dir, f"{local_file_name}.jpg"))
                 except Exception as e:
                     # If the download still fails, print an error message and move on to the next image.
-                    self.log(f"Error downloading image from URL: {image.url}", noprint=True)
-                    end_info = f"Error at image {index+start_index}"
+                    self.log(f"Error downloading image from URL: {image.url}")
                     self.log(e)
 
-            self.print_progress_bar(index, end_index-start_index, end_text=end_info, new_line=False)
+            self.print_progress_bar(index-start_index, end_index-start_index, new_line=False)
 
 
     def save_to_file(self, file_name, dict):
@@ -822,7 +814,7 @@ class WikiartImageScraper:
                 self.log(f"Error acessing subtitle: {painter}")
                 continue
 
-            self.print_progress_bar(index, endIndex-startIndex, start_text=f"Check painters made from {self.epoch_name} ", end_text = f"Finished {painter}")
+            self.print_progress_bar(index+1, endIndex-startIndex, start_text=f"Check painters made from {self.epoch_name} ", end_text = f"Finished {painter}")
 
 
         self.painters_dict = painter_selected
