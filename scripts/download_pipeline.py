@@ -6,7 +6,15 @@ from config import EPOCHS
 print("##### Started download pipeline. #####")
 
 for epoch in EPOCHS:
-    image_scraper = WikiartImageScraper(epoch_name=epoch)
+    image_scraper = WikiartImageScraper(epoch_name=epoch, selenium_needed=False)
+
+    image_scraper.log(f"Get images of {epoch} from file.")
+    image_scraper.read_images_from_json("images.json")
+    image_scraper.log(f"{len(image_scraper.image_list)} already there")
+
+    image_scraper.log(f"Started download for {image_scraper.epoch_name}")
+    image_scraper.download_images(0,15000)
+    image_scraper.log(f"Finished download for {image_scraper.epoch_name}")
 
     continue
 
