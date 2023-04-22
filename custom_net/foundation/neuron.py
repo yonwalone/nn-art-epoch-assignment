@@ -28,6 +28,8 @@ class Percepton:
         Return:
             - outputs (Int): output of percepton
         """
+
+        #print(f"Inputs: {inputs}")
         if len(self.weights) != len(inputs):
             raise Exception("Length of weights must be equal to length of inputs")
         
@@ -61,6 +63,7 @@ class Percepton:
         
         if self.func == Functions.tanh:
             self.out = np.tanh(self.sum)
+            print(self.out)
             return self.out   
         
         if self.func == Functions.reLu:
@@ -130,6 +133,7 @@ class Percepton:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
+            print(f"Function Error {errorChangeThroughFunction}")
 
         #d Error / d Net = 
         errorAfterSum = errorOut * errorChangeThroughFunction

@@ -71,6 +71,8 @@ class CONVLayer(LayerInterface):
         #TODO: Support smaller padding
         paddingNumber = len(self.matrix) -1 # Expect square
 
+        paddingNumber = 1
+
         newImage = []
         
         # Padding lines
@@ -112,17 +114,28 @@ class CONVLayer(LayerInterface):
             - errors: propagage errors further
 
         """
+        #print("Handle")
+        # evaluate how often the matrix is moved down and moved right per row
+        necessaryRows = int((len(self.image) - len(self.matrix))/self.stride + 1)
+        necessaryColumns = int((len(self.image[0]) - len(self.matrix[0]))/self.stride + 1)
 
-        for row in range(0, len(targets)):
-            for col in range(0, len(targets[0])):
-                if targets[row][col] == 0:
+        if (necessaryRows * necessaryColumns != len(targets) * len(targets[0])):
+            raise Exception("Number of targets must match number of patches")
+        
+        #print(self.matrix)
+
+        for row in range(0, necessaryRows):
+            newRow = []
+            for column in range(0, necessaryColumns):
+                if targets[row][column] == 0:
                     continue
 
-                for rowMat in range(0, len(self.matrix)):
-                    for colMat in range(0, len(self.matrix[0])):
-                        g = 9
-
-        #TODO: Continue here
+                # For all patches  
+                for matrixRow in range(0, len(self.matrix)):
+                    for matrixCol in range(0, len(self.matrix[0])):
+                        self.matrix[matrixRow][matrixCol] += learningRate * self.matrix[matrixRow][matrixCol] * targets[row][column] * self.image[row * self.stride + matrixRow][column * self.stride + matrixCol]
+                
+        #print(self.matrix)
 
         return None
 
@@ -133,7 +146,7 @@ class CONVLayer(LayerInterface):
         Returns:
         - 
         """
-        pass
+        return self.matrix
     
 
     def getStructure(self):

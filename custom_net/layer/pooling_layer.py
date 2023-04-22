@@ -57,6 +57,8 @@ class PoolLayer(LayerInterface):
                 newRow.append(result)
             newImage.append(newRow)
 
+        #print(newImage)
+
         # Convert to 1dim list
         if self.toList:
             newList = []
@@ -66,6 +68,7 @@ class PoolLayer(LayerInterface):
             # Append 1 as bias for next layer
             newList.append(1)
             newImage = newList
+
 
         return newImage
     
@@ -82,6 +85,8 @@ class PoolLayer(LayerInterface):
             - errors: propagage errors further
 
         """
+
+        print(f"Error in Pooling: {targets}")
 
         # Get index of maximum value per frame
         maxIndexes = []
@@ -134,6 +139,8 @@ class PoolLayer(LayerInterface):
         # derivates on position where number taken for pooling 
         for derivateIndex in range(0, len(derivateIn)):
             resultImage[maxIndexes[derivateIndex][0]][maxIndexes[derivateIndex][1]] = derivateIn[derivateIndex]
+
+        print(f"Hanle Error Result Pooling: {resultImage}")
 
         return resultImage
     

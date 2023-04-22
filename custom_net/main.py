@@ -5,6 +5,7 @@ from model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from load_save_model import saveModel, readModelFromStorage
+import numpy as np
 
 
 def getInclusiveOrModel():
@@ -54,65 +55,93 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
     
     for epochIndex in range(0, epochs):
         for indexOutput in range(0, len(output)):
+            print(f"Input: {input[indexOutput]}")
+            print(f"Expected Output: {output[indexOutput]}")
             model.act(input[indexOutput])
             model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
 
-    print(f"Gewichte: {model.getWeights()}")
+    #print(f"Gewichte: {model.getWeights()}")
     return model 
 
 def main():
 
-    
+
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
+    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
+    #middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
+    outputLayer = Layer(count=1, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5]], isOutput= True)
+
+    model =  SeqModel([conv, pol, outputLayer], False)
+
+    input = [[[1,1,1],[0,0,0],[0,0,0]]]
+
+    output = [[1,-1]]
+
+    input = []
+    output = []
+
+    for i in [-1,1]:
+        for j in [-1,1]:
+            for k in [-1,1]:
+                for l in [-1,1]:
+                    for m in [-1,1]:
+                        for n in [-1,1]:
+                            for o in [-1,1]:
+                                for p in [-1,1]:
+                                    for q in [-1,1]:
+                                        #if i == 0 and j == 1 and k == 0 and l == 1 and m == 1 and n == 1 and o == 0 and p == 1 and q == 0 :
+                                        #    print("Index")
+                                        #    print(len(output))
+                                        #    output.append([1])
+                                        #else:
+                                        #    output.append([-1])
+
+                                        input.append( [[i, j, k], [l, m, n], [o, p, q]] )
+
+    for matrix in input:
+        onesTouching = 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if matrix[i][j] == 1:
+                    # Überprüfen der Nachbarelemente auf Eins
+                    if (i > 0 and matrix[i-1][j] == 1) or \
+                        (i < len(matrix)-1 and matrix[i+1][j] == 1) or \
+                        (j > 0 and matrix[i][j-1] == 1) or \
+                        (j < len(matrix[i])-1 and matrix[i][j+1] == 1):
+                            onesTouching +=1
+
+                            #break
+            #break # beende alle Schleifen, wenn eine Berührung gefunden wird
+
+        if onesTouching < 5:
+            output.append([-1])
+        else:
+            output.append([1])
+
+        #output.append([onesTouching/9])
+
+    model = trainSeqModel(model=model,input=input, output=output, errorFunc=Functions.halfsquareError,learningRate=0.1, epochs=20)
+
+    print(f"Conv Weights: {conv.getWeights()}")
+    print(f"Percepton Weights: {outputLayer.getWeights()}")
 
     return
 
-    layer1 = Layer(count = 3, function=Functions.tanh, initialWeights=[[0.5, 0.5, 0.5,-0.5],[0.5, 0.5, 0.5 ,-0.5],[0.5, 0.5, 0.5 ,-0.5]])
-    layer15 = Layer(count = 2, function=Functions.tanh, initialWeights=[[0.5, 0.5, 0.5,-0.5],[0.5, 0.5, 0.5 ,-0.5]])
-    layer2 = Layer(count=1, function=Functions.tanh, initialWeights=[[0.5, 0.5, -0.5]], isOutput=True)
-    model = SeqModel([layer1, layer15, layer2])
-    #model = readModelFromStorage("current_model.json")
-    #print(model.getStructure())
+    for index in range(0, len(input)):
+        print(input[index])
+        print(output[index])
+        print(model.act(input[index]))
 
-
-
-    epochs = 100
-    # Ziel A u. (B o. C)
-    input = [[0,0,0], [0,0,1], [0,1,0], [0,1,1],
-             [1,0,0], [1,0,1], [1,1,0], [1,1,1]]
-    output = [[0],[0],[0],[0],
-              [0],[1],[1],[1]]
-    errorFunc = Functions.halfsquareError
-    lerningRate = 0.2
-    print(f"First values: {input[0]}")
-    model = trainSeqModel(model=model, input=input, output=output, errorFunc=errorFunc, learningRate=lerningRate, epochs=epochs)
-
-    #saveModel(model,'current_model.json')
-
-    print(model.act([0,0,0]))
-    print(model.act([0,0,1]))
-    print(model.act([0,1,0]))
-    print(model.act([0,1,1]))
-    print(model.act([1,0,0]))
-    print(model.act([1,0,1]))
-    print(model.act([1,1,0]))
-    print(model.act([1,1,1]))
-
-
+    print(conv.getWeights())
 
     return
 
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1,8,-1],[-1,-1,-1]], stride=2, padding=True)
     pol = PoolLayer(function=Functions.max, toList=True)
     middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
-    #middleLayer2 = Layer(count=3, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
-    #middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,-1.5],[1,1,1,-0.5],[1,1,1,-0.5],[1,1,1,-0.5]])
-    #outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[-1, 1, 1, -0.5],[-1, 1, 1, -0.5]], isOutput= True)
     outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[-1, 1, 1, 1, -0.5],[-1, 1, 1, 1, -0.5]], isOutput= True)
 
     model =  SeqModel([conv, pol, middleLayer, outputLayer], False)
-
-    #print(model.act([[1,1,1],[1,1,1],[0,0,0]]))
-    print(model.act([[1,1,1],[0,0,0],[0,0,0]]))
 
     input = [[[1,1,1],[0,0,0],[0,0,0]],
              [[1,1,1],[1,1,1],[0,0,0]],
@@ -132,15 +161,10 @@ def main():
               [-1,1],
               ]
 
-    for index in range(0, len(input)):
-        print(model.act(input[index]))
 
-    model = trainSeqModel(model=model,input=input, output=output, errorFunc=Functions.halfsquareError,learningRate=0.1, epochs=1)
 
-    for index in range(0, len(input)):
-        print(model.act(input[index]))
 
-    return
+
     output = [[1,0],
               [1,0],
               [1,1],
