@@ -63,7 +63,7 @@ class Percepton:
         
         if self.func == Functions.tanh:
             self.out = np.tanh(self.sum)
-            print(self.out)
+            #print(self.out)
             return self.out   
         
         if self.func == Functions.reLu:
@@ -72,6 +72,10 @@ class Percepton:
                 return self.out
             self.out = 0
             return 0
+        
+        if self.func == Functions.no:
+            self.out = self.sum
+            return self.out
         
         raise Exception("Use valid activation function")
         
@@ -133,7 +137,19 @@ class Percepton:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
-            print(f"Function Error {errorChangeThroughFunction}")
+            #print(f"Function Error {errorChangeThroughFunction}")
+
+        if self.func == Functions.reLu:
+            if self.sum > 0:
+                errorChangeThroughFunction = 1
+            else:
+                errorChangeThroughFunction = 0
+                if self.sum < 0:
+                    #print("Backpropagation stopped")
+                    pass
+
+        if self.func == Functions.no:
+            errorChangeThroughFunction = 1
 
         #d Error / d Net = 
         errorAfterSum = errorOut * errorChangeThroughFunction

@@ -4,6 +4,7 @@ from foundation.neuron import Percepton
 from model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
+from layer.exclusive_layer import FooLayer
 from load_save_model import saveModel, readModelFromStorage
 import numpy as np
 
@@ -54,10 +55,17 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
         raise Exception("Len of inputs must equal the length of expected outputs")
     
     for epochIndex in range(0, epochs):
+        with open("log.txt", 'a') as log_file:
+            log_file.write("Start Epoch" + "\n")
+
         for indexOutput in range(0, len(output)):
-            print(f"Input: {input[indexOutput]}")
-            print(f"Expected Output: {output[indexOutput]}")
-            model.act(input[indexOutput])
+            #print(f"Input: {input[indexOutput]}")
+            #print(f"Expected Output: {output[indexOutput]}")
+
+            with open("log.txt", 'a') as log_file:
+                log_file.write(str(output[indexOutput]) + "\n")
+
+            print(model.act(input[indexOutput]))
             model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
 
     #print(f"Gewichte: {model.getWeights()}")
@@ -65,6 +73,42 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
 
 def main():
 
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
+    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
+    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
+    exc = FooLayer()
+
+    model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
+
+    input = []
+    output = []
+
+    for i in [-1,1]:
+        for j in [-1,1]:
+            for k in [-1,1]:
+                for l in [-1,1]:
+                    for m in [-1,1]:
+                        for n in [-1,1]:
+                            for o in [-1,1]:
+                                for p in [-1,1]:
+                                    for q in [-1,1]:
+                                        input.append( [[i, j, k], [l, m, n], [o, p, q]] )
+    
+    for matrix in input:
+        print(matrix)
+
+        if matrix[0] == [1,1,1]:
+            output.append([1,0])
+        else:
+            output.append([0,1])
+
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.2, epochs=10)
+
+
+    return
+
+    #Problem verschwindener Gradient
 
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
     pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)

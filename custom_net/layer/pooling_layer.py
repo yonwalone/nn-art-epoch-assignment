@@ -140,7 +140,7 @@ class PoolLayer(LayerInterface):
         for derivateIndex in range(0, len(derivateIn)):
             resultImage[maxIndexes[derivateIndex][0]][maxIndexes[derivateIndex][1]] = derivateIn[derivateIndex]
 
-        print(f"Hanle Error Result Pooling: {resultImage}")
+        #print(f"Hanle Error Result Pooling: {resultImage}")
 
         return resultImage
     

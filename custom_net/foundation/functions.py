@@ -7,6 +7,7 @@ class Functions(Enum):
     sgn = 1
     tanh = 2
     reLu = 3
+    no = 4
 
     # Error Functions
     halfsquareError = 100
