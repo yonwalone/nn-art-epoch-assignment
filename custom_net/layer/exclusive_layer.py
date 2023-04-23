@@ -7,6 +7,9 @@ class FooLayer(LayerInterface):
     def act(self, input):
         #print(input)
 
+        with open("log.txt", 'a') as log_file:
+            log_file.write(str(input) + "\n")
+
         #TODO: what if inputs are negative?
         self.input = input
         sum = 0
@@ -17,8 +20,13 @@ class FooLayer(LayerInterface):
         self.sum = sum
 
         result = []
-        for index in range(0, len(input)):
-            result.append(input[index]/sum)
+        if sum != 0:
+            for index in range(0, len(input)):
+                result.append(input[index]/sum)
+        else:
+            for index in range(0, len(input)):
+                result.append(input[index])
+
 
         with open("log.txt", 'a') as log_file:
             log_file.write(str(result) + "\n")
@@ -30,6 +38,9 @@ class FooLayer(LayerInterface):
         newTargets = []
         for target in targets:
             newTargets.append(target * self.sum)
+
+        with open("log.txt", 'a') as log_file:
+            log_file.write(str(newTargets) + "\n")
 
         return newTargets
 

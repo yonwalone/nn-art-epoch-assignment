@@ -140,7 +140,7 @@ class Percepton:
             #print(f"Function Error {errorChangeThroughFunction}")
 
         if self.func == Functions.reLu:
-            if self.sum > 0:
+            if self.sum >= 0:
                 errorChangeThroughFunction = 1
             else:
                 errorChangeThroughFunction = 0

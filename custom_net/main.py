@@ -67,11 +67,11 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
 
             print(model.act(input[indexOutput]))
             model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
-
-    #print(f"Gewichte: {model.getWeights()}")
     return model 
 
 def main():
+
+    # Problem in 1, 2 Versuchen Gewichte von [0,1] zu [1,0] geändert => zu starkes anpassen
 
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
     pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
@@ -103,7 +103,30 @@ def main():
         else:
             output.append([0,1])
 
-    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.2, epochs=10)
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+
+    errorCount = 0
+
+    print("Test")
+    print(model.act(input[511]))
+
+    for index in range(0, len(input)):
+        result = model.act(input[index])
+        if ((output[index][0] < 0.5  and result[0] < 0.5) or \
+           (output[index][0] > 0.5  and result[0] > 0.5) ) and \
+           ((output[index][1] < 0.5  and result[1] < 0.5) or \
+           (output[index][1] > 0.5  and result[1] > 0.5) ):
+            pass
+        else:
+            errorCount +=1
+            with open("error.txt", 'a') as log_file:
+                log_file.write(str(output[index]) + "\n")
+                log_file.write(str(result) + "\n")
+
+    print(f"Wrong labled: {errorCount}")        
+
+
+    print(conv.getWeights())
 
 
     return
