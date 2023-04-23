@@ -1,7 +1,7 @@
 from model import SeqModel
 from layer.layer import Layer
 import json
-from foundation.functions import Functions
+from foundation.enums import Functions
 
 #currently only working with SeqModel and only "normal" layers
 
@@ -40,9 +40,9 @@ def readModelFromStorage(file):
     structure = data['structure']
 
     layer = []
-    for layerIndex in range(0, len(structure)):
-        layer.append(Layer(count = structure[layerIndex][0], function=Functions(structure[layerIndex][1]), 
-                initialWeights=weights[layerIndex], isOutput=structure[layerIndex][2]))
+    for layerIndex, currLayer in enumerate(structure):
+        layer.append(Layer(count = currLayer[0], function=Functions(currLayer[1]), 
+                initialWeights=weights[layerIndex], isOutput=currLayer[2]))
 
     f.close()
     return SeqModel(layer)

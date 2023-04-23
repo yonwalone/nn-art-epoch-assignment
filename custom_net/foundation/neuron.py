@@ -1,4 +1,4 @@
-from foundation.functions import Functions
+from foundation.enums import Functions
 import numpy as np
 
 class Percepton:
@@ -49,35 +49,30 @@ class Percepton:
             else:
                 self.out = 1
                 return 1
-    
-        if self.func == Functions.sgn:
+        elif self.func == Functions.sgn:
             if self.sum < 0:
                 self.out = -1
                 return -1
             if self.sum == 0:
                 self.out = 0
                 return 0
-            
             self.out = 1
             return 1
-        
-        if self.func == Functions.tanh:
+        elif self.func == Functions.tanh:
             self.out = np.tanh(self.sum)
             #print(self.out)
             return self.out   
-        
-        if self.func == Functions.reLu:
+        elif self.func == Functions.reLu:
             if self.sum > 0:
                 self.out = self.sum
                 return self.out
             self.out = 0
             return 0
-        
-        if self.func == Functions.no:
+        elif self.func == Functions.no:
             self.out = self.sum
             return self.out
-        
-        raise Exception("Use valid activation function")
+        else:
+            raise Exception("Use valid activation function")
         
     def handleErrorOutput(self, target, errorFunc, learningRate):
         """
@@ -114,8 +109,8 @@ class Percepton:
         
         #d E (total) / d out (of current percepton)
         errorOut = 0
-        for index in range(0, len(errors)):
-            errorOut += errors[index]
+        for error in errors:
+            errorOut += error
         
         return self.handleGeneralError(learningRate=learningRate, errorOut=errorOut)
     
@@ -138,8 +133,7 @@ class Percepton:
             # d out / d net = 1 - tanh(sum)^2
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
             #print(f"Function Error {errorChangeThroughFunction}")
-
-        if self.func == Functions.reLu:
+        elif self.func == Functions.reLu:
             if self.sum > 0:
                 errorChangeThroughFunction = 1
             else:
@@ -147,8 +141,7 @@ class Percepton:
                 if self.sum < 0:
                     #print("Backpropagation stopped")
                     pass
-
-        if self.func == Functions.no:
+        elif self.func == Functions.no:
             errorChangeThroughFunction = 1
 
         #d Error / d Net = 

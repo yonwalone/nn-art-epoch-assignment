@@ -1,5 +1,5 @@
 from layer.layer import Layer
-from foundation.functions import Functions
+from foundation.enums import Functions
 from foundation.neuron import Percepton
 from model import SeqModel
 from layer.conv_layer import CONVLayer
@@ -58,15 +58,15 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
         with open("log.txt", 'a') as log_file:
             log_file.write("Start Epoch" + "\n")
 
-        for indexOutput in range(0, len(output)):
+        for index, currOutput in enumerate(output):
             #print(f"Input: {input[indexOutput]}")
             #print(f"Expected Output: {output[indexOutput]}")
 
             with open("log.txt", 'a') as log_file:
-                log_file.write(str(output[indexOutput]) + "\n")
+                log_file.write(str(currOutput) + "\n")
 
-            print(model.act(input[indexOutput]))
-            model.handleError(targets=output[indexOutput], errorFunc=errorFunc, learningRate=learningRate)
+            print(model.act(input[index]))
+            model.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
 
     #print(f"Gewichte: {model.getWeights()}")
     return model 

@@ -15,3 +15,8 @@ class Functions(Enum):
     # Pooling Functions
     max = 200
     avg = 201
+
+class PaddingType(Enum):
+    valid = 0
+    same = 1
+    full = 2

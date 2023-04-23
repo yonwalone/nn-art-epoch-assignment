@@ -2,7 +2,7 @@
 class LayerInterface:
 
     # Process input and return response of layer
-    def act(self, input):
+    def act(self, inputs):
         pass
 
     # Handle recieving targets, change weights and return errors for higher layer

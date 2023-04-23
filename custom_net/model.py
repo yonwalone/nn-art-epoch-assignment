@@ -1,5 +1,5 @@
 from layer.layer import Layer
-from foundation.functions import Functions
+from foundation.enums import Functions
 
 class SeqModel:
 
@@ -45,8 +45,8 @@ class SeqModel:
             values_modified.append(1)
 
         # Provide input for each layer, process input, provide result as next input
-        for index in range(0, len(self.layers)):
-            values_modified = self.layers[index].act(values_modified)
+        for layer in self.layers:
+            values_modified = layer.act(values_modified)
         return values_modified
     
     def handleError(self, targets, errorFunc, learningRate):
@@ -58,9 +58,9 @@ class SeqModel:
             -  errorFunc: error function to initially calculate error
             -  learningRate (Float): Factor how strong weights are changed based on error
         """
-        for index in range(0, len(self.layers)):
+        for layer in reversed(self.layers):
             # handle error from last to first layer
-            targets = self.layers[len(self.layers) - index -1].handleError(targets, errorFunc, learningRate)
+            targets = layer.handleError(targets, errorFunc, learningRate)
 
     def getWeights(self):
         """
@@ -70,8 +70,8 @@ class SeqModel:
         - weights (3dim Array): weights of each perceptons in layers
         """
         weights = []
-        for index in range(0, len(self.layers)):
-            weights.append(self.layers[index].getWeights())
+        for layer in self.layers:
+            weights.append(layer.getWeights())
         return weights
     
     def getStructure(self):
@@ -82,6 +82,6 @@ class SeqModel:
         - structure (2dim Array): information about structure of model
         """
         structure = []
-        for index in range(0, len(self.layers)):
-            structure.append(self.layers[index].getStructure())
+        for layer in self.layers:
+            structure.append(layer.getStructure())
         return structure

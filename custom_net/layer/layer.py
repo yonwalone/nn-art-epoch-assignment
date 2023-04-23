@@ -1,5 +1,5 @@
 from foundation.neuron import Percepton
-from foundation.functions import Functions
+from foundation.enums import Functions
 from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):
@@ -22,8 +22,7 @@ class Layer(LayerInterface):
 
         # Create perceptrons of layer
         self.perceptrons = []
-        for index in range(0, count):
-            self.perceptrons.append(Percepton(func=function, weights=initialWeights[index]))
+        self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
 
     def act(self, inputs):
         """
@@ -38,8 +37,8 @@ class Layer(LayerInterface):
 
         outputs = []
         # run each perceptron with input and add to list
-        for index in range (0, len(self.perceptrons)):
-            outputs.append(self.perceptrons[index].react(inputs))
+        for perceptron in self.perceptrons:
+            outputs.append(perceptron.react(inputs))
         
         # append bias
         if not self.isOutput:
@@ -68,21 +67,21 @@ class Layer(LayerInterface):
             
         errorList = []
         # Handle error for each perceptron
-        for index in range(0, len(self.perceptrons)):
+        for index, perceptron in enumerate(self.perceptrons):
             if self.isOutput:
                 #targets is array
-                errorList.append(self.perceptrons[index].handleErrorOutput(targets[index], errorFunc, learningRate))
+                errorList.append(perceptron.handleErrorOutput(targets[index], errorFunc, learningRate))
             else:
                 #targets is 2dim array
-                errorList.append(self.perceptrons[index].handleError(targets[index], learningRate))
+                errorList.append(perceptron.handleError(targets[index], learningRate))
 
         # Sort errors for each input
         numberOfInputs = len(errorList[0])
         errorListSorted = []
         for index in range(0, numberOfInputs):
             errorsOfInput = []
-            for i in range(0,len(errorList)):
-                errorsOfInput.append(errorList[i][index])
+            for error in errorList:
+                errorsOfInput.append(error[index])
             errorListSorted.append(errorsOfInput)
 
         # Remove last element, because further optimization for bias is not possible
@@ -98,8 +97,8 @@ class Layer(LayerInterface):
         - weights (2dim Array): weights of each perceptons in layer
         """
         weights = []
-        for index in range(0, len(self.perceptrons)):
-            weights.append(self.perceptrons[index].getWeights())
+        for perceptron in self.perceptrons:
+            weights.append(perceptron.getWeights())
         return weights
     
     def getStructure(self):

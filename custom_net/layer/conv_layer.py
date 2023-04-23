@@ -1,8 +1,9 @@
+from foundation.enums import PaddingType
 from layer.layer_interface import LayerInterface
 
 class CONVLayer(LayerInterface):
 
-    def __init__(self, matrix, stride = 1, padding = False):
+    def __init__(self, matrix, stride = 1, padding = PaddingType.valid):
         """
         Initialize convolutional layer.
 
@@ -15,10 +16,10 @@ class CONVLayer(LayerInterface):
         self.stride = stride
         self.padding = padding
 
-        # Check if matrix is square
-        for parameterIndex in range(0, len(self.matrix)):
-            if(len(self.matrix[parameterIndex]) != len(self.matrix[0])):
-                raise Exception("Matrix must has the same width in all rows")
+        # Check if matrix is allowed
+        if any(len(row) != len(self.matrix[0]) for row in self.matrix):
+            raise Exception("Matrix must have the same width in all rows")
+
             
     def act(self, image):
         """
@@ -32,8 +33,7 @@ class CONVLayer(LayerInterface):
         """
 
         # Add padding around image
-        if self.padding:
-            image = self.addPadding(image)
+        image = self.addPadding(image)
             
         self.image = image 
 
@@ -69,34 +69,28 @@ class CONVLayer(LayerInterface):
 
         """
         #TODO: Support smaller padding
-        paddingNumber = len(self.matrix) -1 # Expect square
-
-        paddingNumber = 1
+        paddingNumber = 0
+        matLen = len(self.matrix)
+        if self.padding == PaddingType.same:
+            paddingNumber = max(matLen - self.stride, 0) // 2 
+        if self.padding == PaddingType.full:
+            paddingNumber = matLen - 1
 
         newImage = []
         
         # Padding lines
-        paddingLine = []
-        for i in range(0, len(image[0]) + 2 * paddingNumber):
-            paddingLine.append(0)
+        paddingLine = [0] * (len(image[0]) + 2 * paddingNumber)
 
-        #Append start padding
-        for index in range(0, paddingNumber):
-            newImage.append(paddingLine)
-           
-        #Add padding to begin and ending of line
-        for line in range(0, len(image)):
-            imageLine = []
-            for index in range(0, paddingNumber):
-                imageLine.append(0)
-            imageLine += image[line]
-            for index in range(0, paddingNumber):
-                imageLine.append(0)
-            newImage.append(imageLine)
+        # Append start padding
+        newImage.extend([paddingLine] * paddingNumber)
 
-        #Append end padding
-        for index in range(0, paddingNumber):
-            newImage.append(paddingLine)
+        # Add padding to beginning and end of each row
+        for row in image:
+            padded_row = [0] * paddingNumber + row + [0] * paddingNumber
+            newImage.append(padded_row)
+
+        # Append end padding
+        newImage.extend([paddingLine] * paddingNumber)
 
         return newImage
 
@@ -124,16 +118,21 @@ class CONVLayer(LayerInterface):
         
         #print(self.matrix)
 
-        for row in range(0, necessaryRows):
-            newRow = []
-            for column in range(0, necessaryColumns):
-                if targets[row][column] == 0:
+        for rowIndex in range(0, necessaryRows):
+            for columnIndex in range(0, necessaryColumns):
+                if targets[rowIndex][columnIndex] == 0:
                     continue
 
                 # For all patches  
-                for matrixRow in range(0, len(self.matrix)):
-                    for matrixCol in range(0, len(self.matrix[0])):
-                        self.matrix[matrixRow][matrixCol] += learningRate * self.matrix[matrixRow][matrixCol] * targets[row][column] * self.image[row * self.stride + matrixRow][column * self.stride + matrixCol]
+                for matrixRowIndex in range(0, len(self.matrix)):
+                    for matrixColIndex in range(0, len(self.matrix[0])):
+                        self.matrix[matrixRowIndex][matrixColIndex] += (
+                            learningRate * 
+                            self.matrix[matrixRowIndex][matrixColIndex] * 
+                            targets[rowIndex][columnIndex] * 
+                            self.image[rowIndex * self.stride + matrixRowIndex][columnIndex * self.stride + matrixColIndex]
+                        )
+
                 
         #print(self.matrix)
 
