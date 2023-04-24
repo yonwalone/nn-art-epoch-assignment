@@ -1,4 +1,4 @@
-from foundation.neuron import Percepton
+from foundation.percepton import Percepton
 from foundation.enums import Functions
 from layer.layer_interface import LayerInterface
 
@@ -38,7 +38,7 @@ class Layer(LayerInterface):
         outputs = []
         # run each perceptron with input and add to list
         for perceptron in self.perceptrons:
-            outputs.append(perceptron.react(inputs))
+            outputs.append(perceptron.act(inputs))
         
         # append bias
         if not self.isOutput:

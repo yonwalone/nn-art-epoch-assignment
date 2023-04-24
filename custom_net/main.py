@@ -1,10 +1,10 @@
 from layer.layer import Layer
 from foundation.enums import Functions, PaddingType
-from foundation.neuron import Percepton
+from foundation.percepton import Percepton
 from model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
-from layer.exclusive_layer import FooLayer
+from layer.softmax_layer import SoftMaxLayer
 from load_save_model import saveModel, readModelFromStorage
 import numpy as np
 
@@ -50,21 +50,6 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
     return model
 
-def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
-    if len(input) != len(output):
-        raise Exception("Len of inputs must equal the length of expected outputs")
-    
-    for epochIndex in range(0, epochs):
-
-        for index, currOutput in enumerate(output):
-            #print(f"Input: {input[indexOutput]}")
-            #print(f"Expected Output: {output[indexOutput]}")
-
-            model.act(input[index])
-            model.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
-
-    #print(f"Gewichte: {model.getWeights()}")
-    return model 
 
 def main():
 
@@ -72,7 +57,7 @@ def main():
     pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
     middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
     outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
-    exc = FooLayer()
+    exc = SoftMaxLayer()
 
     model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
 
@@ -97,7 +82,7 @@ def main():
         else:
             output.append([0,1])
 
-    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
 
     errorCount = 0
 

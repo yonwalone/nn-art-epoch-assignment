@@ -1,5 +1,6 @@
 from layer.layer_interface import LayerInterface
-class FooLayer(LayerInterface):
+
+class SoftMaxLayer(LayerInterface):
 
     def __init__(self) -> None:
         pass

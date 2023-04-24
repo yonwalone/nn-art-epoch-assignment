@@ -85,3 +85,18 @@ class SeqModel:
         for layer in self.layers:
             structure.append(layer.getStructure())
         return structure
+
+    def train(self, input, output, errorFunc, learningRate, epochs):
+        if len(input) != len(output):
+            raise Exception("Len of inputs must equal the length of expected outputs")
+        
+        for epochIndex in range(0, epochs):
+
+            for index, currOutput in enumerate(output):
+                #print(f"Input: {input[indexOutput]}")
+                #print(f"Expected Output: {output[indexOutput]}")
+
+                self.act(input[index])
+                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
+
+        #print(f"Gewichte: {model.getWeights()}")

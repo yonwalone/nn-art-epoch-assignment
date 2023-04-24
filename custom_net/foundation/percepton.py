@@ -18,7 +18,7 @@ class Percepton:
         self.out = None
         return
     
-    def react(self, inputs):
+    def act(self, inputs):
         """
         Predict based on inputs and return responses
 
