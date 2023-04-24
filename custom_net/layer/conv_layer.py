@@ -126,11 +126,10 @@ class CONVLayer(LayerInterface):
                 # For all patches  
                 for matrixRowIndex in range(0, len(self.matrix)):
                     for matrixColIndex in range(0, len(self.matrix[0])):
-                        self.matrix[matrixRowIndex][matrixColIndex] += (
-                            learningRate * 
-                            self.matrix[matrixRowIndex][matrixColIndex] * 
-                            targets[rowIndex][columnIndex] * 
-                            self.image[rowIndex * self.stride + matrixRowIndex][columnIndex * self.stride + matrixColIndex]
+                        self.matrix[matrixRowIndex][matrixColIndex] -= (
+                            learningRate *  
+                            targets[rowIndex][columnIndex] #/
+                            #self.matrix[matrixRowIndex][matrixColIndex]
                         )
 
                 

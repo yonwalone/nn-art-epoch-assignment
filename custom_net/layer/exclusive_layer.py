@@ -13,10 +13,7 @@ class FooLayer(LayerInterface):
 
         result = []
         for input in inputs:
-            result.append(input/sum)
-
-        with open("log.txt", 'a') as log_file:
-            log_file.write(str(result) + "\n")
+            result.append(input/self.sum)
 
         return result
     

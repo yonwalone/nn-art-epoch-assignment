@@ -1,4 +1,4 @@
-from foundation.functions import Functions
+from foundation.enums import Functions
 from layer.layer_interface import LayerInterface
 
 class PoolLayer(LayerInterface):
@@ -83,7 +83,7 @@ class PoolLayer(LayerInterface):
 
         """
 
-        print(f"Error in Pooling: {targets}")
+        #print(f"Error in Pooling: {targets}")
 
         # Get index of maximum value per frame
         relevantIndexes = []

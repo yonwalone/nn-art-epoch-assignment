@@ -1,5 +1,5 @@
 from layer.layer import Layer
-from foundation.enums import Functions
+from foundation.enums import Functions, PaddingType
 from foundation.neuron import Percepton
 from model import SeqModel
 from layer.conv_layer import CONVLayer
@@ -55,17 +55,12 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
         raise Exception("Len of inputs must equal the length of expected outputs")
     
     for epochIndex in range(0, epochs):
-        with open("log.txt", 'a') as log_file:
-            log_file.write("Start Epoch" + "\n")
 
         for index, currOutput in enumerate(output):
             #print(f"Input: {input[indexOutput]}")
             #print(f"Expected Output: {output[indexOutput]}")
 
-            with open("log.txt", 'a') as log_file:
-                log_file.write(str(currOutput) + "\n")
-
-            print(model.act(input[index]))
+            model.act(input[index])
             model.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
 
     #print(f"Gewichte: {model.getWeights()}")
@@ -73,7 +68,7 @@ def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
 
 def main():
 
-    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
     pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
     middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
     outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
@@ -96,14 +91,30 @@ def main():
                                         input.append( [[i, j, k], [l, m, n], [o, p, q]] )
     
     for matrix in input:
-        print(matrix)
 
         if matrix[0] == [1,1,1]:
             output.append([1,0])
         else:
             output.append([0,1])
 
-    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.2, epochs=10)
+    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+
+    errorCount = 0
+
+    print("Test")
+    print(model.act(input[511]))
+
+    for index in range(0, len(input)):
+        result = model.act(input[index])
+        if ((output[index][0] < 0.5  and result[0] < 0.5) or \
+           (output[index][0] > 0.5  and result[0] > 0.5) ) and \
+           ((output[index][1] < 0.5  and result[1] < 0.5) or \
+           (output[index][1] > 0.5  and result[1] > 0.5) ):
+            pass
+        else:
+            errorCount +=1
+
+    print(f"Wrong labled: {errorCount}")
 
 
     return
