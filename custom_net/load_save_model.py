@@ -3,6 +3,7 @@ from layer.layer import Layer
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
+from layer.flatten_layer import FlattenLayer
 import json
 from foundation.enums import Functions, LayerType, PaddingType
 
@@ -51,9 +52,11 @@ def readModelFromStorage(file):
             layer.append(CONVLayer(matrix=value[0], stride=value[1], padding=PaddingType(value[2])))
         elif type == LayerType.pool:
             value = currLayer[1]
-            layer.append(PoolLayer(function = Functions(value[0]), poolSize= value[1], stride=value[2], toList=value[3]))
+            layer.append(PoolLayer(function = Functions(value[0]), poolSize= value[1], stride=value[2]))
         elif type == LayerType.softmax:
             layer.append(SoftMaxLayer())
+        elif type == LayerType.flatten:
+            layer.append(FlattenLayer())
         else:
             raise Exception("Not valid LayerType")
 

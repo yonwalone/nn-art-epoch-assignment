@@ -113,13 +113,11 @@ class CONVLayer(LayerInterface):
 
         outputLen = len(self.image) - len(self.matrix) - self.stride  + 2
 
-        #print(outputLen)
 
         #print(f"Input: {targets}")
         #print(f"Image: {self.image}")
 
         # Calculate kernal gradients
-
         kernalGradient = [[0 for _ in self.matrix[0]] for _ in self.matrix]
 
         necessaryRows = int((len(self.image) - len(targets))/self.stride + 1)
@@ -137,8 +135,9 @@ class CONVLayer(LayerInterface):
 
         #print(f"KernalGradient: {kernalGradient}")
 
+        # Calculate input gradients
 
-        #pad output gradient with 0 around
+        # pad output gradient with 0 around
         extendedGradient = []
 
         firstline = []
@@ -156,15 +155,12 @@ class CONVLayer(LayerInterface):
 
         #print(extendedGradient)
 
-        # Calculate input gradients
         necessaryRows = int((len(extendedGradient) - len(self.matrix))/self.stride + 1)
         necessaryColumns = int((len(extendedGradient[0]) - len(self.matrix[0]))/self.stride + 1)
 
-        #print(necessaryRows)
-        #print(necessaryColumns)
-
         inputGradients = [[0 for _ in range(0, necessaryColumns)] for _ in range(0, necessaryRows)]
 
+        # Move matrix over extended gradients
         for rowIndex in range(0, necessaryRows):
             for columnIndex in range(0, necessaryColumns):
 
@@ -174,7 +170,6 @@ class CONVLayer(LayerInterface):
                         val += extendedGradient[rowIndex * self.stride + targetRowIndex][columnIndex * self.stride + targetColIndex] * self.matrix[targetRowIndex][targetColIndex]
                 inputGradients[rowIndex][columnIndex] = val
 
-        #print(f"InputGradients: {inputGradients}")
 
         # Adapt Gradients of matrix
         for rowIndex in range(0, len(self.matrix)):
@@ -182,7 +177,13 @@ class CONVLayer(LayerInterface):
                 self.matrix[rowIndex][rowCol] -= learningRate * kernalGradient[rowIndex][rowCol]
         #print(self.matrix)
 
-        return inputGradients
+        # convert outputs to 1dim list
+        errors = []
+        for rowIndex in range(0, len(inputGradients)):
+            for colIndex in range(0, len(inputGradients[rowIndex])):
+                errors.append(inputGradients[rowIndex][colIndex])
+
+        return errors
 
     def getWeights(self):
         """

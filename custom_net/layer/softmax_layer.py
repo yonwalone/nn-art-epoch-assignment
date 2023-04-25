@@ -4,10 +4,21 @@ from foundation.enums import LayerType
 class SoftMaxLayer(LayerInterface):
 
     def __init__(self) -> None:
+        """
+        Initialize softmax layer.
+        """
         pass
 
     def act(self, inputs):
-        #print(input)
+        """
+        Normalize outputs to 100%
+
+        Params:
+            - inputs: output values
+
+        Returns:
+            - newList: normalized outputs
+        """
 
         #TODO: what if inputs are negative?
         self.inputs = inputs
@@ -23,6 +34,18 @@ class SoftMaxLayer(LayerInterface):
         return result
     
     def handleError(self, targets, errorFunc, learningRate):
+        """
+        Convert targets to match the recent sum
+
+        Params:
+            -  targets: expected output
+            -  errorFunc: error function to initially calculate error
+            -  learningRate (Float): Factor how strong weights are changed based on error
+
+        Return:
+            - newTargets (1dim Array): targets for layer before
+            
+        """
         
         newTargets = []
         for target in targets:
@@ -31,6 +54,12 @@ class SoftMaxLayer(LayerInterface):
         return newTargets
 
     def getStructure(self):
+        """
+        Get structure of layer
+
+        Returns:
+        - (Array): information about structure of layer
+        """
         return [LayerType.softmax.value]
 
         

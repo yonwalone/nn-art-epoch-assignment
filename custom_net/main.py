@@ -5,6 +5,7 @@ from model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
+from layer.flatten_layer import FlattenLayer
 from load_save_model import saveModel, readModelFromStorage
 import numpy as np
 
@@ -54,14 +55,15 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 def main():
 
     conv1 = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
-    pol1 = PoolLayer(poolSize=2, function=Functions.max, toList=False)
+    pol1 = PoolLayer(poolSize=2, function=Functions.max)
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
-    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
+    pol = PoolLayer(poolSize=2, function=Functions.max)
+    flat = FlattenLayer()
     middleLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1, -0.5]])
     outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, -0.5],[-1, -1, 0.5]], isOutput= True)
     exc = SoftMaxLayer()
 
-    model =  SeqModel([conv1, pol1, conv, pol, middleLayer, outputLayer, exc], False)
+    model =  SeqModel([conv1, pol1, conv, pol, flat, middleLayer, outputLayer, exc], False)
 
     #model = readModelFromStorage("current_model.json")
 

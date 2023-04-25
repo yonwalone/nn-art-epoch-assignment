@@ -3,7 +3,7 @@ from layer.layer_interface import LayerInterface
 
 class PoolLayer(LayerInterface):
 
-    def __init__(self, function= Functions.max, poolSize = 2, stride=1, toList = False):
+    def __init__(self, function= Functions.max, poolSize = 2, stride=1):
         """
         Initialize convolutional layer.
 
@@ -11,12 +11,10 @@ class PoolLayer(LayerInterface):
             - fuction (Functions): Pooling Function to be used in process
             - poolSize (Int): Width and length of area which should be used for pooling
             - stride (Int): Distance to move over image between pooling
-            - toList (Bool): Should information be converted into an Array
         """
         self.function = function
         self.poolSize = poolSize
         self.stride = stride
-        self.toList = toList
 
     def act(self, image):
         """
@@ -55,17 +53,6 @@ class PoolLayer(LayerInterface):
             newImage.append(newRow)
 
         #print(newImage)
-
-        # Convert to 1dim list
-        if self.toList:
-            newList = []
-            for element in newImage:
-                newList += element
-
-            # Append 1 as bias for next layer
-            newList.append(1)
-            newImage = newList
-
 
         return newImage
     
@@ -118,32 +105,10 @@ class PoolLayer(LayerInterface):
 
         # generate image filled with 0
         resultImage = [[0 for _ in self.image[0]] for _ in self.image]
-
-        if self.toList:
-
-            # add incoming derivates together
-            derivateIn = []
-            for target in targets:
-                value = 0
-                for val in target:
-                    value += val
-                    #print(value)
-                derivateIn.append(value)
-            print(f"Derivat In: {derivateIn}")
-            
-        else:
-            derivateIn = []
-            for rowIndex in range(0, len(targets)):
-                for colIndex in range(0, len(targets[rowIndex])):
-                    derivateIn.append(targets[rowIndex][colIndex])
-
-            print(f"Derivat In B: {derivateIn}")
                 
 
-            
-
         # derivates on position where number taken for pooling 
-        for derivateIndex, derivate in enumerate(derivateIn):
+        for derivateIndex, derivate in enumerate(targets):
             resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = derivate
 
         print(f"Hanle Error Result Pooling: {resultImage}")
@@ -166,4 +131,4 @@ class PoolLayer(LayerInterface):
         Returns:
         - 
         """
-        return [LayerType.pool.value, [self.function.value, self.poolSize, self.stride, self.toList]]
+        return [LayerType.pool.value, [self.function.value, self.poolSize, self.stride]]

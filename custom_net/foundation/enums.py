@@ -27,3 +27,4 @@ class LayerType(Enum):
     conv = 1
     pool = 2
     softmax = 3
+    flatten = 4
