@@ -53,13 +53,15 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
 def main():
 
+    conv1 = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
+    pol1 = PoolLayer(poolSize=2, function=Functions.max, toList=False)
     conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
     pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
-    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
-    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
+    middleLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1, -0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, -0.5],[-1, -1, 0.5]], isOutput= True)
     exc = SoftMaxLayer()
 
-    model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
+    model =  SeqModel([conv1, pol1, conv, pol, middleLayer, outputLayer, exc], False)
 
     input = []
     output = []
@@ -73,20 +75,23 @@ def main():
                             for o in [-1,1]:
                                 for p in [-1,1]:
                                     for q in [-1,1]:
-                                        input.append( [[i, j, k], [l, m, n], [o, p, q]] )
+                                        input.append( [[i, j, k, i], [l, m, n, i], [o, p, q, i], [j, k, i, l]] )
     
     for matrix in input:
 
-        if matrix[0] == [1,1,1]:
+        if matrix[0] == [1,1,1,1]:
             output.append([1,0])
         else:
             output.append([0,1])
 
     model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
 
+    print(conv.getWeights())
+
     errorCount = 0
 
     print("Test")
+    print(output[511])
     print(model.act(input[511]))
 
     for index in range(0, len(input)):
@@ -103,6 +108,24 @@ def main():
 
 
     return
+
+    # Correct backpropagation of convolution
+
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
+    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
+    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
+    exc = SoftMaxLayer()
+
+    model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
+
+    input = [[[1,1,1],[0,0,0],[0,0,0]]]
+
+    output = [[1,-1]]
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=1)
+   
+
 
     #Problem verschwindener Gradient
 

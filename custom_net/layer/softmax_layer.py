@@ -12,6 +12,9 @@ class SoftMaxLayer(LayerInterface):
         self.inputs = inputs
         self.sum = sum(abs(e) for e in inputs)
 
+        if self.sum == 0:
+            return self.inputs
+
         result = []
         for input in inputs:
             result.append(input/self.sum)

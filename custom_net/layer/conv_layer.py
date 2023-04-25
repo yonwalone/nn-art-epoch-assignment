@@ -32,6 +32,8 @@ class CONVLayer(LayerInterface):
             - newImage: Transformed image 
         """
 
+        #print(f"Act Input: {image}")
+
         # Add padding around image
         image = self.addPadding(image)
             
@@ -108,7 +110,81 @@ class CONVLayer(LayerInterface):
             - errors: propagage errors further
 
         """
-        #print("Handle")
+
+        outputLen = len(self.image) - len(self.matrix) - self.stride  + 2
+
+        #print(outputLen)
+
+        #print(f"Input: {targets}")
+        #print(f"Image: {self.image}")
+
+        # Calculate kernal gradients
+
+        kernalGradient = [[0 for _ in self.matrix[0]] for _ in self.matrix]
+
+        necessaryRows = int((len(self.image) - len(targets))/self.stride + 1)
+        necessaryColumns = int((len(self.image[0]) - len(targets[0]))/self.stride + 1)
+
+        # Move targets over image
+        for rowIndex in range(0, necessaryRows):
+            for columnIndex in range(0, necessaryColumns):
+
+                val = 0
+                for targetRowIndex in range(0, len(targets)):
+                    for targetColIndex in range(0, len(targets[0])):
+                        val += self.image[rowIndex * self.stride + targetRowIndex][columnIndex * self.stride + targetColIndex] * targets[targetRowIndex][targetColIndex]
+                kernalGradient[rowIndex][columnIndex] = val
+
+        #print(f"KernalGradient: {kernalGradient}")
+
+
+        #pad output gradient with 0 around
+        extendedGradient = []
+
+        firstline = []
+        for i in range(0, len(targets[0]) + 2):
+            firstline.append(0) 
+        extendedGradient.append(firstline)
+
+        for i in range(0, len(targets)):
+            line = [0]
+            line += targets[i]
+            line += [0]
+            extendedGradient.append(line)
+
+        extendedGradient.append(firstline)
+
+        #print(extendedGradient)
+
+        # Calculate input gradients
+        necessaryRows = int((len(extendedGradient) - len(self.matrix))/self.stride + 1)
+        necessaryColumns = int((len(extendedGradient[0]) - len(self.matrix[0]))/self.stride + 1)
+
+        #print(necessaryRows)
+        #print(necessaryColumns)
+
+        inputGradients = [[0 for _ in range(0, necessaryColumns)] for _ in range(0, necessaryRows)]
+
+        for rowIndex in range(0, necessaryRows):
+            for columnIndex in range(0, necessaryColumns):
+
+                val = 0
+                for targetRowIndex in range(0, len(self.matrix)):
+                    for targetColIndex in range(0, len(self.matrix[0])):
+                        val += extendedGradient[rowIndex * self.stride + targetRowIndex][columnIndex * self.stride + targetColIndex] * self.matrix[targetRowIndex][targetColIndex]
+                inputGradients[rowIndex][columnIndex] = val
+
+        #print(f"InputGradients: {inputGradients}")
+
+        # Adapt Gradients of matrix
+        for rowIndex in range(0, len(self.matrix)):
+            for rowCol in range(0, len(self.matrix[0])):
+                self.matrix[rowIndex][rowCol] -= learningRate * kernalGradient[rowIndex][rowCol]
+        #print(self.matrix)
+
+
+        return inputGradients
+
         # evaluate how often the matrix is moved down and moved right per row
         necessaryRows = int((len(self.image) - len(self.matrix))/self.stride + 1)
         necessaryColumns = int((len(self.image[0]) - len(self.matrix[0]))/self.stride + 1)
@@ -116,21 +192,29 @@ class CONVLayer(LayerInterface):
         if (necessaryRows * necessaryColumns != len(targets) * len(targets[0])):
             raise Exception("Number of targets must match number of patches")
         
-        #print(self.matrix)
+        #print(self.matrix) 
+
+
+        
 
         for rowIndex in range(0, necessaryRows):
             for columnIndex in range(0, necessaryColumns):
                 if targets[rowIndex][columnIndex] == 0:
                     continue
 
+
+
+                
+                dL = 0
                 # For all patches  
                 for matrixRowIndex in range(0, len(self.matrix)):
                     for matrixColIndex in range(0, len(self.matrix[0])):
-                        self.matrix[matrixRowIndex][matrixColIndex] -= (
-                            learningRate *  
-                            targets[rowIndex][columnIndex] #/
-                            #self.matrix[matrixRowIndex][matrixColIndex]
-                        )
+                        print(rowIndex * self.stride + matrixRowIndex)
+                        print(columnIndex * self.stride + matrixColIndex)
+                        dL += targets[rowIndex][columnIndex] \
+                        * self.image[rowIndex * self.stride + matrixRowIndex][columnIndex * self.stride + matrixColIndex]
+                    
+                print(f"dl/dF: {dL}")
 
                 
         #print(self.matrix)

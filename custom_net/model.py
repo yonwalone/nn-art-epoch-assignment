@@ -87,6 +87,17 @@ class SeqModel:
         return structure
 
     def train(self, input, output, errorFunc, learningRate, epochs):
+        """
+        Train model with inputs to return expected outputs.
+
+        Params:
+            - input: array of inputs of model
+            - output: array of expected outputs of model
+            - errorFunc: Error Function to calculate error
+            - learningRate (Number): Factor of how fast a net should adapt to input values
+            - epochs (Int): How many times should inputs be used
+        """
+
         if len(input) != len(output):
             raise Exception("Len of inputs must equal the length of expected outputs")
         

@@ -170,8 +170,3 @@ class Percepton:
         - weights
         """
         return self.weights
-
-
-        
-
-
