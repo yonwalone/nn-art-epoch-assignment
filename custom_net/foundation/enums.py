@@ -20,3 +20,10 @@ class PaddingType(Enum):
     valid = 0
     same = 1
     full = 2
+
+
+class LayerType(Enum):
+    dense = 0
+    conv = 1
+    pool = 2
+    softmax = 3

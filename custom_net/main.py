@@ -84,9 +84,10 @@ def main():
         else:
             output.append([0,1])
 
-    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+    #model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+    model = readModelFromStorage("current_model.json")
 
-    print(conv.getWeights())
+    #print(conv.getWeights())
 
     errorCount = 0
 
@@ -105,6 +106,9 @@ def main():
             errorCount +=1
 
     print(f"Wrong labled: {errorCount}")
+
+
+    #saveModel(model, "current_model.json")
 
 
     return

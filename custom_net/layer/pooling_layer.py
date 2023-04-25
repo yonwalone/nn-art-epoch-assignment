@@ -1,4 +1,4 @@
-from foundation.enums import Functions
+from foundation.enums import Functions, LayerType
 from layer.layer_interface import LayerInterface
 
 class PoolLayer(LayerInterface):
@@ -13,9 +13,9 @@ class PoolLayer(LayerInterface):
             - stride (Int): Distance to move over image between pooling
             - toList (Bool): Should information be converted into an Array
         """
+        self.function = function
         self.poolSize = poolSize
         self.stride = stride
-        self.function = function
         self.toList = toList
 
     def act(self, image):
@@ -156,4 +156,4 @@ class PoolLayer(LayerInterface):
         Returns:
         - 
         """
-        return None
+        return [LayerType.pool.value, [self.function.value, self.poolSize, self.stride, self.toList]]

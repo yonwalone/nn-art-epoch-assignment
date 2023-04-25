@@ -1,4 +1,4 @@
-from foundation.enums import PaddingType
+from foundation.enums import PaddingType, LayerType
 from layer.layer_interface import LayerInterface
 
 class CONVLayer(LayerInterface):
@@ -182,44 +182,7 @@ class CONVLayer(LayerInterface):
                 self.matrix[rowIndex][rowCol] -= learningRate * kernalGradient[rowIndex][rowCol]
         #print(self.matrix)
 
-
         return inputGradients
-
-        # evaluate how often the matrix is moved down and moved right per row
-        necessaryRows = int((len(self.image) - len(self.matrix))/self.stride + 1)
-        necessaryColumns = int((len(self.image[0]) - len(self.matrix[0]))/self.stride + 1)
-
-        if (necessaryRows * necessaryColumns != len(targets) * len(targets[0])):
-            raise Exception("Number of targets must match number of patches")
-        
-        #print(self.matrix) 
-
-
-        
-
-        for rowIndex in range(0, necessaryRows):
-            for columnIndex in range(0, necessaryColumns):
-                if targets[rowIndex][columnIndex] == 0:
-                    continue
-
-
-
-                
-                dL = 0
-                # For all patches  
-                for matrixRowIndex in range(0, len(self.matrix)):
-                    for matrixColIndex in range(0, len(self.matrix[0])):
-                        print(rowIndex * self.stride + matrixRowIndex)
-                        print(columnIndex * self.stride + matrixColIndex)
-                        dL += targets[rowIndex][columnIndex] \
-                        * self.image[rowIndex * self.stride + matrixRowIndex][columnIndex * self.stride + matrixColIndex]
-                    
-                print(f"dl/dF: {dL}")
-
-                
-        #print(self.matrix)
-
-        return None
 
     def getWeights(self):
         """
@@ -238,5 +201,5 @@ class CONVLayer(LayerInterface):
         Returns:
         - 
         """
-        pass
+        return [LayerType.conv.value, [self.getWeights(), self.stride, self.padding.value]]
  

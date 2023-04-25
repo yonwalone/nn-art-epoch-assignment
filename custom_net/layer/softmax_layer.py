@@ -1,4 +1,5 @@
 from layer.layer_interface import LayerInterface
+from foundation.enums import LayerType
 
 class SoftMaxLayer(LayerInterface):
 
@@ -29,7 +30,8 @@ class SoftMaxLayer(LayerInterface):
 
         return newTargets
 
-
+    def getStructure(self):
+        return [LayerType.softmax.value]
 
         
 

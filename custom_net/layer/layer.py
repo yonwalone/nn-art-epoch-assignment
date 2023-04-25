@@ -1,5 +1,5 @@
 from foundation.percepton import Percepton
-from foundation.enums import Functions
+from foundation.enums import Functions, LayerType
 from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):
@@ -108,4 +108,4 @@ class Layer(LayerInterface):
         Returns:
         - (Array): information about structure of layer
         """
-        return [len(self.perceptrons), self.function.value, self.isOutput]
+        return [LayerType.dense.value, [len(self.perceptrons), self.function.value, self.getWeights(), self.isOutput]]
