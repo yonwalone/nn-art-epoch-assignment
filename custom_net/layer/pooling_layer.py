@@ -82,8 +82,7 @@ class PoolLayer(LayerInterface):
             - errors: propagage errors further
 
         """
-
-        #print(f"Error in Pooling: {targets}")
+        print(f"Targets: {targets}")
 
         # Get index of maximum value per frame
         relevantIndexes = []
@@ -117,26 +116,37 @@ class PoolLayer(LayerInterface):
 
                 relevantIndexes.append([yPosAbsolute, xPosAbsolute])
 
-
-        #TODO: Remove duplicates?
-
         # generate image filled with 0
         resultImage = [[0 for _ in self.image[0]] for _ in self.image]
 
-        # add incoming derivates together
-        derivateIn = []
-        for target in targets:
-            value = 0
-            for val in target:
-                value += val
-                #print(value)
-            derivateIn.append(value)
+        if self.toList:
+
+            # add incoming derivates together
+            derivateIn = []
+            for target in targets:
+                value = 0
+                for val in target:
+                    value += val
+                    #print(value)
+                derivateIn.append(value)
+            print(f"Derivat In: {derivateIn}")
+            
+        else:
+            derivateIn = []
+            for rowIndex in range(0, len(targets)):
+                for colIndex in range(0, len(targets[rowIndex])):
+                    derivateIn.append(targets[rowIndex][colIndex])
+
+            print(f"Derivat In B: {derivateIn}")
+                
+
+            
 
         # derivates on position where number taken for pooling 
         for derivateIndex, derivate in enumerate(derivateIn):
             resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = derivate
 
-        #print(f"Hanle Error Result Pooling: {resultImage}")
+        print(f"Hanle Error Result Pooling: {resultImage}")
 
         return resultImage
     

@@ -63,6 +63,8 @@ def main():
 
     model =  SeqModel([conv1, pol1, conv, pol, middleLayer, outputLayer, exc], False)
 
+    #model = readModelFromStorage("current_model.json")
+
     input = []
     output = []
 
@@ -84,8 +86,15 @@ def main():
         else:
             output.append([0,1])
 
-    #model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
-    model = readModelFromStorage("current_model.json")
+
+    #input = [[[1,1,1,1],[1,1,-1,1],[-1,1,-1,1],[1,-1,-1,1]]]
+
+    #output = [[1,0]]
+    
+    
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+
 
     #print(conv.getWeights())
 
@@ -103,6 +112,9 @@ def main():
            (output[index][1] > 0.5  and result[1] > 0.5) ):
             pass
         else:
+            #print(f"Expected Output: {output[index]}")
+            #print(input[index])
+            #print(result)
             errorCount +=1
 
     print(f"Wrong labled: {errorCount}")
