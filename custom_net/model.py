@@ -47,6 +47,7 @@ class SeqModel:
         # Provide input for each layer, process input, provide result as next input
         for layer in self.layers:
             values_modified = layer.act(values_modified)
+            #print(values_modified)
         return values_modified
     
     def handleError(self, targets, errorFunc, learningRate):
@@ -106,6 +107,8 @@ class SeqModel:
             for index, currOutput in enumerate(output):
                 #print(f"Input: {input[indexOutput]}")
                 #print(f"Expected Output: {output[indexOutput]}")
+                print(f"Epoch: {epochIndex}, Input: {index}")
+                #print(currOutput)
 
                 self.act(input[index])
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)

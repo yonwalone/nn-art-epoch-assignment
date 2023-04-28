@@ -57,6 +57,8 @@ class CONVLayer(LayerInterface):
                 newRow.append(result)
             newImage.append(newRow)
 
+        print(f"Conv Output: {newImage}")
+
         return newImage
 
     def addPadding(self, image):
@@ -120,8 +122,14 @@ class CONVLayer(LayerInterface):
         # Calculate kernal gradients
         kernalGradient = [[0 for _ in self.matrix[0]] for _ in self.matrix]
 
+        print(f"Lange Targets: {len(targets)}")
+        print(f"Lange Image: {len(self.image)}")
+
         necessaryRows = int((len(self.image) - len(targets))/self.stride + 1)
         necessaryColumns = int((len(self.image[0]) - len(targets[0]))/self.stride + 1)
+
+        print(necessaryRows)
+        print(necessaryColumns)
 
         # Move targets over image
         for rowIndex in range(0, necessaryRows):

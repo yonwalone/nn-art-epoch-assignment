@@ -22,6 +22,7 @@ class SoftMaxLayer(LayerInterface):
 
         #TODO: what if inputs are negative?
         self.inputs = inputs
+        print(f"Act Dense Output: {self.inputs}")
         self.sum = sum(abs(e) for e in inputs)
 
         if self.sum == 0:
@@ -44,12 +45,16 @@ class SoftMaxLayer(LayerInterface):
 
         Return:
             - newTargets (1dim Array): targets for layer before
-            
+
         """
+        #if self.sum == 0: # Might remove
+            #self.sum = 1
         
         newTargets = []
         for target in targets:
             newTargets.append(target * self.sum)
+
+        print(f"Softmax Targets: {newTargets}")
 
         return newTargets
 

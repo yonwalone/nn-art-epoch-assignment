@@ -4,7 +4,7 @@ from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):
     
-    def __init__(self, count, function, initialWeights, isOutput = False):
+    def __init__(self, count, function, initialWeights = None, isOutput = False):
         """
         Initialize layer with perceptons.
 
@@ -17,12 +17,12 @@ class Layer(LayerInterface):
         self.isOutput = isOutput
         self.function = function
 
-        if count != len(initialWeights):
-            raise Exception("There must be initialWeights for each Percepton")
-
         # Create perceptrons of layer
         self.perceptrons = []
-        self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
+        if initialWeights != None:
+            self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
+        else:
+            self.perceptrons = [Percepton(func=function, weights=None) for index in range(count)]
 
     def act(self, inputs):
         """

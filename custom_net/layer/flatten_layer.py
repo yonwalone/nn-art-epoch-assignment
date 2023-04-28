@@ -18,14 +18,18 @@ class FlattenLayer(LayerInterface):
         Returns:
             - newList: image data in array
         """
+        #print(inputs)
 
         # Convert to 1dim list
         newList = []
         for element in inputs:
+            #print(element)
             newList += element
 
         # Append 1 as bias for next layer
         newList.append(1)
+
+        #print(f"Flatten output: {newList}")
         return newList
 
     def handleError(self, targets, errorFunc, learningRate):
@@ -59,4 +63,4 @@ class FlattenLayer(LayerInterface):
         Returns:
         - (Array): information about structure of layer
         """
-        return [LayerType.flatten]
+        return [LayerType.flatten.value]

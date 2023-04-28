@@ -1,4 +1,5 @@
 from foundation.enums import Functions
+import random as rnd
 import numpy as np
 
 class Percepton:
@@ -29,7 +30,11 @@ class Percepton:
             - outputs (Int): output of percepton
         """
 
-        #print(f"Inputs: {inputs}")
+        if self.weights == None:
+            self.weights = []
+            for input in inputs:
+                self.weights.append(rnd.random())
+        
         if len(self.weights) != len(inputs):
             raise Exception("Length of weights must be equal to length of inputs")
         
@@ -39,6 +44,8 @@ class Percepton:
         self.sum = 0
         for index in range(0, len(self.weights)):
             self.sum += inputs[index] * self.weights[index]
+
+        self.sum = self.sum / len(self.weights) # TODO: Might delete
 
 
         # Activation Function
@@ -87,9 +94,14 @@ class Percepton:
             - (1dim Array): error per input
 
         """
+        #print(f"Target: {target}")
+        #print(f"Out before: {self.out}")
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
+
+        #print(self.weights)
+        #print(errorFromOut)
 
         return self.handleGeneralError(learningRate=learningRate, errorOut=errorFromOut)
          
@@ -106,6 +118,7 @@ class Percepton:
             - (1dim Array): error per input
 
         """
+        #print(errors)
         
         #d E (total) / d out (of current percepton)
         errorOut = 0
@@ -127,6 +140,8 @@ class Percepton:
 
         """
 
+        #print(f"Error handling Percepton: {errorOut}")
+
         # Get error from activaton function
         if self.func == Functions.tanh:
             # out = tanh(sum)
@@ -134,7 +149,7 @@ class Percepton:
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
             #print(f"Function Error {errorChangeThroughFunction}")
         elif self.func == Functions.reLu:
-            if self.sum > 0:
+            if self.sum >= 0:
                 errorChangeThroughFunction = 1
             else:
                 errorChangeThroughFunction = 0
@@ -143,6 +158,8 @@ class Percepton:
                     pass
         elif self.func == Functions.no:
             errorChangeThroughFunction = 1
+
+        errorChangeThroughFunction *= len(self.weights) #TODO: Might delete
 
         #d Error / d Net = 
         errorAfterSum = errorOut * errorChangeThroughFunction
@@ -160,6 +177,8 @@ class Percepton:
 
             listOfErrorPerPerceptron.append(errorAfterSum * self.weights[index])
 
+        #print(self.weights)
+        #print(f"Error out percepton: {listOfErrorPerPerceptron}")
         return listOfErrorPerPerceptron
 
     def getWeights(self):
