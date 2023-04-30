@@ -69,7 +69,7 @@ class PoolLayer(LayerInterface):
             - errors: propagage errors further
 
         """
-        print(f"Targets: {targets}")
+        #print(f"Targets: {targets}")
 
         # Get index of maximum value per frame
         relevantIndexes = []
@@ -111,7 +111,7 @@ class PoolLayer(LayerInterface):
         for derivateIndex, derivate in enumerate(targets):
             resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = derivate
 
-        print(f"Hanle Error Result Pooling: {resultImage}")
+        #print(f"Hanle Error Result Pooling: {resultImage}")
 
         return resultImage
     

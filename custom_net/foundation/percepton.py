@@ -78,6 +78,12 @@ class Percepton:
         elif self.func == Functions.no:
             self.out = self.sum
             return self.out
+        elif self.func == Functions.leakyReLU:
+            if self.sum > 0:
+                self.out = self.sum
+                return self.out
+            self.out = 0.2 * self.sum
+            return self.out
         else:
             raise Exception("Use valid activation function")
         
@@ -158,6 +164,12 @@ class Percepton:
                     pass
         elif self.func == Functions.no:
             errorChangeThroughFunction = 1
+            
+        elif self.func == Functions.leakyReLU:
+            if self.sum >= 0:
+                errorChangeThroughFunction = 1
+            else:
+                errorChangeThroughFunction = 0.2
 
         errorChangeThroughFunction *= len(self.weights) #TODO: Might delete
 

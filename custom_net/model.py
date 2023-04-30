@@ -44,6 +44,8 @@ class SeqModel:
         if self.onlyMLP:
             values_modified.append(1)
 
+        #print(values)
+
         # Provide input for each layer, process input, provide result as next input
         for layer in self.layers:
             values_modified = layer.act(values_modified)
@@ -110,7 +112,8 @@ class SeqModel:
                 print(f"Epoch: {epochIndex}, Input: {index}")
                 #print(currOutput)
 
-                self.act(input[index])
+                print(f"Expected: {currOutput}")
+                print(self.act(input[index]))
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
 
         #print(f"Gewichte: {model.getWeights()}")

@@ -8,6 +8,7 @@ class Functions(Enum):
     tanh = 2
     reLu = 3
     no = 4
+    leakyReLU=5
 
     # Error Functions
     halfsquareError = 100
