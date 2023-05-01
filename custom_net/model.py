@@ -1,5 +1,5 @@
-from layer.layer import Layer
 from foundation.enums import Functions, TestTypes
+from layer.layer import Layer
 
 class SeqModel:
 
@@ -43,8 +43,6 @@ class SeqModel:
         values_modified = values[:]
         if self.onlyMLP:
             values_modified.append(1)
-
-        #print(values)
 
         # Provide input for each layer, process input, provide result as next input
         for layer in self.layers:
@@ -107,12 +105,9 @@ class SeqModel:
         for epochIndex in range(0, epochs):
 
             for index, currOutput in enumerate(output):
+                print(f"Epoch: {epochIndex}, Input: {index}")
                 #print(f"Input: {input[indexOutput]}")
                 #print(f"Expected Output: {output[indexOutput]}")
-                print(f"Epoch: {epochIndex}, Input: {index}")
-                #print(currOutput)
-
-                #print(f"Expected: {currOutput}")
                 self.act(input[index])
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
 
@@ -143,4 +138,4 @@ class SeqModel:
             return accuracy
 
         else:
-            raise Exception("Use implemented Testtype")
+            raise Exception("Use implemented TestType")

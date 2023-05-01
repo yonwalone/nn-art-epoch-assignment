@@ -48,12 +48,10 @@ class PoolLayer(LayerInterface):
                     newRow.append(int(sum(results) / len(results)))
                 else:
                     raise Exception("Use valid pooling function")
-
                 
             newImage.append(newRow)
 
         #print(newImage)
-
         return newImage
     
     def handleError(self, targets, errorFunc, learningRate): # currently only implemeted for max function
@@ -71,7 +69,7 @@ class PoolLayer(LayerInterface):
         """
         #print(f"Targets: {targets}")
 
-        # Get index of maximum value per frame
+        # Get index of for error relevant elements per frame
         relevantIndexes = []
         necessaryRows = int((len(self.image) - self.poolSize)/self.stride + 1)
         necessaryColumns = int((len(self.image[0]) - self.poolSize)/self.stride + 1)
@@ -88,7 +86,6 @@ class PoolLayer(LayerInterface):
                 relevantPos = 0
                 if self.function == Functions.max:
                     result = max(results)
-
                     relevantPos = results.index(result)
                 else:
                     raise Exception("Use valid pooling function")
@@ -104,15 +101,13 @@ class PoolLayer(LayerInterface):
                 relevantIndexes.append([yPosAbsolute, xPosAbsolute])
 
         # generate image filled with 0
-        resultImage = [[0 for _ in self.image[0]] for _ in self.image]
-                
+        resultImage = [[0 for _ in self.image[0]] for _ in self.image]     
 
         # derivates on position where number taken for pooling 
         for derivateIndex, derivate in enumerate(targets):
             resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = derivate
 
         #print(f"Hanle Error Result Pooling: {resultImage}")
-
         return resultImage
     
     def getWeights(self):

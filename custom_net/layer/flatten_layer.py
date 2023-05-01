@@ -1,5 +1,6 @@
-from layer.layer_interface import LayerInterface
 from foundation.enums import LayerType
+from layer.layer_interface import LayerInterface
+
 class FlattenLayer(LayerInterface):
 
     def __init__(self):

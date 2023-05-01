@@ -1,6 +1,7 @@
+import random as rnd
+
 from foundation.enums import PaddingType, LayerType
 from layer.layer_interface import LayerInterface
-import random as rnd
 
 class CONVLayer(LayerInterface):
 
@@ -75,7 +76,6 @@ class CONVLayer(LayerInterface):
 
         #print(f"Conv Output: {newImage}")
         #print(f"Lenge Outputs: {len(newImage)}")
-
         return newImage
 
     def addPadding(self, image):
@@ -157,14 +157,14 @@ class CONVLayer(LayerInterface):
         
         for i in range(0, len(targets)):
             row = []
+
             for j in range(0, len(targets[0])):
                 row.append(targets[i][j])
                 row += internalPadding
 
-            #print(f"Row:  {row}")
             if self.stride > 1:
                 row = row[:-(self.stride-1)]
-            #print(f"Mod Row: {row}")
+            
             extendedGradient.append(row)
             
             zeroRow = []
@@ -180,6 +180,9 @@ class CONVLayer(LayerInterface):
         necessaryRows = int((len(self.image) - len(extendedGradient)) +1)
         necessaryColumns = int((len(self.image[0]) - len(extendedGradient[0])) +1)
 
+        if necessaryRows != len(self.matrix) or necessaryColumns != len(self.matrix[0]):
+            raise Exception("There must be found frames for each part of the matrix")
+
         # Move targets over image
         for rowIndex in range(0, necessaryRows):
             for columnIndex in range(0, necessaryColumns):
@@ -190,9 +193,6 @@ class CONVLayer(LayerInterface):
                         val += self.image[rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex]
                 kernalGradient[rowIndex][columnIndex] = val
 
-        # Calculate input gradients
-
-        #print(f"Lange Input Gradients: {len(targets)}")
 
         ### Calculate errors to propagate further
 

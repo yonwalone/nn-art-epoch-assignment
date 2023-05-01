@@ -1,5 +1,5 @@
-from foundation.percepton import Percepton
 from foundation.enums import Functions, LayerType
+from foundation.percepton import Percepton
 from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):

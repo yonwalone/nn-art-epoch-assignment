@@ -1,11 +1,12 @@
-from model import SeqModel
+import json
+
+from foundation.enums import Functions, LayerType, PaddingType
 from layer.layer import Layer
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.flatten_layer import FlattenLayer
-import json
-from foundation.enums import Functions, LayerType, PaddingType
+from model import SeqModel
 
 #currently only working with SeqModel and only "normal" layers
 

@@ -9,6 +9,8 @@ from layer.flatten_layer import FlattenLayer
 from load_save_model import saveModel, readModelFromStorage
 import numpy as np
 
+# TODO: Unterstützung von Farben und Mehrschichtigen Matrizen
+
 
 def getInclusiveOrModel():
     # Layer(count=1, function=Functions.sgn, initialWeights=[[1,1]], biasValue=0, isOutput=True)

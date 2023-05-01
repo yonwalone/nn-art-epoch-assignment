@@ -1,5 +1,5 @@
-from layer.layer_interface import LayerInterface
 from foundation.enums import LayerType
+from layer.layer_interface import LayerInterface
 
 class SoftMaxLayer(LayerInterface):
 
@@ -55,7 +55,6 @@ class SoftMaxLayer(LayerInterface):
             newTargets.append(target * self.sum)
 
         #print(f"Softmax Targets: {newTargets}")
-
         return newTargets
 
     def getStructure(self):

@@ -1,6 +1,7 @@
-from foundation.enums import Functions
 import random as rnd
 import numpy as np
+
+from foundation.enums import Functions
 
 class Percepton:
 
@@ -30,6 +31,7 @@ class Percepton:
             - outputs (Int): output of percepton
         """
 
+        # Initally create weights if there are none
         if self.weights == None:
             self.weights = []
             for input in inputs:
@@ -67,7 +69,6 @@ class Percepton:
             return 1
         elif self.func == Functions.tanh:
             self.out = np.tanh(self.sum)
-            #print(self.out)
             return self.out   
         elif self.func == Functions.reLu:
             if self.sum > 0:
@@ -100,14 +101,10 @@ class Percepton:
             - (1dim Array): error per input
 
         """
-        #print(f"Target: {target}")
-        #print(f"Out before: {self.out}")
+       
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
-
-        #print(self.weights)
-        #print(errorFromOut)
 
         return self.handleGeneralError(learningRate=learningRate, errorOut=errorFromOut)
          
@@ -124,7 +121,6 @@ class Percepton:
             - (1dim Array): error per input
 
         """
-        #print(errors)
         
         #d E (total) / d out (of current percepton)
         errorOut = 0
@@ -153,15 +149,12 @@ class Percepton:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
-            #print(f"Function Error {errorChangeThroughFunction}")
         elif self.func == Functions.reLu:
             if self.sum >= 0:
                 errorChangeThroughFunction = 1
             else:
                 errorChangeThroughFunction = 0
-                if self.sum < 0:
-                    #print("Backpropagation stopped")
-                    pass
+            
         elif self.func == Functions.no:
             errorChangeThroughFunction = 1
             
