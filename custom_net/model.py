@@ -1,9 +1,9 @@
 from layer.layer import Layer
-from foundation.enums import Functions
+from foundation.enums import Functions, TestTypes
 
 class SeqModel:
 
-    def __init__(self, layers, onlyMLP = True) -> None:
+    def __init__(self, layers, onlyMLP = False) -> None:
         """
         Initialize model with layers.
 
@@ -112,8 +112,35 @@ class SeqModel:
                 print(f"Epoch: {epochIndex}, Input: {index}")
                 #print(currOutput)
 
-                print(f"Expected: {currOutput}")
-                print(self.act(input[index]))
-                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
+                #print(f"Expected: {currOutput}")
+                self.act(input[index])
+                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
 
         #print(f"Gewichte: {model.getWeights()}")
+
+    def test(self, input, output, mode):
+        """
+        Test model with inputs and find percentage of correct outputs
+        Params:
+            - input: array of inputs of model
+            - output: array of expected outputs of model
+            - mode (TestTypes): how should be decided if result is correct
+
+        Returns:
+            - accuracy: percentage of correct found 
+        """
+
+        if mode == TestTypes.biggestPredictionOn1Position:
+            errorCount= 0
+            for ind in range(0, len(output)):
+                print(f"Test: {ind}")
+                result = self.act(input[ind])
+                index = result.index(max(result))
+                if output[ind][index] != 1:
+                    errorCount += 1
+            print(f"Error Count: {errorCount}")
+            accuracy = 1 - errorCount / len(output)
+            return accuracy
+
+        else:
+            raise Exception("Use implemented Testtype")

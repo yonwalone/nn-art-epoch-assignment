@@ -1,9 +1,10 @@
 from foundation.enums import PaddingType, LayerType
 from layer.layer_interface import LayerInterface
+import random as rnd
 
 class CONVLayer(LayerInterface):
 
-    def __init__(self, matrix, stride = 1, padding = PaddingType.valid):
+    def __init__(self, matrix = 3, stride = 1, padding = PaddingType.valid):
         """
         Initialize convolutional layer.
 
@@ -12,7 +13,18 @@ class CONVLayer(LayerInterface):
             - stride (Int): Distance to move matrix over image
             - padding (Bool): Should padding be added to image
         """
-        self.matrix = matrix
+        if type(matrix) == int:
+            self.matrix = []
+            for index in range(0, matrix):
+                row = []
+                for i in range(0, matrix):
+                    row.append(rnd.random())
+                self.matrix.append(row)
+                
+
+        else:
+            self.matrix = matrix
+
         self.stride = stride
         self.padding = padding
 
@@ -39,6 +51,10 @@ class CONVLayer(LayerInterface):
             
         self.image = image 
 
+        if (len(image) - len(self.matrix))/self.stride % 1 != 0.0 or (len(image[0]) - len(self.matrix[0]))/self.stride % 1  != 0:
+            raise Exception(f"Size of matrix, stride and image does not fit together, change matrix or stride")
+
+
         # evaluate how often the matrix is moved down and moved right per row
         necessaryRows = int((len(image) - len(self.matrix))/self.stride + 1)
         necessaryColumns = int((len(image[0]) - len(self.matrix[0]))/self.stride + 1)
@@ -58,6 +74,7 @@ class CONVLayer(LayerInterface):
             newImage.append(newRow)
 
         #print(f"Conv Output: {newImage}")
+        #print(f"Lenge Outputs: {len(newImage)}")
 
         return newImage
 
@@ -125,8 +142,49 @@ class CONVLayer(LayerInterface):
         #print(f"Lange Targets: {len(targets)}")
         #print(f"Lange Image: {len(self.image)}")
 
-        necessaryRows = int((len(self.image) - len(targets))/self.stride + 1)
-        necessaryColumns = int((len(self.image[0]) - len(targets[0]))/self.stride + 1)
+        #Add zeros between targets based on stride
+        # [[a,b],
+        # [c,d]]
+        # To:
+        # [[a,0,b],
+        # [0,0,0],
+        # [c,0,d]]
+
+        extendedGradient = []
+
+        internalPadding = []
+        for i in range(0, self.stride -1 ):
+            internalPadding.append(0)
+        
+        for i in range(0, len(targets)):
+            row = []
+            for j in range(0, len(targets[0])):
+                row.append(targets[i][j])
+                row += internalPadding
+
+            #print(f"Row:  {row}")
+            if self.stride > 1:
+                row = row[:-(self.stride-1)]
+            #print(f"Mod Row: {row}")
+            extendedGradient.append(row)
+            
+            zeroRow = []
+            for j in range(0, len(row)):
+                zeroRow.append(0)
+
+            for j in range(0, self.stride -1):
+                extendedGradient.append(zeroRow)
+
+        if self.stride > 1:
+            extendedGradient = extendedGradient[:-(self.stride-1)]
+
+        #print(len(targets))
+        #print(len(extendedGradient))
+        #print(len(targets[0]))
+        #print(len(extendedGradient[0]))
+
+        necessaryRows = int((len(self.image) - len(extendedGradient)) +1)
+        necessaryColumns = int((len(self.image[0]) - len(extendedGradient[0])) +1)
 
         #print(necessaryRows)
         #print(necessaryColumns)
@@ -136,16 +194,16 @@ class CONVLayer(LayerInterface):
             for columnIndex in range(0, necessaryColumns):
 
                 val = 0
-                for targetRowIndex in range(0, len(targets)):
-                    for targetColIndex in range(0, len(targets[0])):
-                        val += self.image[rowIndex * self.stride + targetRowIndex][columnIndex * self.stride + targetColIndex] * targets[targetRowIndex][targetColIndex]
+                for targetRowIndex in range(0, len(extendedGradient)):
+                    for targetColIndex in range(0, len(extendedGradient[0])):
+                        val += self.image[rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex]
                 kernalGradient[rowIndex][columnIndex] = val
 
         #print(f"KernalGradient: {kernalGradient}")
 
         # Calculate input gradients
 
-        # pad output gradient with 0 around
+        # pad output gradient with 0 around 
         extendedGradient = []
 
         firstline = []

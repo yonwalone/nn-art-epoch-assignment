@@ -29,3 +29,7 @@ class LayerType(Enum):
     pool = 2
     softmax = 3
     flatten = 4
+
+
+class TestTypes(Enum):
+    biggestPredictionOn1Position = 0
