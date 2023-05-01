@@ -44,7 +44,7 @@ class CONVLayer(LayerInterface):
             - newImage: Transformed image 
         """
 
-        #print(f"Act Input: {image}")
+        #print(f"Len Input: {len(image)}")
 
         # Add padding around image
         image = self.addPadding(image)
@@ -97,6 +97,8 @@ class CONVLayer(LayerInterface):
         if self.padding == PaddingType.full:
             paddingNumber = matLen - 1
 
+        #print(f"Padding Number: {paddingNumber}")
+
         newImage = []
         
         # Padding lines
@@ -130,13 +132,10 @@ class CONVLayer(LayerInterface):
 
         """
 
-        outputLen = len(self.image) - len(self.matrix) - self.stride  + 2
-
-
         #print(f"Input: {targets}")
         #print(f"Image: {self.image}")
 
-        # Calculate kernal gradients
+        ### Calculate  gradients to improve matrix
         kernalGradient = [[0 for _ in self.matrix[0]] for _ in self.matrix]
 
         #print(f"Lange Targets: {len(targets)}")
@@ -178,16 +177,8 @@ class CONVLayer(LayerInterface):
         if self.stride > 1:
             extendedGradient = extendedGradient[:-(self.stride-1)]
 
-        #print(len(targets))
-        #print(len(extendedGradient))
-        #print(len(targets[0]))
-        #print(len(extendedGradient[0]))
-
         necessaryRows = int((len(self.image) - len(extendedGradient)) +1)
         necessaryColumns = int((len(self.image[0]) - len(extendedGradient[0])) +1)
-
-        #print(necessaryRows)
-        #print(necessaryColumns)
 
         # Move targets over image
         for rowIndex in range(0, necessaryRows):
@@ -199,30 +190,53 @@ class CONVLayer(LayerInterface):
                         val += self.image[rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex]
                 kernalGradient[rowIndex][columnIndex] = val
 
-        #print(f"KernalGradient: {kernalGradient}")
-
         # Calculate input gradients
 
-        # pad output gradient with 0 around 
-        extendedGradient = []
+        #print(f"Lange Input Gradients: {len(targets)}")
+
+        ### Calculate errors to propagate further
+
+        # pad extended gradient with zeros around 
+        paddedGradient = []
 
         firstline = []
-        for i in range(0, len(targets[0]) + 2):
-            firstline.append(0) 
-        extendedGradient.append(firstline)
+        for i in range(0, len(extendedGradient[0]) + 2 * (len(self.matrix) - 1)):
+            firstline.append(0)
+        #print(f"Lange First Line: {len(firstline)}")
 
-        for i in range(0, len(targets)):
-            line = [0]
-            line += targets[i]
-            line += [0]
-            extendedGradient.append(line)
+        for i in range(0, len(self.matrix) -1):
+            paddedGradient.append(firstline)
 
-        extendedGradient.append(firstline)
+        for i in range(0, len(extendedGradient)):
+            line = []
+            for j in range(0, len(self.matrix) -1):
+                line.append(0)
+            line += extendedGradient[i]
+            for j in range(0, len(self.matrix) -1):
+                line.append(0)
+            paddedGradient.append(line)
 
-        #print(extendedGradient)
+        for i in range(0, len(self.matrix) -1):
+            paddedGradient.append(firstline)
 
-        necessaryRows = int((len(extendedGradient) - len(self.matrix))/self.stride + 1)
-        necessaryColumns = int((len(extendedGradient[0]) - len(self.matrix[0]))/self.stride + 1)
+        #print(f"Lange Extended Gradients: {len(extendedGradient)}")
+        #print(f"Lange Padded Gradients: {len(paddedGradient)}")
+
+        # Turn matrix around 180 degree
+        turnedMatrix=[]
+        for row in reversed(self.matrix):
+            newRow = []
+            for col in reversed(row):
+                newRow.append(col)
+            turnedMatrix.append(newRow)
+
+        #print(f"Turned Matrix: {turnedMatrix}")
+
+        necessaryRows = int((len(paddedGradient) - len(turnedMatrix)) + 1)
+        necessaryColumns = int((len(paddedGradient[0]) - len(turnedMatrix[0])) + 1)
+
+        #print(necessaryRows)
+        #print(necessaryColumns)
 
         inputGradients = [[0 for _ in range(0, necessaryColumns)] for _ in range(0, necessaryRows)]
 
@@ -231,23 +245,25 @@ class CONVLayer(LayerInterface):
             for columnIndex in range(0, necessaryColumns):
 
                 val = 0
-                for targetRowIndex in range(0, len(self.matrix)):
-                    for targetColIndex in range(0, len(self.matrix[0])):
-                        val += extendedGradient[rowIndex * self.stride + targetRowIndex][columnIndex * self.stride + targetColIndex] * self.matrix[targetRowIndex][targetColIndex]
+                for targetRowIndex in range(0, len(turnedMatrix)):
+                    for targetColIndex in range(0, len(turnedMatrix[0])):
+                        val += paddedGradient[rowIndex + targetRowIndex][columnIndex + targetColIndex] * turnedMatrix[targetRowIndex][targetColIndex]
                 inputGradients[rowIndex][columnIndex] = val
 
-
-        # Adapt Gradients of matrix
+        ### Adapt Gradients of matrix
         for rowIndex in range(0, len(self.matrix)):
             for rowCol in range(0, len(self.matrix[0])):
                 self.matrix[rowIndex][rowCol] -= learningRate * kernalGradient[rowIndex][rowCol]
-        #print(self.matrix)
 
-        # convert outputs to 1dim list
+        #print(len(inputGradients))      ### TODO: Length of input gradients should match input image ( - padding)
+
+        ### Convert image gradients to 1dim array
         errors = []
         for rowIndex in range(0, len(inputGradients)):
             for colIndex in range(0, len(inputGradients[rowIndex])):
                 errors.append(inputGradients[rowIndex][colIndex])
+
+        #print(len(errors))
 
         return errors
 

@@ -7,7 +7,7 @@ from layer.flatten_layer import FlattenLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
-from foundation.enums import Functions, TestTypes
+from foundation.enums import Functions, TestTypes, PaddingType
 from model import SeqModel
 from load_save_model import saveModel, readModelFromStorage
 
@@ -54,8 +54,10 @@ def main():
     ### Create Model
 
     #conv = CONVLayer(matrix=[[-1,-1,-1,-1],[-1,2,2,-1],[-1,2,2,-1],[-1,-1,-1,-1]], stride=1, padding=None)
-    conv = CONVLayer(matrix= 4, stride=2, padding=None)
-    pol = PoolLayer(function=Functions.max, poolSize=4, stride=2)
+    conv1 = CONVLayer(matrix= 2, stride=1, padding=None)
+    pol1 = PoolLayer(function=Functions.max, poolSize=2, stride=1)
+    conv = CONVLayer(matrix= 2, stride=2, padding=PaddingType.same)
+    pol = PoolLayer(function=Functions.max, poolSize=3, stride=2)
     #conv = CONVLayer(matrix=[[-1,-1,-1],[-1,2,-1],[-1,-1,-1]], stride=1, padding=None)
     #pol = PoolLayer(function=Functions.max, poolSize=3, stride=2)
     flat = FlattenLayer()
@@ -65,7 +67,8 @@ def main():
     den3 = Layer(count=supportedClasses, function=Functions.tanh, isOutput=True)
     soft = SoftMaxLayer()
     #model = SeqModel([conv, pol, flat, den1, den2, den3, soft],False)
-    model = SeqModel([conv, pol, flat, den1, den3, soft])
+    model = SeqModel([conv1, pol1, conv, pol, flat, den1, den3, soft])
+    #model = SeqModel([conv, pol, flat, den1, den3, soft])
 
 
     ### Train Model
