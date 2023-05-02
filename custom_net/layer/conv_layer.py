@@ -4,8 +4,9 @@ from foundation.enums import PaddingType, LayerType
 from layer.layer_interface import LayerInterface
 
 class CONVLayer(LayerInterface):
+    ### Possibility for more than one matrix, add biases
 
-    def __init__(self, matrix = 3, stride = 1, padding = PaddingType.valid):
+    def __init__(self, matrix = 3, stride = 1, inputDepth = 3, padding = PaddingType.valid):
         """
         Initialize convolutional layer.
 
@@ -15,22 +16,25 @@ class CONVLayer(LayerInterface):
             - padding (Bool): Should padding be added to image
         """
         if type(matrix) == int:
-            self.matrix = []
+            self.matrixes = []
             for index in range(0, matrix):
                 row = []
                 for i in range(0, matrix):
-                    row.append(rnd.random())
-                self.matrix.append(row)
-                
+                    spot = []
+                    for depth in range(0, inputDepth):
+                        spot.append(rnd.random())
+                    row.append(spot)
+                self.matrixes.append(row)       
 
         else:
-            self.matrix = matrix
+            self.matrixes = matrix
 
         self.stride = stride
         self.padding = padding
+        self.inputDepth = inputDepth
 
         # Check if matrix is allowed
-        if any(len(row) != len(self.matrix[0]) for row in self.matrix):
+        if any(len(row) != len(self.matrixes[0]) for row in self.matrixes):
             raise Exception("Matrix must have the same width in all rows")
 
             
@@ -52,13 +56,12 @@ class CONVLayer(LayerInterface):
             
         self.image = image 
 
-        if (len(image) - len(self.matrix))/self.stride % 1 != 0.0 or (len(image[0]) - len(self.matrix[0]))/self.stride % 1  != 0:
+        if (len(image) - len(self.matrixes))/self.stride % 1 != 0.0 or (len(image[0]) - len(self.matrixes[0]))/self.stride % 1  != 0:
             raise Exception(f"Size of matrix, stride and image does not fit together, change matrix or stride")
 
-
         # evaluate how often the matrix is moved down and moved right per row
-        necessaryRows = int((len(image) - len(self.matrix))/self.stride + 1)
-        necessaryColumns = int((len(image[0]) - len(self.matrix[0]))/self.stride + 1)
+        necessaryRows = int((len(image) - len(self.matrixes))/self.stride + 1)
+        necessaryColumns = int((len(image[0]) - len(self.matrixes[0]))/self.stride + 1)
         
         # move matrix over image
         newImage = []
@@ -67,9 +70,10 @@ class CONVLayer(LayerInterface):
             for column in range(0, necessaryColumns):
                 # multiply elements at the same spot in frame and add it together
                 result = 0
-                for matrixRow in range(0, len(self.matrix)):
-                    for matrixCol in range(0, len(self.matrix[0])):
-                        result += self.matrix[matrixRow][matrixCol] * image[row * self.stride + matrixRow][column * self.stride + matrixCol]
+                for matrixRow in range(0, len(self.matrixes)):
+                    for matrixCol in range(0, len(self.matrixes[0])):
+                        for depth in range(0, self.inputDepth):
+                            result += self.matrixes[matrixRow][matrixCol][depth] * image[row * self.stride + matrixRow][column * self.stride + matrixCol][depth]
 
                 newRow.append(result)
             newImage.append(newRow)
@@ -91,7 +95,7 @@ class CONVLayer(LayerInterface):
         """
         #TODO: Support smaller padding
         paddingNumber = 0
-        matLen = len(self.matrix)
+        matLen = len(self.matrixes)
         if self.padding == PaddingType.same:
             paddingNumber = max(matLen - self.stride, 0) // 2 
         if self.padding == PaddingType.full:
@@ -129,14 +133,14 @@ class CONVLayer(LayerInterface):
 
         Return:
             - errors: propagage errors further
-
         """
 
         #print(f"Input: {targets}")
         #print(f"Image: {self.image}")
 
-        ### Calculate  gradients to improve matrix
-        kernalGradient = [[0 for _ in self.matrix[0]] for _ in self.matrix]
+        ### Calculate  gradients to improve matrix ####
+
+        kernalGradients = [[[0 or _ in range(0, self.inputDepth)] for _ in self.matrixes[0]] for _ in self.matrixes]
 
         #print(f"Lange Targets: {len(targets)}")
         #print(f"Lange Image: {len(self.image)}")
@@ -177,46 +181,51 @@ class CONVLayer(LayerInterface):
         if self.stride > 1:
             extendedGradient = extendedGradient[:-(self.stride-1)]
 
+        # Calculate kernal gradients
+
         necessaryRows = int((len(self.image) - len(extendedGradient)) +1)
         necessaryColumns = int((len(self.image[0]) - len(extendedGradient[0])) +1)
 
-        if necessaryRows != len(self.matrix) or necessaryColumns != len(self.matrix[0]):
+        if necessaryRows != len(self.matrixes) or necessaryColumns != len(self.matrixes[0]):
             raise Exception("There must be found frames for each part of the matrix")
 
         # Move targets over image
         for rowIndex in range(0, necessaryRows):
             for columnIndex in range(0, necessaryColumns):
 
-                val = 0
+                val = [0 for _ in range(0, self.inputDepth)]
                 for targetRowIndex in range(0, len(extendedGradient)):
                     for targetColIndex in range(0, len(extendedGradient[0])):
-                        val += self.image[rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex]
-                kernalGradient[rowIndex][columnIndex] = val
+                        for depth in range(0, self.inputDepth):
+                            val[depth] += self.image[rowIndex + targetRowIndex][columnIndex + targetColIndex][depth] * extendedGradient[targetRowIndex][targetColIndex] / self.inputDepth # Might remove or adapt /self.inputDepth
+                kernalGradients[rowIndex][columnIndex] = val
+        
+        #print(f"Kernal Gradients: {kernalGradients}")
 
 
-        ### Calculate errors to propagate further
+        ### Calculate errors to propagate further ####
 
         # pad extended gradient with zeros around 
         paddedGradient = []
 
         firstline = []
-        for i in range(0, len(extendedGradient[0]) + 2 * (len(self.matrix) - 1)):
+        for i in range(0, len(extendedGradient[0]) + 2 * (len(self.matrixes) - 1)):
             firstline.append(0)
         #print(f"Lange First Line: {len(firstline)}")
 
-        for i in range(0, len(self.matrix) -1):
+        for i in range(0, len(self.matrixes) -1):
             paddedGradient.append(firstline)
 
         for i in range(0, len(extendedGradient)):
             line = []
-            for j in range(0, len(self.matrix) -1):
+            for j in range(0, len(self.matrixes) -1):
                 line.append(0)
             line += extendedGradient[i]
-            for j in range(0, len(self.matrix) -1):
+            for j in range(0, len(self.matrixes) -1):
                 line.append(0)
             paddedGradient.append(line)
 
-        for i in range(0, len(self.matrix) -1):
+        for i in range(0, len(self.matrixes) -1):
             paddedGradient.append(firstline)
 
         #print(f"Lange Extended Gradients: {len(extendedGradient)}")
@@ -224,7 +233,7 @@ class CONVLayer(LayerInterface):
 
         # Turn matrix around 180 degree
         turnedMatrix=[]
-        for row in reversed(self.matrix):
+        for row in reversed(self.matrixes):
             newRow = []
             for col in reversed(row):
                 newRow.append(col)
@@ -232,32 +241,36 @@ class CONVLayer(LayerInterface):
 
         #print(f"Turned Matrix: {turnedMatrix}")
 
+        ### Calculate input errors
+
         necessaryRows = int((len(paddedGradient) - len(turnedMatrix)) + 1)
         necessaryColumns = int((len(paddedGradient[0]) - len(turnedMatrix[0])) + 1)
 
         #print(necessaryRows)
-        #print(necessaryColumns)
+        #print(necessaryColumns)qqq
 
-        inputGradients = [[0 for _ in range(0, necessaryColumns)] for _ in range(0, necessaryRows)]
+        inputGradients = [[[0 or _ in range(0, self.inputDepth)] for _ in range(0, necessaryColumns)] for _ in range(0, necessaryRows)]
 
         # Move matrix over extended gradients
         for rowIndex in range(0, necessaryRows):
             for columnIndex in range(0, necessaryColumns):
 
-                val = 0
+                val = [0 for _ in range(0, self.inputDepth)]
                 for targetRowIndex in range(0, len(turnedMatrix)):
                     for targetColIndex in range(0, len(turnedMatrix[0])):
-                        val += paddedGradient[rowIndex + targetRowIndex][columnIndex + targetColIndex] * turnedMatrix[targetRowIndex][targetColIndex]
+                        for depth in range(0, self.inputDepth):
+                            val[depth] += paddedGradient[rowIndex + targetRowIndex][columnIndex + targetColIndex] * turnedMatrix[targetRowIndex][targetColIndex][depth]
                 inputGradients[rowIndex][columnIndex] = val
 
         ### Adapt Gradients of matrix
-        for rowIndex in range(0, len(self.matrix)):
-            for rowCol in range(0, len(self.matrix[0])):
-                self.matrix[rowIndex][rowCol] -= learningRate * kernalGradient[rowIndex][rowCol]
+        for rowIndex in range(0, len(self.matrixes)):
+            for rowCol in range(0, len(self.matrixes[0])):
+                for depth in range(0, self.inputDepth):
+                    self.matrixes[rowIndex][rowCol][depth] -= learningRate * kernalGradients[rowIndex][rowCol][depth]
 
         #print(len(inputGradients))      ### TODO: Length of input gradients should match input image ( - padding)
 
-        ### Convert image gradients to 1dim array
+        ### Convert image gradients to 1dim array TODO: Anpassen für mehrdimensionale Werte
         errors = []
         for rowIndex in range(0, len(inputGradients)):
             for colIndex in range(0, len(inputGradients[rowIndex])):
@@ -274,7 +287,7 @@ class CONVLayer(LayerInterface):
         Returns:
         - 
         """
-        return self.matrix
+        return self.matrixes
     
 
     def getStructure(self):

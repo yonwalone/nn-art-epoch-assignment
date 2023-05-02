@@ -1,12 +1,12 @@
 from layer.layer import Layer
 from foundation.enums import Functions, PaddingType
 from foundation.percepton import Percepton
-from model import SeqModel
+from model.model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.flatten_layer import FlattenLayer
-from load_save_model import saveModel, readModelFromStorage
+from model.load_save_model import saveModel, readModelFromStorage
 import numpy as np
 
 # TODO: Unterstützung von Farben und Mehrschichtigen Matrizen

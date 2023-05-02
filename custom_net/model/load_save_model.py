@@ -6,7 +6,7 @@ from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.flatten_layer import FlattenLayer
-from model import SeqModel
+from model.model import SeqModel
 
 #currently only working with SeqModel and only "normal" layers
 

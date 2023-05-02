@@ -130,6 +130,7 @@ class SeqModel:
             for ind in range(0, len(output)):
                 print(f"Test: {ind}")
                 result = self.act(input[ind])
+                print(result)
                 index = result.index(max(result))
                 if output[ind][index] != 1:
                     errorCount += 1

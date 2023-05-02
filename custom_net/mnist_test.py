@@ -7,8 +7,8 @@ from layer.flatten_layer import FlattenLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
-from model import SeqModel
-from load_save_model import saveModel, readModelFromStorage
+from model.model import SeqModel
+from model.load_save_model import saveModel, readModelFromStorage
 
 def main():
 
