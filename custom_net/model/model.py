@@ -108,7 +108,7 @@ class SeqModel:
                 print(f"Epoch: {epochIndex}, Input: {index}")
                 #print(f"Input: {input[indexOutput]}")
                 #print(f"Expected Output: {output[indexOutput]}")
-                self.act(input[index])
+                self.act(self.preprocessImage(input[index]))
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
 
         #print(f"Gewichte: {model.getWeights()}")
@@ -129,7 +129,7 @@ class SeqModel:
             errorCount= 0
             for ind in range(0, len(output)):
                 print(f"Test: {ind}")
-                result = self.act(input[ind])
+                result = self.act(self.preprocessImage(input[ind]))
                 print(result)
                 index = result.index(max(result))
                 if output[ind][index] != 1:
@@ -140,3 +140,27 @@ class SeqModel:
 
         else:
             raise Exception("Use implemented TestType")
+        
+
+    def preprocessImage(self,image):
+        """
+        image: [height [width [inputDepth]]] or [height [width]]
+
+        newImage: [inputDepth [height [width]]]
+        """
+        newImage = []
+        if isinstance(image[0][0], float) or isinstance(image[0][0], int):
+            # case 2
+            newImage = [image]
+        else:
+            # case 1
+            newImage = [[[0 for _ in range(0, len(image[0]))] for _ in range(0, len(image))] for _ in range(0, len(image[0][0]))]
+            for row in range(0, len(image)):
+                for col in range(0, len(image[0])):
+                    for inDepth in range(0, len(image[0][0])):
+                        newImage[inDepth][row][col] = image[row][col][inDepth]
+
+        return newImage
+
+
+
