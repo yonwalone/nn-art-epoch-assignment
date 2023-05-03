@@ -37,6 +37,7 @@ class CONVLayer(LayerInterface):
         self.paddingType = padding
         self.inputDepth = inputDepth
         self.depth = depth
+        self.bias = None
 
         # Check if matrix is allowed
         if any(len(row) != len(self.matrixes[0]) for row in self.matrixes):
@@ -67,6 +68,17 @@ class CONVLayer(LayerInterface):
         # evaluate how often the matrix is moved down and moved right per row
         necessaryRows = int((len(image[0]) - len(self.matrixes[0][0]))/self.stride + 1)
         necessaryColumns = int((len(image[0][0]) - len(self.matrixes[0][0][0]))/self.stride + 1)
+
+        if self.bias == None:
+            self.bias = []                          # [depth [height [width]]]
+            for depth in range(0, self.depth):
+                matrix = []
+                for row in range(0, necessaryRows):
+                    newRow = []
+                    for col in range(0, necessaryColumns):
+                        newRow.append(rnd.random())
+                    matrix.append(newRow)             
+                self.bias.append(matrix)
         
         # move matrix over image
         newImages = []
@@ -80,7 +92,7 @@ class CONVLayer(LayerInterface):
                     for matrixRow in range(0, len(self.matrixes[0][0])):
                         for matrixCol in range(0, len(self.matrixes[0][0][0])):
                             for indepth in range(0, self.inputDepth):
-                                result += self.matrixes[depth][indepth][matrixRow][matrixCol] * image[indepth][row * self.stride + matrixRow][column * self.stride + matrixCol]
+                                result += self.matrixes[depth][indepth][matrixRow][matrixCol] * image[indepth][row * self.stride + matrixRow][column * self.stride + matrixCol] + self.bias[depth][matrixRow][matrixCol]
 
                     newRow.append(result)
                 newImage.append(newRow)
@@ -157,7 +169,17 @@ class CONVLayer(LayerInterface):
         # For each depth in targets
         for depth in range(0, len(targets)):
 
-            #Add zeros between targets based on stride
+            #print(self.bias)
+            ### Adapt values for bias
+            for row in range(0, len(targets[depth])):
+                for col in range(0, len(targets[depth][0])):
+                    self.bias[depth][row][col] -= learningRate * targets[depth][row][col] / self.inputDepth # TODO: Might remove devision
+            #print("Second")
+            #print(self.bias)
+            
+
+            ### Prepare Gradient: Add zeros between targets based on stride
+
             # [[a,b],
             # [c,d]]
             # To:
@@ -274,7 +296,7 @@ class CONVLayer(LayerInterface):
                     for inDepth in range(0, self.inputDepth):
                         self.matrixes[depth][inDepth][rowIndex][rowCol] -= learningRate * kernalGradients[depth][inDepth][rowIndex][rowCol]
 
-        #print(len(inputGradients))      ### TODO: Length of input gradients should match input image ( - padding)
+        ### Remove padding in inputGradients
         shrinkInputGradients = []
         for inDepth in range(0, len(inputGradients)):
             inputMatrix = []
