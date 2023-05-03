@@ -22,16 +22,25 @@ class FlattenLayer(LayerInterface):
         #print(inputs)
 
         # Convert to 1dim list
-        newList = []
-        for element in inputs:
-            #print(element)
-            newList += element
+        newList = self.flatInput(inputs)
+        #print(f"After flat: {len(newList)}")
 
         # Append 1 as bias for next layer
         newList.append(1)
 
         #print(f"Flatten output: {newList}")
         return newList
+    
+    def flatInput(self,array):
+        output= []
+
+        for a in array:
+            if isinstance(a, float) or isinstance(a, int):
+                output.append(a)
+            else:
+                output += self.flatInput(a)
+        return output
+
 
     def handleError(self, targets, errorFunc, learningRate):
         """
@@ -48,6 +57,7 @@ class FlattenLayer(LayerInterface):
 
         """
         # add incoming derivates together
+        #print(f"Flatten Input Lenght: {len(targets)}")
         derivateIn = []
         for target in targets:
             value = 0

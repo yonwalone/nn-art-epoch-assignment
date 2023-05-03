@@ -26,33 +26,39 @@ class PoolLayer(LayerInterface):
         Return:
             - newImage: Transformed image 
         """
-        self.image = image[:]
+        self.images = image[:]
 
-        # Find (max/avg) number in each frame
-        necessaryRows = int((len(image) - self.poolSize)/self.stride + 1)
-        necessaryColumns = int((len(image[0]) - self.poolSize)/self.stride + 1)
+        outImages = []
+        for img in self.images:
+            #print(f"Pool Image height: {len(img)}")
+            #print(f"Pool Image width: {len(img[0])}")
+            # Find (max/avg) number in each frame
+            necessaryRows = int((len(img) - self.poolSize)/self.stride + 1)
+            necessaryColumns = int((len(img[0]) - self.poolSize)/self.stride + 1)
 
-        newImage=[]
-        for rowIndex in range(0, necessaryRows):
-            newRow = []
-            for columnIndex in range(0, necessaryColumns):
-                # Get value for field
-                results = []
-                for poolRowIndex in range(0, self.poolSize):
-                    for poolColIndex in range(0, self.poolSize):
-                        results.append(image[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex])
-                
-                if self.function == Functions.max:
-                    newRow.append(max(results))
-                elif self.function == Functions.avg:
-                    newRow.append(int(sum(results) / len(results)))
-                else:
-                    raise Exception("Use valid pooling function")
-                
-            newImage.append(newRow)
+            newImage=[]
+            for rowIndex in range(0, necessaryRows):
+                newRow = []
+                for columnIndex in range(0, necessaryColumns):
+                    # Get value for field
+                    results = []
+                    for poolRowIndex in range(0, self.poolSize):
+                        for poolColIndex in range(0, self.poolSize):
+                            results.append(img[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex])
+                    
+                    if self.function == Functions.max:
+                        newRow.append(max(results))
+                    elif self.function == Functions.avg:
+                        newRow.append(int(sum(results) / len(results)))
+                    else:
+                        raise Exception("Use valid pooling function")
+                    
+                newImage.append(newRow)
 
-        #print(newImage)
-        return newImage
+            outImages.append(newImage)
+
+        #print(f"Pooling Out: {outImages}")
+        return outImages
     
     def handleError(self, targets, errorFunc, learningRate): # currently only implemeted for max function
         """
@@ -69,46 +75,68 @@ class PoolLayer(LayerInterface):
         """
         #print(f"Targets: {targets}")
 
+        resultImages=[]
+        target = 0
+
         # Get index of for error relevant elements per frame
-        relevantIndexes = []
-        necessaryRows = int((len(self.image) - self.poolSize)/self.stride + 1)
-        necessaryColumns = int((len(self.image[0]) - self.poolSize)/self.stride + 1)
+        for depth in range(0, len(self.images)):
+            #relevantIndexes = []
+            #print("Start depth")
 
-        for rowIndex in range(0, necessaryRows):
-            for columnIndex in range(0, necessaryColumns):
+            # generate image filled with 0
+            resultImage = [[0 for _ in self.images[depth][0]] for _ in self.images[depth]]   
 
-                # Get values in frame
-                results = []
-                for poolRowIndex in range(0, self.poolSize):
-                    for poolColIndex in range(0, self.poolSize):
-                        results.append(self.image[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex])
-                
-                relevantPos = 0
-                if self.function == Functions.max:
-                    result = max(results)
-                    relevantPos = results.index(result)
-                else:
-                    raise Exception("Use valid pooling function")
+            necessaryRows = int((len(self.images[depth]) - self.poolSize)/self.stride + 1)
+            necessaryColumns = int((len(self.images[depth][0]) - self.poolSize)/self.stride + 1)
 
-                #Positions of number in frame
-                yPosPattern = int(relevantPos/self.poolSize)
-                xPosPattern = relevantPos % self.poolSize
+            #print(necessaryRows)
+            #print(necessaryColumns)
 
-                # Position of number in image
-                yPosAbsolute = rowIndex * self.stride + yPosPattern
-                xPosAbsolute = columnIndex * self.stride + xPosPattern
+            for rowIndex in range(0, necessaryRows):
+                for columnIndex in range(0, necessaryColumns):
 
-                relevantIndexes.append([yPosAbsolute, xPosAbsolute])
+                    # Get values in frame
+                    results = []
+                    for poolRowIndex in range(0, self.poolSize):
+                        for poolColIndex in range(0, self.poolSize):
+                            results.append(self.images[depth][rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex])
+                    
+                    relevantPos = 0
+                    if self.function == Functions.max:
+                        result = max(results)
+                        relevantPos = results.index(result)
+                    else:
+                        raise Exception("Use valid pooling function")
 
-        # generate image filled with 0
-        resultImage = [[0 for _ in self.image[0]] for _ in self.image]     
+                    #Positions of number in frame
+                    yPosPattern = int(relevantPos/self.poolSize)
+                    xPosPattern = relevantPos % self.poolSize
 
-        # derivates on position where number taken for pooling 
-        for derivateIndex, derivate in enumerate(targets):
-            resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = derivate
+                    # Position of number in image
+                    yPosAbsolute = rowIndex * self.stride + yPosPattern
+                    xPosAbsolute = columnIndex * self.stride + xPosPattern
 
-        #print(f"Hanle Error Result Pooling: {resultImage}")
-        return resultImage
+                    #relevantIndexes.append([yPosAbsolute, xPosAbsolute])
+                    resultImage[yPosAbsolute][xPosAbsolute] = targets[target]
+                    target += 1
+              
+            # derivates on position where number taken for pooling 
+            #for derivateIndex in range(0, len(targets) - priorIndexes):
+            #    if derivateIndex < len(relevantIndexes):
+            #        resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = targets[priorIndexes+derivateIndex]
+            #    else:
+            #        priorIndexes += derivateIndex
+            #        break
+
+            #print(f"Hanle Error Result Pooling: {resultImage}")
+            #print(f"Height Img: {len(resultImage)}")
+            #print(f"Height Img: {len(resultImage[0])}")
+            resultImages.append(resultImage)
+        #print(len(resultImages))
+        #print(len(resultImage[0]))
+        #print(target)
+        #print(resultImages)
+        return resultImages
     
     def getWeights(self):
         """

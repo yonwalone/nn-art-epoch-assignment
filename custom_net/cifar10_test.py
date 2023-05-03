@@ -17,7 +17,7 @@ testAnalyze = [0,0,0,0,0,0,0,0,0,0]
 
 ### Prepare training data
 numberOfTrainigData = 50000
-input = (x_train[:numberOfTrainigData] /255 * 2 -0.5).tolist()
+input = (x_train[:numberOfTrainigData] /255 * 2 -1).tolist()
 
 # Prepare training outputs
 outputIn = y_train.tolist()
@@ -35,7 +35,7 @@ for index in range(0,len(outputIn)):
 
 ### Create Model
 
-conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, padding=PaddingType.valid)
+conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, depth=2, padding=PaddingType.valid)
 pol = PoolLayer(function=Functions.max, poolSize=2, stride=2)
 flat = FlattenLayer()
 den1 = Layer(count=10, function=Functions.tanh)
@@ -51,7 +51,7 @@ saveModel(model, "tmp_model.json")
 
 ### Prepare test data
 numberOfTestData=10000
-input = (x_test[:numberOfTestData] /255 * 2 -0.5).tolist()
+input = (x_test[:numberOfTestData] /255 * 2 -1).tolist()
 
 # Prepare test outputs
 outputIn = y_test.tolist()
