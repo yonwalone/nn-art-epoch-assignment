@@ -2,6 +2,7 @@ import numpy as np
 from tensorflow import keras
 
 from foundation.enums import Functions, TestTypes, PaddingType
+from foundation.helper import preprocessImages
 from layer.layer import Layer
 from layer.flatten_layer import FlattenLayer
 from layer.softmax_layer import SoftMaxLayer
@@ -20,7 +21,6 @@ def main():
     supportedClasses = 10
     trainAnalyze = [0,0,0,0,0,0,0,0,0,0]
     testAnalyze = [0,0,0,0,0,0,0,0,0,0]
-
   
     ### Prepare Test Data
 
@@ -49,7 +49,8 @@ def main():
 
     for index in range(0, len(removeArray)):
         trainData.pop(removeArray[index] - index)
-
+    
+    trainData= preprocessImages(trainData)
 
     ### Create Model
 
@@ -106,6 +107,7 @@ def main():
     for index in range(0, len(removeArray)):
         xTest.pop(removeArray[index] - index)
     
+    xTest = preprocessImages(xTest)
 
     ### Test Model with test Data
 

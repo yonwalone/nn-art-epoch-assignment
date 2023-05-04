@@ -1,12 +1,12 @@
 import random as rnd
 
 from foundation.enums import PaddingType, LayerType
+from foundation.helper import flatInput
 from layer.layer_interface import LayerInterface
 
 class CONVLayer(LayerInterface):
-    ### TODO: add biases
 
-    def __init__(self, matrix = 3, stride = 1, inputDepth = 1, depth = 1, padding = PaddingType.valid):
+    def __init__(self, matrix = 3, stride = 1, inputDepth = 1, depth = 1, bias = None, padding = PaddingType.valid):
         """
         Initialize convolutional layer.
 
@@ -37,7 +37,7 @@ class CONVLayer(LayerInterface):
         self.paddingType = padding
         self.inputDepth = inputDepth
         self.depth = depth
-        self.bias = None
+        self.bias = bias
 
         # Check if matrix is allowed
         if any(len(row) != len(self.matrixes[0]) for row in self.matrixes):
@@ -316,19 +316,10 @@ class CONVLayer(LayerInterface):
             shrinkInputGradients.append(inputMatrix)
 
         ### Convert image gradients to 1dim array
-        errors = self.flatInput(shrinkInputGradients)
+        errors = flatInput(shrinkInputGradients)
 
         return errors
     
-    def flatInput(self,array):
-        output= []
-
-        for a in array:
-            if isinstance(a, float) or isinstance(a, int):
-                output.append(a)
-            else:
-                output += self.flatInput(a)
-        return output
 
     def getWeights(self):
         """
@@ -347,5 +338,5 @@ class CONVLayer(LayerInterface):
         Returns:
         - 
         """
-        return [LayerType.conv.value, [self.getWeights(), self.stride, self.paddingType.value]]
+        return [LayerType.conv.value, [self.getWeights(), self.stride, self.paddingType.value, self.inputDepth, self.depth, self.bias]]
  

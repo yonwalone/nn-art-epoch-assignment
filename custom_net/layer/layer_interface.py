@@ -10,10 +10,6 @@ class LayerInterface:
     def handleError(self, targets, errorFunc, learningRate):
         pass
 
-    # Return weights of layer
-    def getWeights(self):
-        pass
-
     # Return structure of layer
     def getStructure(self):
         pass

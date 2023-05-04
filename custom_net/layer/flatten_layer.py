@@ -1,4 +1,5 @@
 from foundation.enums import LayerType
+from foundation.helper import flatInput
 from layer.layer_interface import LayerInterface
 
 class FlattenLayer(LayerInterface):
@@ -22,7 +23,7 @@ class FlattenLayer(LayerInterface):
         #print(inputs)
 
         # Convert to 1dim list
-        newList = self.flatInput(inputs)
+        newList = flatInput(inputs)
         #print(f"After flat: {len(newList)}")
 
         # Append 1 as bias for next layer
@@ -30,17 +31,6 @@ class FlattenLayer(LayerInterface):
 
         #print(f"Flatten output: {newList}")
         return newList
-    
-    def flatInput(self,array):
-        output= []
-
-        for a in array:
-            if isinstance(a, float) or isinstance(a, int):
-                output.append(a)
-            else:
-                output += self.flatInput(a)
-        return output
-
 
     def handleError(self, targets, errorFunc, learningRate):
         """

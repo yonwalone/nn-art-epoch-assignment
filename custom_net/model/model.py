@@ -1,4 +1,5 @@
 from foundation.enums import Functions, TestTypes
+from foundation.helper import print_progress_bar
 from layer.layer import Layer
 
 class SeqModel:
@@ -105,10 +106,11 @@ class SeqModel:
         for epochIndex in range(0, epochs):
 
             for index, currOutput in enumerate(output):
-                print(f"Epoch: {epochIndex}, Input: {index}")
+                #print(f"Epoch: {epochIndex}, Input: {index}")
+                print_progress_bar(index, len(output), start_text =f"Train: Epoch: {epochIndex}, Input", new_line = False)
                 #print(f"Input: {input[indexOutput]}")
                 #print(f"Expected Output: {output[indexOutput]}")
-                self.act(self.preprocessImage(input[index]))
+                self.act(input[index])
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
 
         #print(f"Gewichte: {model.getWeights()}")
@@ -128,8 +130,9 @@ class SeqModel:
         if mode == TestTypes.biggestPredictionOn1Position:
             errorCount= 0
             for ind in range(0, len(output)):
-                print(f"Test: {ind}")
-                result = self.act(self.preprocessImage(input[ind]))
+                #print(f"Test: {ind}")
+                print_progress_bar(ind, len(output),start_text =f"Test", new_line = True)
+                result = self.act(input[ind])
                 print(result)
                 index = result.index(max(result))
                 if output[ind][index] != 1:
@@ -140,27 +143,6 @@ class SeqModel:
 
         else:
             raise Exception("Use implemented TestType")
-        
-
-    def preprocessImage(self,image):
-        """
-        image: [height [width [inputDepth]]] or [height [width]]
-
-        newImage: [inputDepth [height [width]]]
-        """
-        newImage = []
-        if isinstance(image[0][0], float) or isinstance(image[0][0], int):
-            # case 2
-            newImage = [image]
-        else:
-            # case 1
-            newImage = [[[0 for _ in range(0, len(image[0]))] for _ in range(0, len(image))] for _ in range(0, len(image[0][0]))]
-            for row in range(0, len(image)):
-                for col in range(0, len(image[0])):
-                    for inDepth in range(0, len(image[0][0])):
-                        newImage[inDepth][row][col] = image[row][col][inDepth]
-
-        return newImage
 
 
 

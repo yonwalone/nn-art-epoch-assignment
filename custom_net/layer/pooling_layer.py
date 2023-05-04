@@ -49,7 +49,7 @@ class PoolLayer(LayerInterface):
                     if self.function == Functions.max:
                         newRow.append(max(results))
                     elif self.function == Functions.avg:
-                        newRow.append(int(sum(results) / len(results)))
+                        newRow.append(sum(results) / len(results))
                     else:
                         raise Exception("Use valid pooling function")
                     
@@ -73,24 +73,18 @@ class PoolLayer(LayerInterface):
             - errors: propagage errors further
 
         """
-        #print(f"Targets: {targets}")
 
         resultImages=[]
         target = 0
 
         # Get index of for error relevant elements per frame
         for depth in range(0, len(self.images)):
-            #relevantIndexes = []
-            #print("Start depth")
 
             # generate image filled with 0
             resultImage = [[0 for _ in self.images[depth][0]] for _ in self.images[depth]]   
 
             necessaryRows = int((len(self.images[depth]) - self.poolSize)/self.stride + 1)
             necessaryColumns = int((len(self.images[depth][0]) - self.poolSize)/self.stride + 1)
-
-            #print(necessaryRows)
-            #print(necessaryColumns)
 
             for rowIndex in range(0, necessaryRows):
                 for columnIndex in range(0, necessaryColumns):
@@ -100,52 +94,35 @@ class PoolLayer(LayerInterface):
                     for poolRowIndex in range(0, self.poolSize):
                         for poolColIndex in range(0, self.poolSize):
                             results.append(self.images[depth][rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex])
-                    
-                    relevantPos = 0
+                               
                     if self.function == Functions.max:
+                        relevantPos = 0
                         result = max(results)
                         relevantPos = results.index(result)
+
+                        #Positions of number in frame
+                        yPosPattern = int(relevantPos/self.poolSize)
+                        xPosPattern = relevantPos % self.poolSize
+
+                        # Position of number in image
+                        yPosAbsolute = rowIndex * self.stride + yPosPattern
+                        xPosAbsolute = columnIndex * self.stride + xPosPattern
+
+                        resultImage[yPosAbsolute][xPosAbsolute] = targets[target]
+
+                    elif self.function == Functions.avg:
+                        for poolRowIndex in range(0, self.poolSize):
+                            for poolColIndex in range(0, self.poolSize):
+                                resultImage[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex] += targets[target] * len(results) / self.images[depth][rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex]
+
                     else:
                         raise Exception("Use valid pooling function")
 
-                    #Positions of number in frame
-                    yPosPattern = int(relevantPos/self.poolSize)
-                    xPosPattern = relevantPos % self.poolSize
-
-                    # Position of number in image
-                    yPosAbsolute = rowIndex * self.stride + yPosPattern
-                    xPosAbsolute = columnIndex * self.stride + xPosPattern
-
-                    #relevantIndexes.append([yPosAbsolute, xPosAbsolute])
-                    resultImage[yPosAbsolute][xPosAbsolute] = targets[target]
                     target += 1
               
-            # derivates on position where number taken for pooling 
-            #for derivateIndex in range(0, len(targets) - priorIndexes):
-            #    if derivateIndex < len(relevantIndexes):
-            #        resultImage[relevantIndexes[derivateIndex][0]][relevantIndexes[derivateIndex][1]] = targets[priorIndexes+derivateIndex]
-            #    else:
-            #        priorIndexes += derivateIndex
-            #        break
-
-            #print(f"Hanle Error Result Pooling: {resultImage}")
-            #print(f"Height Img: {len(resultImage)}")
-            #print(f"Height Img: {len(resultImage[0])}")
             resultImages.append(resultImage)
-        #print(len(resultImages))
-        #print(len(resultImage[0]))
-        #print(target)
-        #print(resultImages)
         return resultImages
     
-    def getWeights(self):
-        """
-        Get weights of layer
-
-        Returns:
-        - 
-        """
-        return None
     
     def getStructure(self):
         """
