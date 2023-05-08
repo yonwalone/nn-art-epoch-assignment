@@ -50,7 +50,7 @@ def readModelFromStorage(file):
             layer.append(Layer(count=value[0], function=Functions(value[1]), initialWeights=value[2], isOutput=value[3]))
         elif type == LayerType.conv:
             value = currLayer[1]
-            layer.append(CONVLayer(matrix=value[0], stride=value[1], padding=PaddingType(value[2]), inputDepth=value[3], depth=value[4], bias=value[5]))
+            layer.append(CONVLayer(matrix=value[0], stride=value[1], padding=PaddingType(value[2]), inputDepth=value[3], outputDepth=value[4], bias=value[5]))
         elif type == LayerType.pool:
             value = currLayer[1]
             layer.append(PoolLayer(function = Functions(value[0]), poolSize= value[1], stride=value[2]))

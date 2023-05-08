@@ -37,7 +37,7 @@ for index in range(0,len(outputIn)):
 
 ### Create Model
 
-conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, depth=2, padding=PaddingType.valid)
+conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, outputDepth=2, padding=PaddingType.valid)
 pol = PoolLayer(function=Functions.avg, poolSize=2, stride=2)
 flat = FlattenLayer()
 den1 = Layer(count=10, function=Functions.tanh)

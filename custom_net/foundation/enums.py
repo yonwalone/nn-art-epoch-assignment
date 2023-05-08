@@ -1,5 +1,6 @@
 from enum import Enum
 
+# WARNING: Dont change values of enums
 class Functions(Enum):
 
     #Activation Functions

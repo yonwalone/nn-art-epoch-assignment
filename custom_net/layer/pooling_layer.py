@@ -61,7 +61,7 @@ class PoolLayer(LayerInterface):
         return outImages
     
 
-    def handleError(self, targets, errorFunc, learningRate): # currently only implemeted for max function
+    def handleError(self, targets, errorFunc, learningRate):
         """
         Handle error for layer, change weights of matrix and propagate error further
 
