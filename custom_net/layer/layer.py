@@ -1,10 +1,10 @@
-from foundation.neuron import Percepton
-from foundation.enums import Functions
+from foundation.enums import Functions, LayerType
+from foundation.percepton import Percepton
 from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):
     
-    def __init__(self, count, function, initialWeights, isOutput = False):
+    def __init__(self, count, function, initialWeights = None, isOutput = False):
         """
         Initialize layer with perceptons.
 
@@ -17,12 +17,12 @@ class Layer(LayerInterface):
         self.isOutput = isOutput
         self.function = function
 
-        if count != len(initialWeights):
-            raise Exception("There must be initialWeights for each Percepton")
-
         # Create perceptrons of layer
         self.perceptrons = []
-        self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
+        if initialWeights != None:
+            self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
+        else:
+            self.perceptrons = [Percepton(func=function, weights=None) for index in range(count)]
 
     def act(self, inputs):
         """
@@ -38,7 +38,7 @@ class Layer(LayerInterface):
         outputs = []
         # run each perceptron with input and add to list
         for perceptron in self.perceptrons:
-            outputs.append(perceptron.react(inputs))
+            outputs.append(perceptron.act(inputs))
         
         # append bias
         if not self.isOutput:
@@ -108,4 +108,4 @@ class Layer(LayerInterface):
         Returns:
         - (Array): information about structure of layer
         """
-        return [len(self.perceptrons), self.function.value, self.isOutput]
+        return [LayerType.dense.value, [len(self.perceptrons), self.function.value, self.getWeights(), self.isOutput]]

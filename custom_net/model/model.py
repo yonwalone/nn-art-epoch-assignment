@@ -1,9 +1,10 @@
+from foundation.enums import Functions, TestTypes
+from foundation.helper import print_progress_bar
 from layer.layer import Layer
-from foundation.enums import Functions
 
 class SeqModel:
 
-    def __init__(self, layers, onlyMLP = True) -> None:
+    def __init__(self, layers, onlyMLP = False) -> None:
         """
         Initialize model with layers.
 
@@ -47,6 +48,7 @@ class SeqModel:
         # Provide input for each layer, process input, provide result as next input
         for layer in self.layers:
             values_modified = layer.act(values_modified)
+            #print(values_modified)
         return values_modified
     
     def handleError(self, targets, errorFunc, learningRate):
@@ -85,3 +87,68 @@ class SeqModel:
         for layer in self.layers:
             structure.append(layer.getStructure())
         return structure
+
+    def train(self, input, output, errorFunc, learningRate, epochs):
+        """
+        Train model with inputs to return expected outputs.
+
+        Params:
+            - input: array of inputs of model
+            - output: array of expected outputs of model
+            - errorFunc: Error Function to calculate error
+            - learningRate (Number): Factor of how fast a net should adapt to input values
+            - epochs (Int): How many times should inputs be used
+        """
+
+        if len(input) != len(output):
+            raise Exception("Len of inputs must equal the length of expected outputs")
+        
+        for epochIndex in range(0, epochs):
+
+            for index, currOutput in enumerate(output):
+                #print(f"Epoch: {epochIndex}, Input: {index}")
+                print_progress_bar(index, len(output), start_text =f"Train: Epoch: {epochIndex}, Input", new_line = False)
+                #print(f"Input: {input[indexOutput]}")
+                #print(f"Expected Output: {output[indexOutput]}")
+                self.act(input[index])
+                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
+
+        #print(f"Gewichte: {model.getWeights()}")
+
+    def test(self, input, output, mode):
+        """
+        Test model with inputs and find percentage of correct outputs
+        Params:
+            - input: array of inputs of model
+            - output: array of expected outputs of model
+            - mode (TestTypes): how should be decided if result is correct
+
+        Returns:
+            - accuracy: percentage of correct found 
+        """
+
+        if mode == TestTypes.biggestPredictionOn1Position:
+            errorCount= 0
+            statistic = [[ 0 for _ in range(0,len(output[0]))] for _ in range(0,len(output[0]))]
+            for ind in range(0, len(output)):
+                #print(f"Test: {ind}")
+                print_progress_bar(ind, len(output),start_text =f"Test", new_line = True)
+                result = self.act(input[ind])
+                print(result)
+
+                # find 1 in output
+                expIndex = output[ind].index(max(output[ind]))
+
+                index = result.index(max(result))
+                statistic[expIndex][index] += 1
+                if output[ind][index] != 1:
+                    errorCount += 1
+            print(f"Error Count: {errorCount}")
+            accuracy = 1 - errorCount / len(output)
+            return accuracy, statistic
+
+        else:
+            raise Exception("Use implemented TestType")
+
+
+

@@ -1,5 +1,6 @@
 from enum import Enum
 
+# WARNING: Dont change values of enums
 class Functions(Enum):
 
     #Activation Functions
@@ -8,6 +9,7 @@ class Functions(Enum):
     tanh = 2
     reLu = 3
     no = 4
+    leakyReLU=5
 
     # Error Functions
     halfsquareError = 100
@@ -20,3 +22,15 @@ class PaddingType(Enum):
     valid = 0
     same = 1
     full = 2
+
+
+class LayerType(Enum):
+    dense = 0
+    conv = 1
+    pool = 2
+    softmax = 3
+    flatten = 4
+
+
+class TestTypes(Enum):
+    biggestPredictionOn1Position = 0

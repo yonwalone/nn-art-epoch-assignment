@@ -1,12 +1,17 @@
 from layer.layer import Layer
-from foundation.enums import Functions
-from foundation.neuron import Percepton
-from model import SeqModel
+from foundation.enums import Functions, PaddingType, TestTypes
+from foundation.percepton import Percepton
+from foundation.helper import preprocessImages, printStatistics
+from model.model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
-from layer.exclusive_layer import FooLayer
-from load_save_model import saveModel, readModelFromStorage
+from layer.softmax_layer import SoftMaxLayer
+from layer.flatten_layer import FlattenLayer
+from model.load_save_model import saveModel, readModelFromStorage
+
 import numpy as np
+
+# TODO: Unterstützung von Farben und Mehrschichtigen Matrizen
 
 
 def getInclusiveOrModel():
@@ -50,36 +55,67 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
     return model
 
-def trainSeqModel(model, input, output, errorFunc, learningRate, epochs):
-    if len(input) != len(output):
-        raise Exception("Len of inputs must equal the length of expected outputs")
-    
-    for epochIndex in range(0, epochs):
-        with open("log.txt", 'a') as log_file:
-            log_file.write("Start Epoch" + "\n")
-
-        for index, currOutput in enumerate(output):
-            #print(f"Input: {input[indexOutput]}")
-            #print(f"Expected Output: {output[indexOutput]}")
-
-            with open("log.txt", 'a') as log_file:
-                log_file.write(str(currOutput) + "\n")
-
-            print(model.act(input[index]))
-            model.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)
-
-    #print(f"Gewichte: {model.getWeights()}")
-    return model 
 
 def main():
 
-    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=True)
-    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
-    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
-    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
-    exc = FooLayer()
+    conv = CONVLayer(matrix=2, stride=1, padding=PaddingType.same)
+    pol = PoolLayer(poolSize=2, stride=1, function=Functions.avg)
+    flat = FlattenLayer()
+    middleLayer = Layer(count=4, function=Functions.reLu,)
+    outputLayer = Layer(count=2, function=Functions.reLu, isOutput= True)
+    exc = SoftMaxLayer()
 
-    model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
+    #model =  SeqModel([conv, pol, flat, middleLayer, outputLayer, exc], False)
+    model =  SeqModel([flat, middleLayer, outputLayer, exc])
+
+    #model = readModelFromStorage("current_model.json")
+
+    input = []
+    output = []
+
+    for i in [0,1]:
+        for j in [0,1]:
+            for k in [0,1]:
+                for l in [0,1]:
+                    for m in [0,1]:
+                        for n in [0,1]:
+                            for o in [0,1]:
+                                for p in [0,1]:
+                                    for q in [0,1]:
+                                        input.append( [[i, j, k, i], [l, m, n, i], [o, p, q, i], [j, k, i, l]] )
+    
+    for matrix in input:
+
+        if matrix[0] == [1,1,1,1]:
+            output.append([1,0])
+        else:
+            output.append([0,1])
+
+    input = preprocessImages(input)
+    
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.001, epochs=20)
+
+
+    accuracy, statistic = model.test(input, output, TestTypes.biggestPredictionOn1Position)
+    printStatistics(statistic, ["A", "B"])
+    print(f"Accuracy: {accuracy}")
+
+
+    return
+
+    conv1 = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
+    pol1 = PoolLayer(poolSize=2, function=Functions.max)
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
+    pol = PoolLayer(poolSize=2, function=Functions.max)
+    flat = FlattenLayer()
+    middleLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1, -0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, -0.5],[-1, -1, 0.5]], isOutput= True)
+    exc = SoftMaxLayer()
+
+    model =  SeqModel([conv1, pol1, conv, pol, flat, middleLayer, outputLayer, exc], False)
+
+    #model = readModelFromStorage("current_model.json")
 
     input = []
     output = []
@@ -93,20 +129,71 @@ def main():
                             for o in [-1,1]:
                                 for p in [-1,1]:
                                     for q in [-1,1]:
-                                        input.append( [[i, j, k], [l, m, n], [o, p, q]] )
+                                        input.append( [[i, j, k, i], [l, m, n, i], [o, p, q, i], [j, k, i, l]] )
     
     for matrix in input:
-        print(matrix)
 
-        if matrix[0] == [1,1,1]:
+        if matrix[0] == [1,1,1,1]:
             output.append([1,0])
         else:
             output.append([0,1])
 
-    model = trainSeqModel(model=model, input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.2, epochs=10)
+
+    #input = [[[1,1,1,1],[1,1,-1,1],[-1,1,-1,1],[1,-1,-1,1]]]
+
+    #output = [[1,0]]
+    
+    
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=10)
+
+
+    #print(conv.getWeights())
+
+    errorCount = 0
+
+    print("Test")
+    print(output[511])
+    print(model.act(input[511]))
+
+    for index in range(0, len(input)):
+        result = model.act(input[index])
+        if ((output[index][0] < 0.5  and result[0] < 0.5) or \
+           (output[index][0] > 0.5  and result[0] > 0.5) ) and \
+           ((output[index][1] < 0.5  and result[1] < 0.5) or \
+           (output[index][1] > 0.5  and result[1] > 0.5) ):
+            pass
+        else:
+            #print(f"Expected Output: {output[index]}")
+            #print(input[index])
+            #print(result)
+            errorCount +=1
+
+    print(f"Wrong labled: {errorCount}")
+
+
+    #saveModel(model, "current_model.json")
 
 
     return
+
+    # Correct backpropagation of convolution
+
+    conv = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
+    pol = PoolLayer(poolSize=2, function=Functions.max, toList=True)
+    middleLayer = Layer(count=4, function=Functions.tanh, initialWeights=[[1,1,1,1,-1.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5],[1,1,1,1,-0.5]])
+    outputLayer = Layer(count=2, function=Functions.tanh, initialWeights=[[1, 1, 1, 1, -0.5],[-1, -1, -1, -1, 0.5]], isOutput= True)
+    exc = SoftMaxLayer()
+
+    model =  SeqModel([conv, pol, middleLayer, outputLayer, exc], False)
+
+    input = [[[1,1,1],[0,0,0],[0,0,0]]]
+
+    output = [[1,-1]]
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=1)
+   
+
 
     #Problem verschwindener Gradient
 

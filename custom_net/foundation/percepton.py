@@ -1,5 +1,7 @@
-from foundation.enums import Functions
+import random as rnd
 import numpy as np
+
+from foundation.enums import Functions
 
 class Percepton:
 
@@ -18,7 +20,7 @@ class Percepton:
         self.out = None
         return
     
-    def react(self, inputs):
+    def act(self, inputs):
         """
         Predict based on inputs and return responses
 
@@ -29,7 +31,12 @@ class Percepton:
             - outputs (Int): output of percepton
         """
 
-        #print(f"Inputs: {inputs}")
+        # Initally create weights if there are none
+        if self.weights == None:
+            self.weights = []
+            for input in inputs:
+                self.weights.append(rnd.random())
+        
         if len(self.weights) != len(inputs):
             raise Exception("Length of weights must be equal to length of inputs")
         
@@ -39,6 +46,8 @@ class Percepton:
         self.sum = 0
         for index in range(0, len(self.weights)):
             self.sum += inputs[index] * self.weights[index]
+
+        self.sum = self.sum / len(self.weights) # TODO: Might delete
 
 
         # Activation Function
@@ -60,7 +69,6 @@ class Percepton:
             return 1
         elif self.func == Functions.tanh:
             self.out = np.tanh(self.sum)
-            #print(self.out)
             return self.out   
         elif self.func == Functions.reLu:
             if self.sum > 0:
@@ -70,6 +78,12 @@ class Percepton:
             return 0
         elif self.func == Functions.no:
             self.out = self.sum
+            return self.out
+        elif self.func == Functions.leakyReLU:
+            if self.sum > 0:
+                self.out = self.sum
+                return self.out
+            self.out = 0.2 * self.sum
             return self.out
         else:
             raise Exception("Use valid activation function")
@@ -87,6 +101,7 @@ class Percepton:
             - (1dim Array): error per input
 
         """
+       
         # Get error per output
         if errorFunc == Functions.halfsquareError:
             errorFromOut = -(target -self.out)
@@ -127,22 +142,29 @@ class Percepton:
 
         """
 
+        #print(f"Error handling Percepton: {errorOut}")
+
         # Get error from activaton function
         if self.func == Functions.tanh:
             # out = tanh(sum)
             # d out / d net = 1 - tanh(sum)^2
             errorChangeThroughFunction = 1- (np.tanh(self.sum) * np.tanh(self.sum))
-            #print(f"Function Error {errorChangeThroughFunction}")
         elif self.func == Functions.reLu:
-            if self.sum > 0:
+            if self.sum >= 0:
                 errorChangeThroughFunction = 1
             else:
                 errorChangeThroughFunction = 0
-                if self.sum < 0:
-                    #print("Backpropagation stopped")
-                    pass
+            
         elif self.func == Functions.no:
             errorChangeThroughFunction = 1
+            
+        elif self.func == Functions.leakyReLU:
+            if self.sum >= 0:
+                errorChangeThroughFunction = 1
+            else:
+                errorChangeThroughFunction = 0.2
+
+        errorChangeThroughFunction *= len(self.weights) #TODO: Might delete
 
         #d Error / d Net = 
         errorAfterSum = errorOut * errorChangeThroughFunction
@@ -160,6 +182,8 @@ class Percepton:
 
             listOfErrorPerPerceptron.append(errorAfterSum * self.weights[index])
 
+        #print(self.weights)
+        #print(f"Error out percepton: {listOfErrorPerPerceptron}")
         return listOfErrorPerPerceptron
 
     def getWeights(self):
@@ -170,8 +194,3 @@ class Percepton:
         - weights
         """
         return self.weights
-
-
-        
-
-
