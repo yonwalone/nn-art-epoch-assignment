@@ -2,7 +2,7 @@ import cv2
 from tensorflow import keras
 
 from foundation.enums import Functions, PaddingType, TestTypes
-from foundation.helper import preprocessImages
+from foundation.helper import preprocessImages, printStatistics
 from model.model import SeqModel
 from model.load_save_model import saveModel, readModelFromStorage
 from layer.conv_layer import CONVLayer
@@ -17,7 +17,7 @@ trainAnalyze = [0,0,0,0,0,0,0,0,0,0]
 testAnalyze = [0,0,0,0,0,0,0,0,0,0]
 
 ### Prepare training data
-numberOfTrainigData = 10000
+numberOfTrainigData = 50000
 input = (x_train[:numberOfTrainigData] /255 * 2 -1).tolist()
 input = preprocessImages(input)
 
@@ -54,7 +54,7 @@ model.train(input=input, output=output, errorFunc=Functions.halfsquareError, lea
 saveModel(model, "tmp_model.json")
 
 ### Prepare test data
-numberOfTestData=2000
+numberOfTestData=10000
 input = (x_test[:numberOfTestData] /255 * 2 -1).tolist()
 input = preprocessImages(input)
 
@@ -73,9 +73,11 @@ for index in range(0,len(outputIn)):
         output.append(outLine)
 
 ### Test model
-accuracy = model.test(input=input, output=output, mode=TestTypes.biggestPredictionOn1Position)
+accuracy, statistic = model.test(input=input, output=output, mode=TestTypes.biggestPredictionOn1Position)
 
 ### Analytics
+printStatistics(statistic, ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"])
+
 print(f"TrainData: Distribution Expected Outputs: {trainAnalyze}")
 
 print(f"TestData: Distribution Expected Outputs: {testAnalyze}")

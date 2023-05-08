@@ -1,12 +1,14 @@
 from layer.layer import Layer
-from foundation.enums import Functions, PaddingType
+from foundation.enums import Functions, PaddingType, TestTypes
 from foundation.percepton import Percepton
+from foundation.helper import preprocessImages, printStatistics
 from model.model import SeqModel
 from layer.conv_layer import CONVLayer
 from layer.pooling_layer import PoolLayer
 from layer.softmax_layer import SoftMaxLayer
 from layer.flatten_layer import FlattenLayer
 from model.load_save_model import saveModel, readModelFromStorage
+
 import numpy as np
 
 # TODO: Unterstützung von Farben und Mehrschichtigen Matrizen
@@ -55,6 +57,52 @@ def trainPercepton(model,input, output, errorFunc, learningRate, epochs):
 
 
 def main():
+
+    conv = CONVLayer(matrix=2, stride=1, padding=PaddingType.same)
+    pol = PoolLayer(poolSize=2, stride=1, function=Functions.avg)
+    flat = FlattenLayer()
+    middleLayer = Layer(count=4, function=Functions.reLu,)
+    outputLayer = Layer(count=2, function=Functions.reLu, isOutput= True)
+    exc = SoftMaxLayer()
+
+    #model =  SeqModel([conv, pol, flat, middleLayer, outputLayer, exc], False)
+    model =  SeqModel([flat, middleLayer, outputLayer, exc])
+
+    #model = readModelFromStorage("current_model.json")
+
+    input = []
+    output = []
+
+    for i in [0,1]:
+        for j in [0,1]:
+            for k in [0,1]:
+                for l in [0,1]:
+                    for m in [0,1]:
+                        for n in [0,1]:
+                            for o in [0,1]:
+                                for p in [0,1]:
+                                    for q in [0,1]:
+                                        input.append( [[i, j, k, i], [l, m, n, i], [o, p, q, i], [j, k, i, l]] )
+    
+    for matrix in input:
+
+        if matrix[0] == [1,1,1,1]:
+            output.append([1,0])
+        else:
+            output.append([0,1])
+
+    input = preprocessImages(input)
+    
+
+    model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.001, epochs=20)
+
+
+    accuracy, statistic = model.test(input, output, TestTypes.biggestPredictionOn1Position)
+    printStatistics(statistic, ["A", "B"])
+    print(f"Accuracy: {accuracy}")
+
+
+    return
 
     conv1 = CONVLayer(matrix=[[-1,-1,-1],[-1, 2,-1],[-1,-1,-1]], stride=1, padding=PaddingType.same)
     pol1 = PoolLayer(poolSize=2, function=Functions.max)

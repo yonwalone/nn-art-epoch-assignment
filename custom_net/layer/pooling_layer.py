@@ -60,6 +60,7 @@ class PoolLayer(LayerInterface):
         #print(f"Pooling Out: {outImages}")
         return outImages
     
+
     def handleError(self, targets, errorFunc, learningRate): # currently only implemeted for max function
         """
         Handle error for layer, change weights of matrix and propagate error further
@@ -113,7 +114,7 @@ class PoolLayer(LayerInterface):
                     elif self.function == Functions.avg:
                         for poolRowIndex in range(0, self.poolSize):
                             for poolColIndex in range(0, self.poolSize):
-                                resultImage[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex] += targets[target] * len(results) / self.images[depth][rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex]
+                                resultImage[rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex] += targets[target] / self.poolSize /self.poolSize #* len(results) / self.images[depth][rowIndex * self.stride + poolRowIndex][columnIndex * self.stride + poolColIndex]
 
                     else:
                         raise Exception("Use valid pooling function")

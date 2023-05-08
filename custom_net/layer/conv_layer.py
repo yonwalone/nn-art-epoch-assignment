@@ -92,7 +92,7 @@ class CONVLayer(LayerInterface):
                     for matrixRow in range(0, len(self.matrixes[0][0])):
                         for matrixCol in range(0, len(self.matrixes[0][0][0])):
                             for indepth in range(0, self.inputDepth):
-                                result += self.matrixes[depth][indepth][matrixRow][matrixCol] * image[indepth][row * self.stride + matrixRow][column * self.stride + matrixCol] + self.bias[depth][matrixRow][matrixCol]
+                                result += (self.matrixes[depth][indepth][matrixRow][matrixCol] * image[indepth][row * self.stride + matrixRow][column * self.stride + matrixCol] + self.bias[depth][matrixRow][matrixCol]) / (len(self.matrixes[0][0])*len(self.matrixes[0][0][0])) # Might remove division
 
                     newRow.append(result)
                 newImage.append(newRow)
@@ -168,6 +168,12 @@ class CONVLayer(LayerInterface):
 
         # For each depth in targets
         for depth in range(0, len(targets)):
+
+            # Anti normalize targets TODO: Might remove 
+            for row in range(0, len(targets[depth])):
+                for col in range(0, len(targets[depth][0])):
+                    targets[depth][row][col] *= (len(self.matrixes[0][0])*len(self.matrixes[0][0][0]))
+
 
             #print(self.bias)
             ### Adapt values for bias

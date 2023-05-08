@@ -111,7 +111,7 @@ def main():
 
     ### Test Model with test Data
 
-    accuracy = model.test(xTest, output, TestTypes.biggestPredictionOn1Position)
+    accuracy, statistic = model.test(xTest, output, TestTypes.biggestPredictionOn1Position)
 
     # Print result and analytics
     print(f"Length Trainingvalues: {len(trainData)}")

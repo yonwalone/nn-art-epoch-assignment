@@ -1,8 +1,8 @@
 def print_progress_bar(amount, of, start_text = "Progress", end_text = "", new_line = True):
-        amount += 1
-        progress = int(((amount)/of)*100)
-        progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
-        print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
+    amount += 1
+    progress = int(((amount)/of)*100)
+    progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
+    print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
 
 def flatInput(array):
     """
@@ -61,3 +61,36 @@ def preprocessImage(image):
                     newImage[inDepth][row][col] = image[row][col][inDepth]
 
     return newImage
+
+
+def printStatistics(results, label):
+    """
+    Params:
+        - results: [expected result, result]
+    """
+    for resIndex in range(0, len(results)):
+
+        sum = 0
+        for i in range(0, len(results[resIndex])):
+            sum += results[resIndex][i]
+
+        print(f"For Label {label[resIndex]} following results: {results[resIndex][resIndex] / sum}")
+
+        for i in range(0, len(results[resIndex])):
+            print(f"{label[i]}: {results[resIndex][i]/sum}")
+        
+        print("---------------------------------------")
+
+    chosenClasses = [ 0 for _ in range(0, len(results))]
+    allresults = 0
+
+    for resIndex in range(0, len(results)):
+        
+        for i in range(0, len(results[resIndex])):
+            chosenClasses[i] += results[resIndex][i]
+            allresults += results[resIndex][i]
+    
+    print("Recieved Lables:")
+    for i in range(0, len(results)):
+        print(f"{label[i]}: {chosenClasses[i] / allresults}")
+

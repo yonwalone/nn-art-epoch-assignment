@@ -129,17 +129,23 @@ class SeqModel:
 
         if mode == TestTypes.biggestPredictionOn1Position:
             errorCount= 0
+            statistic = [[ 0 for _ in range(0,len(output[0]))] for _ in range(0,len(output[0]))]
             for ind in range(0, len(output)):
                 #print(f"Test: {ind}")
                 print_progress_bar(ind, len(output),start_text =f"Test", new_line = True)
                 result = self.act(input[ind])
                 print(result)
+
+                # find 1 in output
+                expIndex = output[ind].index(max(output[ind]))
+
                 index = result.index(max(result))
+                statistic[expIndex][index] += 1
                 if output[ind][index] != 1:
                     errorCount += 1
             print(f"Error Count: {errorCount}")
             accuracy = 1 - errorCount / len(output)
-            return accuracy
+            return accuracy, statistic
 
         else:
             raise Exception("Use implemented TestType")
