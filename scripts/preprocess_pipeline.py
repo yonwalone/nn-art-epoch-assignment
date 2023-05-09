@@ -1,45 +1,36 @@
 import os
 from src.preprocess_images import Preprocess_Images
-from config import PROJECT_ROOT
+from config import PROJECT_ROOT, EPOCHS
 
 
-print("##### Started preprocess pipeline. #####")
+def preprocess_epoch(epoch):
+    print("##### Started preprocess pipeline. #####")
 
-images_path = os.path.join(PROJECT_ROOT, "data", "images")
+    pro_img = Preprocess_Images(
+        epoch,
+        grayscale=False, 
+        process_name="3x224"
+    )
 
-pre1 = Preprocess_Images(images_path, images_path, grayscale=True)
+    print(f"----- STARTED resizing. -----")
+    pro_img.resize_images_affine(input_dir="", output_dir="resized")
+    print(f"----- FINISHED resizing. -----")
 
-print(f"----- STARTED balancing to {pre1.balancing} images. -----")
-balancing_path = os.path.join(images_path, pre1.process_name, "balancing")
-pre1.create_dir(balancing_path, set_output=True)
-pre1.copy_images_by_epoch()
-pre1.input_dir = balancing_path
-print(f"----- FINISHED balancing. -----")
+    if pro_img.grayscale:
+        print(f"----- STARTED grayscaling. -----")
+        pro_img.grayscale_images(input_dir="resized", output_dir="grayscaled")
+        print(f"----- FINISHED grayscaling. -----")
 
-print(f"----- STARTED resizing. -----")
-resizing_path = os.path.join(images_path, pre1.process_name, "resizing")
-pre1.create_dir(resizing_path, set_output=True)
-pre1.resize_images_affine()
-pre1.resize_images_squared()
-pre1.input_dir = resizing_path
-print(f"----- FINISHED resizing. -----")
+    print(f"----- STARTED augmentation. -----")
+    pro_img.augment_images(input_dir="grayscaled" if pro_img.grayscale else "resized", output_dir="augmented")
+    print(f"----- FINISHED augmentation. -----")
 
-# Optional grayscaling if set to True
-if pre1.grayscale:
-    print(f"----- STARTED grayscaling. -----")
-    grayscale_path = os.path.join(images_path, pre1.process_name, "grayscaling")
-    pre1.create_dir(grayscale_path, set_output=True)
-    pre1.grayscale_images()
-    pre1.input_dir = grayscale_path
-    print(f"----- FINISHED grayscaling. -----")
+    print(f"----- STARTED normalisation. -----")
+    pro_img.normalize_images(input_dir="augmented", output_dir="normalized")
+    print(f"----- FINISHED normalisation. -----")
 
-print(f"----- STARTED augmentation. -----")
-augmentation_path = os.path.join(images_path, pre1.process_name, "augmentation")
-pre1.create_dir(augmentation_path, set_output=True)
-pre1.augment_images()
-pre1.input_dir = augmentation_path
-print(f"----- FINISHED augmentation. -----")
 
-print(f"----- STARTED normalisation. -----")
-normalized_images = pre1.normalize_images()
-print(f"----- FINISHED normalisation. -----")
+for epoch in EPOCHS:
+    print(f"Hello, I'm now processing the images of the epoch {epoch}")
+    preprocess_epoch(epoch)
+    print(f"Bye, I have now processed the images of the epoch {epoch}")

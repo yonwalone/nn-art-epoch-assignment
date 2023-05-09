@@ -1,39 +1,39 @@
 import os
+import gzip
 import cv2
 import numpy as np
 import time
 import shutil
 from pathlib import Path
 import matplotlib.pyplot as plt
+from config import PROJECT_ROOT
 
+
+DATA_PATH = os.path.join(PROJECT_ROOT, "data",)
 
 class Preprocess_Images:
     """
     Pipeline for preprocessing images:
-        1. Balancing
-        2. Resizing
-        3. Grayscaling
-        4. Augmentation
-        5. Normalisation
+        1. Resizing
+        2. Grayscaling
+        3. Augmentation
+        4. Normalisation
     """
 
     def __init__(
             self, 
-            input_dir, 
-            output_dir,
-            balancing=2,
-            target_size=256,
+            epoch,
+            target_size=224,
             grayscale = True, 
             augmentations=4,
             process_name="pre1",
-            allowed_extensions = ["png", "jpg", "jpeg"]
+            allowed_extensions = [".png", ".jpg", ".jpeg"]
             ):
         """Initialize the object's attributes.
 
         Args:
             input_dir (string): Path to input directory.
             output_dir (string): Path to output directory.
-            balancing (int, optional): Number of individual images for each epoch. Defaults to 5000.
             target_size (int, optional): Target resolution of the images. Defaults to 256.
             grayscale (boolean, optional): Grayscaling as part of the pipeline. Defaults to True.
             augmentations (int, optional): Number of augmentations per image. Defaults to 4.
@@ -42,268 +42,136 @@ class Preprocess_Images:
             Defaults to ["png", "jpg", "jpeg"].
         """
 
-        self.input_dir = input_dir
-        self.output_dir = output_dir
-        self.balancing = balancing
+        self.epoch = epoch
         self.target_size = target_size
         self.grayscale = grayscale
         self.augmentations = augmentations
         self.process_name = process_name
         self.allowed_extensions = allowed_extensions
-
+        self.images_folder = os.path.join(DATA_PATH, self.epoch, "images", self.process_name)
     
-    def create_dir(self, path, set_output=False, set_input=False):
+
+        Path(self.images_folder).mkdir(parents=True,exist_ok=True)
+
+
+
+    def create_dir(self, path):
         """
         Create a new directory and set it as output_dir and input_dir of the instance if defined.
-
         Args:
             path (string): Path to the new directory.
-            set_output (bool, optional): Defines if instances output_dir is updated. 
-                Defaults to False.
-            set_input (bool, optional): Defines if instances input_dir is updated. 
-                Defaults to False.
         """
         Path(path).mkdir(parents=True, exist_ok=True)
 
-        if set_output:
-            self.output_dir = path
-
-        if set_input:
-            self.input_dir = path
-    
-
-    def move_images_by_epoch(self):
+    def log(self, info, noprint=False):
         """
-        Move a specified number of images from the input direcory of the instance
-        that start with the given epoch string to the output directory.
+        Prints out the info and saves it in the log_file
 
         Args:
-            None
-
-        Returns:
-            None
+            info (string): The info which should be printed and logged.
         """
-        input_dir = self.input_dir
-        output_dir = self.output_dir
-        balancing = self.balancing
-        allowed_extensions = self.allowed_extensions
+        info = str(info)
+        if not noprint:
+            print(info)
 
-        # Create a dictionary to store the number of images to keep for each epoch
-        number_to_keep_dict = {}
+        log_file_path = os.path.join(self.images_folder, "01log.txt")
+        with open(log_file_path, 'a') as log_file:
+            log_file.write(info + "\n")
 
-        for filename in os.listdir(input_dir):
-            # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Extract the epoch 
-                epoch = filename.split("_")[0]
+    def print_progress_bar(self, amount, of, start_text = "Progress", end_text = "", new_line = True):
+        amount += 1
+        progress = int(((amount)/of)*100)
+        progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
+        print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
 
-                # Set the number of images to keep for epoch
-                if epoch not in number_to_keep_dict:
-                    # If epoch appeared first timexx
-                    number_to_keep_dict[epoch] = balancing
-                else:
-                    number_to_keep_dict[epoch] -= 1
-                
-                # Move the file if the limit is not yet reached
-                if number_to_keep_dict[epoch] > 0:
-                    image_path = os.path.join(input_dir, filename)
-                    new_image_path = os.path.join(output_dir, filename)
-                    shutil.move(image_path, new_image_path)
     
-
-    def copy_images_by_epoch(self):
-        """
-        Copy a specified number of images from the input direcory of the instance
-        that start with the given epoch string to the output directory.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
-        input_dir = self.input_dir
-        output_dir = self.output_dir
-        balancing = self.balancing
-        allowed_extensions = self.allowed_extensions
-
-        # Create a dictionary to store the number of images to keep for each epoch
-        number_to_keep_dict = {}
-
-        for filename in os.listdir(input_dir):
-            # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Extract the epoch 
-                epoch = filename.split("_")[0]
-
-                # Set the number of images to keep for epoch
-                if epoch not in number_to_keep_dict:
-                    # If epoch appeared first time
-                    number_to_keep_dict[epoch] = balancing
-                else:
-                    number_to_keep_dict[epoch] -= 1
-                
-                # Copy the file if the limit is not yet reached
-                if number_to_keep_dict[epoch] > 0:
-                    image_path = os.path.join(input_dir, filename)
-                    copied_image_path = os.path.join(output_dir, filename)
-                    shutil.copy(image_path, copied_image_path)
-
-
-    def delete_images_by_epoch(self):
-        """
-        Delete all images except a certain number of images for each epoch.
-
-        Args:
-            None
-
-        Returns:
-            None
-        """
-        input_dir = self.input_dir
-        balancing = self.balancing
-        allowed_extensions = self.allowed_extensions
-        
-        # Create a dictionary to store the number of images to keep for each epoch
-        number_to_keep_dict = {}
-
-        for filename in os.listdir(input_dir):
-            # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                # Extract the epoch 
-                epoch = filename.split("_")[0]
-
-                # Set the number of images to keep for epoch
-                if epoch not in number_to_keep_dict:
-                    # If epoch appeared first time
-                    number_to_keep_dict[epoch] = balancing
-                else:
-                    number_to_keep_dict[epoch] -= 1
-                
-                # If number of images is exceeded delete the file
-                if number_to_keep_dict[epoch] <= 0:
-                    os.remove(os.path.join(input_dir, filename))
-    
-
-    def resize_images_affine(self):
+    def resize_images_affine(self, input_dir, output_dir):
         """
         Resize the image using an affine transformation matrix.
 
         Args:
-            None
+            input_dir (string): Foldername input
+            output_dir (string): Foldername output
         """
-        input_dir = self.input_dir
-        output_dir = self.output_dir
+        input_dir = os.path.join(self.images_folder, input_dir) if input_dir != "" else os.path.dirname(self.images_folder)
+        output_dir = os.path.join(self.images_folder, output_dir)
         target_size = self.target_size
-        allowed_extensions = self.allowed_extensions
-        process_name = self.process_name
 
-        image_size = (target_size, target_size)
+        self.create_dir(output_dir)
 
-        for filename in os.listdir(input_dir):
+        for index, filename in enumerate(os.listdir(input_dir)):
             # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                image = cv2.imread(os.path.join(input_dir, filename))
+            try:
+                if os.path.splitext(filename)[1] in self.allowed_extensions:
+                    image = cv2.imread(os.path.join(input_dir, filename))
 
-                # Calculate the scaling factor to resize the image
-                scale_x = image_size[0] / image.shape[1]
-                scale_y = image_size[1] / image.shape[0]
+                    # Calculate the scaling factor to resize the image
+                    scale_x = target_size / image.shape[1]
+                    scale_y = target_size / image.shape[0]
 
-                # Define the transformation matrix
-                Matrix = np.array([[scale_x, 0, 0], [0, scale_y, 0]], dtype=np.float32)
-                # Apply the affine transformation to the image
-                resized_image = cv2.warpAffine(image, Matrix, image_size)
+                    # Define the transformation matrix
+                    matrix = np.array([[scale_x, 0, 0], [0, scale_y, 0]], dtype=np.float32)
+                    # Apply the affine transformation to the image
+                    resized_image = cv2.warpAffine(image, matrix, (target_size, target_size))
 
-                # Generating a new filename and save the resized image
-                epoch = filename.split('_')[0]
-                extension = filename.split('.')[1]
-                output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}_affin.{extension}'
-                cv2.imwrite(os.path.join(output_dir, output_filename), resized_image)
-
-
-    def resize_images_squared(self):
-        """
-        Resize the image to a square of the specified size by resizing the image
-        and than cropp a centered square out of it.
-
-        Args:
-            None
-        """
-        input_dir = self.input_dir
-        output_dir = self.output_dir
-        target_size = self.target_size
-        process_name = self.process_name
-        allowed_extensions = self.allowed_extensions
-
-        image_size = (target_size, target_size)
-
-        for filename in os.listdir(input_dir):
-            # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
-                image = cv2.imread(os.path.join(input_dir, filename))
-
-                # Get the dimensions of the input image
-                height, width = image.shape[:2]
-                # Find the smallest dimension of the image
-                min_dimension = min(width, height)
-
-                # Calculate the scale factor to fit the image inside the square
-                scale = image_size[0] / min_dimension
-                image = cv2.resize(image, (0, 0), fx=scale, fy=scale)
-
-                # Calulate the center of the image
-                center_x, center_y = image.shape[1] // 2, image.shape[0] // 2
-
-                # Calculate the coordinates of the top-left and bottom-right corners of the square
-                x1 = center_x - image_size[0] // 2
-                y1 = center_y - image_size[1]  // 2
-                x2 = x1 + image_size[0]
-                y2 = y1 + image_size[1]
-
-                # Crop the image to the square
-                squared_image = image[y1:y2, x1:x2]
-
-                # Generating a new filename and save the resized image
-                epoch = filename.split('_')[0]
-                extension = filename.split('.')[1]
-                output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}_squared.{extension}'
-                cv2.imwrite(os.path.join(output_dir, output_filename), squared_image)
+                    # Generating a new filename and save the resized image
+                    extension = os.path.splitext(filename)[1]
+                    filename = os.path.splitext(filename)[0]
+                    output_filename = f'{filename}_affin{extension}'
+                    cv2.imwrite(os.path.join(output_dir, output_filename), resized_image)
+                    info = f"Success"
+            except Exception as e:
+                info = f"Failed"
+                self.log(info, noprint=True)
+            self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Affine resizing", end_text=info, new_line=False)
+            
 
 
-    def grayscale_images(self):
+    def grayscale_images(self, input_dir, output_dir):
         """
         Convert the given input images to grayscale.
 
         Args:
-            None
+            input_dir (_type_): _description_
+            output_dir (_type_): _description_
         """
-        input_dir = self.input_dir
-        output_dir = self.output_dir
-        process_name = self.process_name
-        allowed_extensions = self.allowed_extensions
+        input_dir = os.path.join(self.images_folder, input_dir)
+        output_dir = os.path.join(self.images_folder, output_dir)
+        
+        self.create_dir(output_dir)
 
-        for filename in os.listdir(input_dir):
+        for index, filename in enumerate(os.listdir(input_dir)):
             # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in allowed_extensions):
+            if os.path.splitext(filename)[1] in self.allowed_extensions:
                 image = cv2.imread(os.path.join(input_dir, filename))
 
                 # Transform image from BGR color space to gray
                 grayed_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
                 # Generating a new filename and save the grayscaled image
-                epoch = filename.split('_')[0]
-                extension = filename.split('.')[1]
-                output_filename = f'{epoch}_{str(round(time.time()*1000))}_{process_name}.{extension}'
+                extension = os.path.splitext(filename)[1]
+                filename = os.path.splitext(filename)[0]
+                output_filename = f'{filename}_grayscale{extension}'
                 cv2.imwrite(os.path.join(output_dir, output_filename), grayed_image)
+                info=f"Success"
+            else:
+                info=f"Failed"
+            self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Grayscaling", end_text=info, new_line=False)
 
 
-    def augment_images(self):
+    def augment_images(self, input_dir, output_dir):
         """
-        Augment the images in the input directory using OpenCV.
+        TODO: Write docstring.
 
         Args:
-            None
+            input_dir (_type_): _description_
+            output_dir (_type_): _description_
         """
+        input_dir = os.path.join(self.images_folder, input_dir)
+        output_dir = os.path.join(self.images_folder, output_dir)
+
+        self.create_dir(output_dir)
+
         # Define the augmentations to apply
         augmentations = [
             ("fliph", cv2.flip, 1),
@@ -312,27 +180,36 @@ class Preprocess_Images:
             ("blur", self.blur_image, None)
         ]
 
-        for filename in os.listdir(self.input_dir):
+        for index, filename in enumerate(os.listdir(input_dir)):
             # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in self.allowed_extensions):
-                image = cv2.imread(os.path.join(self.input_dir, filename))
+            if os.path.splitext(filename)[1] in self.allowed_extensions:
+                image = cv2.imread(os.path.join(input_dir, filename))
 
                 # Apply the augmentations
-                for i in range(self.augmentations):
+                for i in range(min(len(augmentations), self.augmentations)):
                     # Choose a random augmentation
-                    name, func, arg = augmentations[np.random.randint(0, len(augmentations))]
+                    name, func, arg = augmentations[i]
 
                     # Apply the augmentation
                     if arg is not None:
-                        image = func(image, arg)
+                        newImage = func(image, arg)
                     else:
-                        image = func(image)
+                        newImage = func(image)
 
                     # Generating a new filename and save the augmented image
-                    epoch = filename.split('_')[0]
-                    extension = filename.split('.')[1]
-                    output_filename = f'{epoch}_{str(round(time.time()*1000))}_{name}_{self.process_name}.{extension}'
-                    cv2.imwrite(os.path.join(self.output_dir, output_filename), image)
+                    extension = os.path.splitext(filename)[1]
+                    onlyfilename = os.path.splitext(filename)[0]
+                    output_filename = f'{onlyfilename}_augmented_{name}{extension}'
+                    try:
+                        cv2.imwrite(os.path.join(output_dir, output_filename), newImage)
+                        info=f"Success"
+                    except Exception as e:
+                        info=f"Failed"
+                        
+            else:
+                info=f"Ext.fail"
+
+            self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Augmentation", end_text=info, new_line=False)
 
 
     def rotate_image(self, image):
@@ -374,36 +251,38 @@ class Preprocess_Images:
         return blurred_image
         
 
-    def normalize_images(self):
-        """""
+    def normalize_images(self, input_dir, output_dir):
+        """
         Normalize images from a directory and save them in a NumPy array.
 
         Args:
-            None       
+            input_dir (_type_): _description_
+            output_dir (_type_): _description_
+        """
+        input_dir = os.path.join(self.images_folder, input_dir)
+        output_dir = os.path.join(self.images_folder, output_dir)
 
-        Returns:
-            A NumPy array containing the normalized images.
-        """""
-        normalized_images = []
+        self.create_dir(output_dir)
 
-        for filename in os.listdir(self.input_dir):
+        for index, filename in enumerate(os.listdir(input_dir)):
             # Check if file extension is in the list of allowed extensions
-            if any(filename.lower().endswith(ext) for ext in self.allowed_extensions):
-                image = cv2.imread(os.path.join(self.input_dir, filename))
+            if os.path.splitext(filename)[1] in self.allowed_extensions:
+                image = cv2.imread(os.path.join(input_dir, filename))
 
-                # Normalize image and add to list.
-                normalized_image = image / 255.
-                normalized_images.append(normalized_image)
+                processed_image = image / 255
 
-        # Convert the list of normalized images to a NumPy array
-        normalized_images = np.array(normalized_images)
+                if self.grayscale:
+                    processed_image = np.mean(processed_image, 3)
 
-        if self.grayscale:
-            # Take the mean of the pixel values across the color channels (axis 3)
-            squeezed_images = np.mean(normalized_images, 3)
-            return squeezed_images
-        else:
-            return normalized_images
+                transposed_image = processed_image.transpose((2, 0, 1))
+
+                np.savez_compressed(f'{os.path.join(output_dir, os.path.splitext(filename)[0])}.npz', transposed_image)
+                info=f"Success"
+            else:
+                info=f"Failed"
+
+            self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Normalization", end_text=info, new_line=False)
+
     
 
     def show_image(self, image):

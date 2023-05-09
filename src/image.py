@@ -1,7 +1,6 @@
 import regex as re
 
 
-
 class Image:
     """
     Represents an image with a URL, name, painter, and associated epochs.

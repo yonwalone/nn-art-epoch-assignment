@@ -9,4 +9,7 @@ node_modules
 *.jpeg
 *.ico
 *.svg
+*.ipynb_checkpoints
 !banner.png
+*.vscode
+data
