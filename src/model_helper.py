@@ -51,4 +51,3 @@ def one_hot_encode(epoch_name):
     np_labels = np.array(labels)
 
     return np_labels
-        
