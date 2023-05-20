@@ -4,6 +4,21 @@ import numpy as np
 from config import EPOCHS, PROJECT_ROOT
 DATA_PATH = os.path.join(PROJECT_ROOT, 'data')
 
+def log(info, noprint=False):
+    """
+    Prints out the info and saves it in the log_file
+
+    Args:
+        info (string): The info which should be printed and logged.
+        no_print (bool): Defines if the info should be printed out
+    """
+    info = str(info)
+    if not noprint:
+        print(info)
+
+    log_file_path = os.path.join(DATA_PATH, "logs", "log.txt")
+    with open(log_file_path, 'a') as log_file:
+        log_file.write(info + "\n")
 
 def load_image(filename):
     """
