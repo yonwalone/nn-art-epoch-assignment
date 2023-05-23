@@ -17,7 +17,7 @@ trainAnalyze = [0,0,0,0,0,0,0,0,0,0]
 testAnalyze = [0,0,0,0,0,0,0,0,0,0]
 
 ### Prepare training data
-numberOfTrainigData = 50000
+numberOfTrainigData = 10
 input = (x_train[:numberOfTrainigData] /255 * 2 -1).tolist()
 input = preprocessImages(input)
 
@@ -37,40 +37,25 @@ for index in range(0,len(outputIn)):
 
 ### Create Model
 
-conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, outputDepth=2, padding=PaddingType.valid)
+conv = CONVLayer(matrix= 2, stride=2, inputDepth=3, outputDepth=2, padding=PaddingType.full)
 pol = PoolLayer(function=Functions.avg, poolSize=2, stride=2)
 flat = FlattenLayer()
-den1 = Layer(count=10, function=Functions.tanh)
+den1 = Layer(count=25, function=Functions.tanh)
 den3 = Layer(count=10, function=Functions.tanh, isOutput=True)
 soft = SoftMaxLayer()
-model = SeqModel([conv, pol, flat, den1, den3, soft])
+#model = SeqModel([conv, pol, flat, den1, den3])
+#model = SeqModel([flat, den1, den3, soft])
+#model = readModelFromStorage("26.35_full_color.json")
+model = SeqModel([conv, pol, flat, den3, soft])
 
 ### Train Model
 
-model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.0005, epochs=1)
+#model = readModelFromStorage("26.35_full_color.json")
+model.train(input=input, output=output, errorFunc=Functions.halfsquareError, learningRate=0.0005, epochs=120)
 
 #model = readModelFromStorage("tmp_model.json")
 
-saveModel(model, "tmp_model.json")
-
-### Prepare test data
-numberOfTestData=10000
-input = (x_test[:numberOfTestData] /255 * 2 -1).tolist()
-input = preprocessImages(input)
-
-# Prepare test outputs
-outputIn = y_test.tolist()
-output = []
-for index in range(0,len(outputIn)):
-    if index >= numberOfTestData:
-        break
-    if outputIn[index][0] <  10:
-        outLine = []
-        for nullIndex in range(0, 10):
-            outLine.append(0)
-        outLine[outputIn[index][0]] = 1
-        testAnalyze[outputIn[index][0]] += 1
-        output.append(outLine)
+#saveModel(model, "tmp_model.json")
 
 ### Test model
 accuracy, statistic = model.test(input=input, output=output, mode=TestTypes.biggestPredictionOn1Position)

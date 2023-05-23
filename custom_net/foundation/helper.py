@@ -74,10 +74,13 @@ def printStatistics(results, label):
         for i in range(0, len(results[resIndex])):
             sum += results[resIndex][i]
 
-        print(f"For Label {label[resIndex]} following results: {results[resIndex][resIndex] / sum}")
+        if sum == 0:
+            print(f"For Label {label[resIndex]} is Sum 0")
+        else:
+            print(f"For Label {label[resIndex]} following results: {results[resIndex][resIndex] / sum}")
 
-        for i in range(0, len(results[resIndex])):
-            print(f"{label[i]}: {results[resIndex][i]/sum}")
+            for i in range(0, len(results[resIndex])):
+                print(f"{label[i]}: {results[resIndex][i]/sum}")
         
         print("---------------------------------------")
 

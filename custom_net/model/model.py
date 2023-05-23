@@ -110,8 +110,10 @@ class SeqModel:
                 print_progress_bar(index, len(output), start_text =f"Train: Epoch: {epochIndex}, Input", new_line = False)
                 #print(f"Input: {input[indexOutput]}")
                 #print(f"Expected Output: {output[indexOutput]}")
-                self.act(input[index])
-                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
+                print(self.act(input[index]))
+                self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)  
+
+            self.test(input=input, output=output, mode=TestTypes.biggestPredictionOn1Position)     
 
         #print(f"Gewichte: {model.getWeights()}")
 
@@ -134,7 +136,8 @@ class SeqModel:
                 #print(f"Test: {ind}")
                 print_progress_bar(ind, len(output),start_text =f"Test", new_line = True)
                 result = self.act(input[ind])
-                print(result)
+                #print(output[ind])
+                #print(result)
 
                 # find 1 in output
                 expIndex = output[ind].index(max(output[ind]))
