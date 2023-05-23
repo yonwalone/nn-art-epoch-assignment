@@ -51,7 +51,7 @@ function check(event) {
       const nameCell = row.insertCell();
       const ageCell = row.insertCell();
       nameCell.textContent = prediction[i][0];
-      ageCell.textContent = prediction[i][1];
+      ageCell.textContent = Math.round(prediction[i][1] * 1000000)/10000 + "%";
     }
 
     // Add the table to the HTML document
