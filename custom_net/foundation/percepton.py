@@ -5,7 +5,7 @@ from foundation.enums import Functions
 
 class Percepton:
 
-    def __init__(self, func, weights) -> None:
+    def __init__(self, func, weights = None) -> None:
         """
         Initialize percepton.
 
