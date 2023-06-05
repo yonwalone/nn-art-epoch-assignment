@@ -15,14 +15,15 @@ input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
 
 
-train_data= pd.read_csv(os.path.join(SPLIT_PATH, "train", "dataframe.csv"))
-train_data["labels"]=train_data["labels"].apply(lambda x:x.split(","))
+train_data= pd.read_csv(os.path.join(SPLIT_PATH, "train", "dataframe.csv"), sep="|")
+#train_data["labels"]=train_data["labels"].apply(lambda x:x.replace("[",""))
+#train_data["labels"]=train_data["labels"].apply(lambda x:x.replace("]",""))
+#train_data["labels"]=train_data["labels"].apply(lambda x:x.split(","))
 
-valid_data= pd.read_csv(os.path.join(SPLIT_PATH, "valid", "dataframe.csv"))
-valid_data["labels"]=valid_data["labels"].apply(lambda x:x.split(","))
+valid_data= pd.read_csv(os.path.join(SPLIT_PATH, "valid", "dataframe.csv"), sep="|")
 
-test_data= pd.read_csv(os.path.join(SPLIT_PATH, "test", "dataframe.csv"))
-test_data["labels"]=test_data["labels"].apply(lambda x:x.split(","))
+test_data= pd.read_csv(os.path.join(SPLIT_PATH, "test", "dataframe.csv"), sep="|")
+
 
 train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255,
@@ -32,44 +33,41 @@ train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
     height_shift_range=0.2,
     shear_range=0.15,
     horizontal_flip=True
-    )
+)
 valid_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 test_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
 train_batches = train_gen.flow_from_dataframe(
     dataframe=train_data,
     directory=os.path.join(os.path.join(SPLIT_PATH, "train")),
-    x_col=""
-)
-
-
-train_gen.flow_from_directory(
-    os.path.join(SPLIT_PATH, "train"),
     target_size=(input_size, input_size),
-    class_mode="sparse",
-    batch_size=batch_size,
+    class_mode="categorical",
     shuffle=True,
-    color_mode="rgb",
+    batch_size=batch_size,
+    x_col="filename",
+    y_col="labels",
     classes=EPOCHS
 )
 
-valid_batches = train_gen.flow_from_directory(
-    os.path.join(SPLIT_PATH, "valid"),
+valid_batches = valid_gen.flow_from_dataframe(
+    dataframe=valid_data,
+    directory=os.path.join(os.path.join(SPLIT_PATH, "valid")),
     target_size=(input_size, input_size),
-    class_mode="sparse",
+    class_mode="categorical",
     batch_size=batch_size,
-    shuffle=False,
-    color_mode="rgb",
+    x_col="filename",
+    y_col="labels",
     classes=EPOCHS
 )
 
-test_batches = train_gen.flow_from_directory(
-    os.path.join(SPLIT_PATH, "test"),
+test_batches = test_gen.flow_from_dataframe(
+    dataframe=test_data,
+    directory=os.path.join(os.path.join(SPLIT_PATH, "test")),
     target_size=(input_size, input_size),
-    class_mode="sparse",
+    class_mode="categorical",
     batch_size=batch_size,
-    shuffle=False,
-    color_mode="rgb",
+    x_col="filename",
+    y_col="labels",
     classes=EPOCHS
 )
 
@@ -86,32 +84,37 @@ model = keras.Sequential(
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
         layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
-        layers.Dense(art_epoch_count, activation="softmax"),
+        layers.Dense(art_epoch_count, activation="sigmoid"),
     ]
 )
 
 print(model.summary())
 
-optimizer = keras.optimizers.Adam()
-loss = keras.losses.SparseCategoricalCrossentropy()
+optimizer = keras.optimizers.RMSprop(learning_rate=0.0001, weight_decay=1e-6)
+loss = keras.losses.BinaryCrossentropy()
 metrics = ["accuracy"]
 
 model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 # Training
 
-epochs = 20
+epochs = 1
 
-early_stopping= keras.callbacks.EarlyStopping(
-    monitor="val_loss",
-    patience=30,
-    verbose=2
-)
+#history = model.fit_generator(
+#    generator=train_batches,
+#    validation_data=valid_batches,
+#    epochs=epochs
+#)
 
-history = model.fit(train_batches, validation_data=valid_batches, 
-                    callbacks=[early_stopping], epochs=epochs, verbose=1)
+history = model.fit(train_batches, validation_data= valid_batches, epochs=epochs, verbose=1)
 
 
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
@@ -130,4 +133,4 @@ plt.grid()
 plt.legend(fontsize=15)
 plt.show()
 
-model.evaluate(test_batches, verbose=2)
+#model.evaluate(test_batches, verbose=2)
