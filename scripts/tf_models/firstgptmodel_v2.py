@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # 08/208 - 45s - loss: 1.8166 - accuracy: 0.3426 - 45s/epoch - 217ms/step
 
 using_split = "only_resized_all_epochs"
-model_name = "gpt_model_v2"
+model_name = "inception_model_v2"
 batch_size = 32
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
@@ -64,17 +64,47 @@ folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "tra
 art_epoch_count = len(folders)
 
 # model_name = "first_gpt_model"
+# model = keras.Sequential(
+#     [
+#         layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
+#         layers.MaxPooling2D(pool_size=(2, 2)),
+#         layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+#         layers.MaxPooling2D(pool_size=(2, 2)),
+#         layers.Flatten(),
+#         layers.Dense(128, activation="relu"),
+#         layers.Dense(art_epoch_count, activation="softmax"),
+#     ]
+# )
+def inception_module(prev_layer, filters):
+    conv1 = layers.Conv2D(filters[0], kernel_size=(1, 1), activation="relu")(prev_layer)
+
+    conv3 = layers.Conv2D(filters[1], kernel_size=(1, 1), activation="relu")(prev_layer)
+    conv3 = layers.Conv2D(filters[2], kernel_size=(3, 3), padding="same", activation="relu")(conv3)
+
+    conv5 = layers.Conv2D(filters[3], kernel_size=(1, 1), activation="relu")(prev_layer)
+    conv5 = layers.Conv2D(filters[4], kernel_size=(5, 5), padding="same", activation="relu")(conv5)
+
+    pool = layers.MaxPooling2D(pool_size=(3, 3), strides=(1, 1), padding="same")(prev_layer)
+    pool = layers.Conv2D(filters[5], kernel_size=(1, 1), activation="relu")(pool)
+
+    concat = layers.concatenate([conv1, conv3, conv5, pool], axis=-1)
+
+    return concat
+
+# Define your model using Inception module
+input_shape = (224, 224, 3)
 model = keras.Sequential(
     [
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=input_shape),
         layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
+        inception_module(model.layers[1].output, [64, 96, 128, 16, 32, 32]),
+        inception_module(model.layers[2].output, [128, 128, 192, 32, 96, 64]),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
         layers.Dense(art_epoch_count, activation="softmax"),
     ]
 )
+
 
 print(model.summary())
 
