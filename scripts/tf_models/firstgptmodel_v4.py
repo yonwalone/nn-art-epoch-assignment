@@ -7,12 +7,12 @@ from config import EPOCHS, PROJECT_ROOT
 #from ...config import EPOCHS, PROJECT_ROOT
 import src.model_helper as mh
 import matplotlib.pyplot as plt
-# reduce batchsize to 16
-# 416/416 - 39s - loss: 1.8681 - accuracy: 0.3206 - 39s/epoch - 93ms/step
+# increase batchsize to 45
+# 416/416 - 44s - loss: 1.8531 - accuracy: 0.3334 - 44s/epoch - 105ms/step
 
 using_split = "only_resized_all_epochs"
-model_name = "gpt_model_v3"
-batch_size = 16
+model_name = "gpt_model_v4"
+batch_size = 45
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
 
@@ -115,4 +115,4 @@ plt.grid()
 plt.legend(fontsize=15)
 plt.show()
 
-model.evaluate(test_batches, verbose=2)
+model.evaluate(test_batches, verbose=1)
