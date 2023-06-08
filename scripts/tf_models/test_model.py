@@ -84,73 +84,9 @@ test_batches = test_gen.flow_from_dataframe(
     classes=EPOCHS
 )
 
-items = os.listdir(os.path.join(SPLIT_PATH, "train"))
-# Filter the list to include only folders
-folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "train", item))]
-# Get the count of epoch folders
-art_epoch_count = 10
 
-# model_name = "first_gpt_model"
-model = keras.Sequential(
-    [
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Flatten(),
-        layers.Dense(128, activation="relu"),
-        layers.Dense(art_epoch_count, activation="sigmoid"),
-    ]
-)
-
-print(model.summary())
-
-#optimizer = keras.optimizers.RMSprop(learning_rate=0.0001, weight_decay=1e-6)
-#loss = keras.losses.BinaryCrossentropy()
-
-#optimizer = keras.optimizers.Adam()
-#loss = keras.losses.SparseCategoricalCrossentropy()
-
-optimizer = keras.optimizers.Adam()
-loss = keras.losses.BinaryCrossentropy()
-
-metrics = ["accuracy"]
-
-model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
+model = keras.models.load_model(os.path.join(PROJECT_ROOT, "results", f"multi_label.h5"))
 
 # Training
 
-epochs = 20
-
-#history = model.fit_generator(
-#    generator=train_batches,
-#    validation_data=valid_batches,
-#    epochs=epochs
-#)
-
-history = model.fit(train_batches, validation_data= valid_batches, epochs=epochs, verbose=1)
-
-
-model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
-
-plt.figure(figsize=(16, 6))
-plt.subplot(1, 2, 1)
-plt.plot(history.history['loss'], label='train loss')
-plt.plot(history.history['val_loss'], label='valid loss')
-plt.grid()
-plt.legend(fontsize=15)
-plt.show()
-plt.subplot(1, 2, 2)
-plt.plot(history.history['accuracy'], label='train acc')
-plt.plot(history.history['val_accuracy'], label='valid acc')
-plt.grid()
-plt.legend(fontsize=15)
-plt.show()
-
-model.evaluate(test_batches, verbose=2)
+model.evaluate(test_batches, verbose=1)
