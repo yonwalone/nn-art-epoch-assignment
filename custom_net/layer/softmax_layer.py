@@ -24,6 +24,9 @@ class SoftMaxLayer(LayerInterface):
         self.inputs = inputs
         #print(f"Act Dense Output: {self.inputs}")
         self.sum = sum(abs(e) for e in inputs)
+        print(inputs)
+        print(self.sum)
+        #raise Exception("foo")
 
         if self.sum == 0:
             return self.inputs

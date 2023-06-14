@@ -1,5 +1,6 @@
 import random as rnd
 import numpy as np
+import math
 
 from foundation.enums import Functions
 
@@ -85,6 +86,12 @@ class Percepton:
                 return self.out
             self.out = 0.2 * self.sum
             return self.out
+        elif self.func == Functions.elu:
+            if self.sum > 0:
+                self.out = self.sum
+                return self.out
+            self.out = math.exp(self.sum) -1
+            return self.out 
         else:
             raise Exception("Use valid activation function")
         
@@ -163,6 +170,12 @@ class Percepton:
                 errorChangeThroughFunction = 1
             else:
                 errorChangeThroughFunction = 0.2
+
+        elif self.func == Functions.elu:
+            if self.sum > 0:
+                errorChangeThroughFunction = 1
+            else:
+                errorChangeThroughFunction = math.exp(self.sum)
 
         errorChangeThroughFunction *= len(self.weights) #TODO: Might delete
 
