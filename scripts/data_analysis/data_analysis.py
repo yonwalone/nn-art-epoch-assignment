@@ -3,53 +3,79 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import os
-#from skimage.feature import greycomatrix
 
 from config import EPOCHS, PROJECT_ROOT
-from excel_export import exportToExcel, ColorMode
-from functions import allcolorHistogram
-from views import viewColorsHistogram
+from color_mode import ColorMode
+from functions import allcolorHistogram, calculateColorAverages, calculateContrast, extractEdges, calculateGreyCoMatrixMetrics, exportToExcel
+from views import viewColorsHistogram, viewAllHistogram
 
-def getImages():
+def getEpochImages(epoch):
     """
-    Get images from directory
+    Get images of an epoch from train, valid and test
+
+    Args:
+    epoch (string): Name of epoch
+
+    Returns:
+    images (Array Images): found images
     """
     using_split = "only_resized_all_epochs"
-    folder_path = os.path.join(PROJECT_ROOT, "data", "splits", using_split, "train", "baroque")
 
-    image_files = os.listdir(folder_path)
+    train_path = os.path.join(PROJECT_ROOT, "data", "splits", using_split, "train", epoch)
+    train_files = os.listdir(train_path)
+
+    valid_path = os.path.join(PROJECT_ROOT, "data", "splits", using_split, "valid", epoch)
+    valid_files = os.listdir(valid_path)
+
+    test_path = os.path.join(PROJECT_ROOT, "data", "splits", using_split, "test", epoch)
+    test_files = os.listdir(test_path)
 
     images = []
-    for file_name in image_files:
+    for file_name in train_files:
         if file_name.endswith(".jpg") or file_name.endswith(".png"):
-            image_path = os.path.join(folder_path, file_name)
+            image_path = os.path.join(train_path, file_name)
+            image = cv2.imread(image_path)
+            images.append(image)
+
+    for file_name in valid_files:
+        if file_name.endswith(".jpg") or file_name.endswith(".png"):
+            image_path = os.path.join(valid_path, file_name)
+            image = cv2.imread(image_path)
+            images.append(image)
+
+    for file_name in test_files:
+        if file_name.endswith(".jpg") or file_name.endswith(".png"):
+            image_path = os.path.join(test_path, file_name)
             image = cv2.imread(image_path)
             images.append(image)
 
     return images
 
-images = getImages()
-#images = [cv2.imread("test_image.jpg")]
-#plotManyImages(images)
-
 plt.close()
 
-epoch = "baroque"
+outLines=[]
+allCols = []
+allBins = []
 
-colList, bins = allcolorHistogram(images)
-viewColorsHistogram(colList, bins)
+for epoch in EPOCHS:
+    # Tet images of epoch
+    images = getEpochImages(epoch)
 
+    # Calculate values for diagram
+    colList, bins = allcolorHistogram(images)
+    allCols.append(colList)
+    allBins.append(bins)
 
-plt.close()
-exit()
+    # Calculate metrics 
+    colors = calculateColorAverages(images)
+    contrasts = calculateContrast(images)
+    edgeCounts = extractEdges(images)
+    coMatrixMetrics = calculateGreyCoMatrixMetrics(images)
 
-# Calculate values 
-colors = calculateColorAverages(images) # Achtung Reihenfolge ist nicht RGB!
-contrasts = calculateContrast(images)
-edgeCounts = extractEdges(images)
-outLine = [epoch] + colors + contrasts + edgeCounts
+    outLine = [epoch] + colors + contrasts + edgeCounts + coMatrixMetrics
+    outLines.append(outLine)
 
-print(outLine)
+viewAllHistogram(allCols, allBins)
 
 # Prepare Output
 columns = ["Epoch",
@@ -57,10 +83,14 @@ columns = ["Epoch",
            "Std Color", "Std Color Red", "Std Color Green", "Std Color Blue",
            "Avg Contrast", "Avg Contrast Red", "Avg Contrast Green", "Avg Contrast Blue",
            "Std Contrast", "Std Contrast Red", "Std Contrast Green", "Std Contrast Blue",
-           "Avg Edge Count", "Std Edge Count"
+           "Avg Edge Count", "Std Edge Count",
+           "Avg Gray Contrast", "Std Gray Contrast",
+           "Avg Dissimilarity", "Std Dissimilarity",
+           "Avg Homogeneity", "Std Homogeneity",
+           "Avg Energy", "Std Energy",
+           "Avg Correlation", "Std Correlation"
            ]
 
-outLines = [outLine]
-exportToExcel(columNames=columns, data=outLines, filename="analysis.xlsx")
+exportToExcel(columNames=columns, data=outLines, fileName="analysis.xlsx")
 
 plt.close()
