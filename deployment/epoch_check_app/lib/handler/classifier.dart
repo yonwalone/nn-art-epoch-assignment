@@ -15,7 +15,7 @@ class Classifier{
 
   Future<void> loadModel() async {
     // load model from assets
-    _interpreter = await Interpreter.fromAsset('big_model.tflite');
+    _interpreter = await Interpreter.fromAsset('lite_model.tflite');
     final labelsData = await rootBundle.loadString('assets/labels.txt');
     _labels = labelsData.trim().split('\n');
   }
@@ -49,7 +49,7 @@ class Classifier{
     var input = [imageArray]; // Add batch dimension
 
     // Prepare output buffer
-    var supportedClasses = 4;
+    var supportedClasses = 1000;
     var outputShape = [1, supportedClasses];
     var output = List.filled(outputShape.reduce((a, b) => a * b), 0).reshape(outputShape);
 
@@ -58,7 +58,7 @@ class Classifier{
 
     // Create a list of predicted classes with their corresponding probabilities
     List<Map<String, dynamic>> predictedClasses = [];
-    for (int index = 0; index < output[0].length; index++) {
+    for (int index = 0; index < _labels.length; index++) {
       String classLabel = _labels[index];
       double probability = output[0][index].toDouble();
       predictedClasses.add({"class_label": classLabel, "probability": probability});

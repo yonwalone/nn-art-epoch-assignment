@@ -23,7 +23,7 @@ class ResultView extends StatefulWidget {
     XFile file = widget.file;
 
     return SizedBox(
-      height: 450, //720, TODO: Adapt to more results
+      height: 720,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
@@ -104,7 +104,7 @@ class ResultView extends StatefulWidget {
                             (index) => DataRow(
                               cells: [
                                 DataCell(Text(data[index]["class_label"].toString())),
-                                DataCell(Text((data[index]["probability"]*100).toString()))
+                                DataCell(Text((data[index]["probability"]*100).toStringAsFixed(6)))
                               ]
                             ),
                           ),

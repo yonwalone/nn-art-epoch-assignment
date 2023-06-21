@@ -29,7 +29,7 @@ class MainPageState extends State<MainPage> {
     setState(() {});
     
     // classify image
-    await clas.classifyImage(image).then((value) {
+    clas.classifyImage(image).then((value) {
       // show result when recieved
       imageChange = false;
       customModal(context: context, modal: ResultView(file: pickedFile, prediction: value,));

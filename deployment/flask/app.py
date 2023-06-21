@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 #Load model
-model = load_model(os.path.join('deployment', 'big_model.h5'))
+model = load_model(os.path.join('deployment', 'my_model.h5'))
 
 # Create the Flask application
 app = Flask(__name__, static_folder='static')
