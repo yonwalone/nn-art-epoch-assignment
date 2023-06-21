@@ -25,7 +25,6 @@ class SoftMaxLayer(LayerInterface):
         #print(f"Act Dense Output: {self.inputs}")
         self.sum = sum(abs(e) for e in inputs)
         print(inputs)
-        print(self.sum)
         #raise Exception("foo")
 
         if self.sum == 0:
@@ -52,6 +51,7 @@ class SoftMaxLayer(LayerInterface):
         """
         #if self.sum == 0: # Might remove
             #self.sum = 1
+        print(f"Targets: {targets}")
         
         newTargets = []
         for target in targets:
