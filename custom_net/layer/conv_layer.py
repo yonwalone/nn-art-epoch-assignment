@@ -55,8 +55,6 @@ class CONVLayer(LayerInterface):
             - newImage: Transformed image 
         """
 
-        #print(f"Len Input: {len(image)}")
-
         # Add padding around image
         image = self.addPadding(image)
             
@@ -98,11 +96,9 @@ class CONVLayer(LayerInterface):
                 newImage.append(newRow)
             newImages.append(newImage)
 
-        #print(f"Conv Output: {newImage}")
-        #print(f"Lenge Outputs: {len(newImage)}")
         return newImages
 
-    def addPadding(self, image): # Veraltet und aktuell nicht funktionsfähig
+    def addPadding(self, image):
         """
         Add padding with number 0 around the image with the width based on the matrix size
 
@@ -121,7 +117,6 @@ class CONVLayer(LayerInterface):
         if self.paddingType == PaddingType.full:
             self.paddingSize = matLen - 1
 
-        #print(self.paddingSize)
        
         newImages=[]
         for inDepth in range(0, self.inputDepth):
@@ -141,9 +136,6 @@ class CONVLayer(LayerInterface):
             newImage.extend([paddingLine] * self.paddingSize)
             newImages.append(newImage)
 
-        #print(f"Image: {image}")
-        #print(f"Padded Image: {newImages}")
-
         return newImages
 
 
@@ -160,9 +152,6 @@ class CONVLayer(LayerInterface):
             - errors: propagage errors further
         """
 
-        #print(f"Input: {targets}")
-        #print(f"Image: {self.image}")
-
         kernalGradients = [[[[0 for _ in self.matrixes[0][0][0]] for _ in self.matrixes[0][0]] for _ in self.matrixes[0]] for _ in self.matrixes]
         inputGradients = [[[0 for _ in range(0, len(self.image[0][0]))] for _ in range(0, len(self.image[0]))] for _ in range(0, self.inputDepth)]
 
@@ -174,15 +163,11 @@ class CONVLayer(LayerInterface):
                 for col in range(0, len(targets[outputDepth][0])):
                     targets[outputDepth][row][col] *= (len(self.matrixes[0][0])*len(self.matrixes[0][0][0]))
 
-
-            #print(self.bias)
             ### Adapt values for bias
             for row in range(0, len(targets[outputDepth])):
                 for col in range(0, len(targets[outputDepth][0])):
-                    self.bias[outputDepth][row][col] -= learningRate * targets[outputDepth][row][col] / self.inputDepth # TODO: Might remove devision
-            #print("Second")
-            #print(self.bias)
-            
+                    self.bias[outputDepth][row][col] -= learningRate * targets[outputDepth][row][col]
+    
 
             ### Prepare Gradient: Add zeros between targets based on stride
 
@@ -237,10 +222,7 @@ class CONVLayer(LayerInterface):
                     for targetRowIndex in range(0, len(extendedGradient)):
                         for targetColIndex in range(0, len(extendedGradient[0])):
                             for inDepth in range(0, self.inputDepth):
-                                kernalGradients[outputDepth][inDepth][rowIndex][columnIndex] += self.image[inDepth][rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex] #/ self.inputDepth # Might remove or adapt /self.inputDepth
-            
-            #print(f"Kernal Gradients: {kernalGradients}")
-            #print(f"Extended Gradients: {extendedGradient}")
+                                kernalGradients[outputDepth][inDepth][rowIndex][columnIndex] += self.image[inDepth][rowIndex + targetRowIndex][columnIndex + targetColIndex] * extendedGradient[targetRowIndex][targetColIndex]
 
 
             ### Calculate input errors to propagate further ####
@@ -266,8 +248,6 @@ class CONVLayer(LayerInterface):
 
             for i in range(0, len(self.matrixes[outputDepth][0]) -1):
                 paddedGradient.append(firstline)
-
-            #print(f"Padded Gradients: {paddedGradient}")     
 
             # Turn matrix around 180 degree
             turnedMatrixes=[]                           # [indepth [height [width]]]

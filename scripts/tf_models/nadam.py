@@ -55,6 +55,8 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
+# Create model
+
 model = keras.Sequential(
     [
         layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),

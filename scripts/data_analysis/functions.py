@@ -134,13 +134,8 @@ def extractEdges(images, showChart = False):
         image = images[imageInd]
         imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         grayImg = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        #edges = cv2.Canny(grayImg, threshold1=195, threshold2=250)
-        #edges2 = cv2.Canny(grayImg, threshold1=100, threshold2=250)
-        #edges3 = cv2.Canny(grayImg, threshold1=195, threshold2=200)
-        #edges3 = cv2.Canny(grayImg, threshold1=0, threshold2=255)
-        #edges2 = cv2.Canny(grayImg, threshold1=200, threshold2=255)
 
-        edges3 = cv2.Canny(grayImg, threshold1=150, threshold2=255) # Wurde ausgewählt auch andere sicher möglich u. eventuell sinnvoll
+        edges = cv2.Canny(grayImg, threshold1=150, threshold2=255) # Chosen by testing, other threshold might be usefull too
 
         if showChart:
             fig, axes = plt.subplots(nrows=1, ncols=3)
@@ -150,11 +145,11 @@ def extractEdges(images, showChart = False):
             axes[1].imshow(grayImg, cmap="gray")
             axes[1].set_title('Graubild')
 
-            axes[2].imshow(edges3,"gray")
+            axes[2].imshow(edges,"gray")
             axes[2].set_title('Detektierte Kanten')
             plt.show()
 
-        edgeCount = np.mean(edges3)
+        edgeCount = np.mean(edges)
         edgeCounts = np.append(edgeCounts, edgeCount)
 
     avgEdgeCount= np.mean(edgeCounts)
@@ -257,6 +252,7 @@ def avgHistogram(images, colorMode):
     sumList = np.sum(colList)
     colList = np.divide(colList, sumList)
     return colList, bins
+
 
 def allcolorHistogram(images):
     """

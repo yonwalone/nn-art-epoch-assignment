@@ -71,8 +71,3 @@ for art_epoch in used_epochs:
         file_path = os.path.join(images_path, test_image)
 
         shutil.copy(file_path, epoch_test_folder)
-
-
-
-
-

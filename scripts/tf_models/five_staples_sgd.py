@@ -55,11 +55,7 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
-items = os.listdir(os.path.join(SPLIT_PATH, "train"))
-# Filter the list to include only folders
-folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "train", item))]
-# Get the count of epoch folders
-art_epoch_count = len(folders)
+# Create model
 
 model = keras.Sequential(
     [
@@ -75,7 +71,7 @@ model = keras.Sequential(
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
-        layers.Dense(art_epoch_count, activation="softmax"),
+        layers.Dense(10, activation="softmax"),
     ]
 )
 
@@ -91,7 +87,7 @@ model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 epochs = 30
 
-early_stopping= keras.callbacks.EarlyStopping( # Wird erst ausgeführt, wenn bei 30 Epochen val_Loss nicht mehr verbessert
+early_stopping= keras.callbacks.EarlyStopping(
     monitor="val_loss",
     patience=30,
     verbose=2
@@ -103,8 +99,10 @@ history = model.fit(train_batches, validation_data=valid_batches,
 
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
 
+# Test
 model.evaluate(test_batches, verbose=1)
 
+# Print statistics
 plt.figure(figsize=(16, 6))
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='train loss')

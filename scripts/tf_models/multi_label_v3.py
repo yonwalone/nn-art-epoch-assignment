@@ -16,23 +16,21 @@ SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
 
 
 train_data= pd.read_csv(os.path.join(SPLIT_PATH, "train", "dataframe.csv"), sep="|")
-
-train_data['labels'] = train_data['labels'].apply(eval)  # Convert string representation of list to actual list
+train_data['labels'] = train_data['labels'].apply(eval)
 train_data_expanded = pd.DataFrame({
     'filename': np.repeat(train_data['filename'], train_data['labels'].apply(len)),
     'labels': np.concatenate(train_data['labels'].values)
 })
 
-
 valid_data= pd.read_csv(os.path.join(SPLIT_PATH, "valid", "dataframe.csv"), sep="|")
-valid_data['labels'] = valid_data['labels'].apply(eval)  # Convert string representation of list to actual list
+valid_data['labels'] = valid_data['labels'].apply(eval)
 valid_data_expanded = pd.DataFrame({
     'filename': np.repeat(valid_data['filename'], valid_data['labels'].apply(len)),
     'labels': np.concatenate(valid_data['labels'].values)
 })
 
 test_data= pd.read_csv(os.path.join(SPLIT_PATH, "test", "dataframe.csv"), sep="|")
-test_data['labels'] = test_data['labels'].apply(eval)  # Convert string representation of list to actual list
+test_data['labels'] = test_data['labels'].apply(eval)
 test_data_expanded = pd.DataFrame({
     'filename': np.repeat(test_data['filename'], test_data['labels'].apply(len)),
     'labels': np.concatenate(test_data['labels'].values)
@@ -84,13 +82,8 @@ test_batches = test_gen.flow_from_dataframe(
     classes=EPOCHS
 )
 
-items = os.listdir(os.path.join(SPLIT_PATH, "train"))
-# Filter the list to include only folders
-folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "train", item))]
-# Get the count of epoch folders
-art_epoch_count = 10
+# Create model
 
-# model_name = "first_gpt_model"
 model = keras.Sequential(
     [
         layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
@@ -105,17 +98,11 @@ model = keras.Sequential(
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
-        layers.Dense(art_epoch_count, activation="sigmoid"),
+        layers.Dense(10, activation="sigmoid"),
     ]
 )
 
 print(model.summary())
-
-#optimizer = keras.optimizers.RMSprop(learning_rate=0.0001, weight_decay=1e-6)
-#loss = keras.losses.BinaryCrossentropy()
-
-#optimizer = keras.optimizers.Adam()
-#loss = keras.losses.SparseCategoricalCrossentropy()
 
 optimizer = keras.optimizers.RMSprop()
 loss = keras.losses.BinaryCrossentropy()
@@ -128,19 +115,14 @@ model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 epochs = 20
 
-#history = model.fit_generator(
-#    generator=train_batches,
-#    validation_data=valid_batches,
-#    epochs=epochs
-#)
-
 history = model.fit(train_batches, validation_data= valid_batches, epochs=epochs, verbose=1)
-
 
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
 
+# Test
 model.evaluate(test_batches, verbose=2)
 
+# Print statistics
 plt.figure(figsize=(16, 6))
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='train loss')

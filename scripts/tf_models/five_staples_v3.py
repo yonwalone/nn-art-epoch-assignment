@@ -55,6 +55,8 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
+# Create model
+
 model = keras.Sequential(
     [
         layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
@@ -97,8 +99,10 @@ history = model.fit(train_batches, validation_data=valid_batches,
 
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
 
+# Test
 model.evaluate(test_batches, verbose=1)
 
+# Print statistics
 plt.figure(figsize=(16, 6))
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='train loss')
