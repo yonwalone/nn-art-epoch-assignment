@@ -8,7 +8,7 @@ import src.model_helper as mh
 import matplotlib.pyplot as plt
 
 using_split = "only_resized_all_epochs"
-model_name = "xceptionv1"
+model_name = "five_staples_nadam"
 batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
@@ -55,11 +55,27 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
+model = keras.Sequential(
+    [
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(10, activation="softmax"),
+    ]
+)
 
-model = tf.keras.applications.xception.Xception()
 print(model.summary())
 
-optimizer = keras.optimizers.Adam()
+optimizer = keras.optimizers.Nadam()
 loss = keras.losses.SparseCategoricalCrossentropy()
 metrics = ["accuracy"]
 
@@ -67,9 +83,9 @@ model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 # Training
 
-epochs = 20
+epochs = 30
 
-early_stopping= keras.callbacks.EarlyStopping( # Wird erst ausgeführt, wenn bei 30 Epochen val_Loss nicht mehr verbessert
+early_stopping= keras.callbacks.EarlyStopping(
     monitor="val_loss",
     patience=30,
     verbose=2

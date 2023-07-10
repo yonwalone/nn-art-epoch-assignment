@@ -8,7 +8,7 @@ import src.model_helper as mh
 import matplotlib.pyplot as plt
 
 using_split = "only_resized_all_epochs"
-model_name = "xceptionv1"
+model_name = "five_staples_rmsprop"
 batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
@@ -55,11 +55,34 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
+items = os.listdir(os.path.join(SPLIT_PATH, "train"))
+# Filter the list to include only folders
+folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "train", item))]
+# Get the count of epoch folders
+art_epoch_count = len(folders)
 
-model = tf.keras.applications.xception.Xception()
+# model_name = "first_gpt_model"
+model = keras.Sequential(
+    [
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(art_epoch_count, activation="softmax"),
+    ]
+)
+
 print(model.summary())
 
-optimizer = keras.optimizers.Adam()
+optimizer = keras.optimizers.RMSprop()
 loss = keras.losses.SparseCategoricalCrossentropy()
 metrics = ["accuracy"]
 
@@ -67,7 +90,7 @@ model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 # Training
 
-epochs = 20
+epochs = 30
 
 early_stopping= keras.callbacks.EarlyStopping( # Wird erst ausgeführt, wenn bei 30 Epochen val_Loss nicht mehr verbessert
     monitor="val_loss",

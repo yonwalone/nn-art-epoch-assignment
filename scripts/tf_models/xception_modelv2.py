@@ -7,8 +7,10 @@ from config import EPOCHS, PROJECT_ROOT
 import src.model_helper as mh
 import matplotlib.pyplot as plt
 
+# Add tf.keras.applications.xception.preprocess_input as preprocessing_function to ImageDataGenerator
+
 using_split = "only_resized_all_epochs"
-model_name = "xceptionv1"
+model_name = "xceptionv2"
 batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
@@ -20,7 +22,8 @@ train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
     width_shift_range=0.2,
     height_shift_range=0.2,
     shear_range=0.15,
-    horizontal_flip=True
+    horizontal_flip=True,
+    preprocessing_function= tf.keras.applications.xception.preprocess_input
     )
 valid_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 test_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
@@ -69,7 +72,7 @@ model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 epochs = 20
 
-early_stopping= keras.callbacks.EarlyStopping( # Wird erst ausgeführt, wenn bei 30 Epochen val_Loss nicht mehr verbessert
+early_stopping= keras.callbacks.EarlyStopping(
     monitor="val_loss",
     patience=30,
     verbose=2
