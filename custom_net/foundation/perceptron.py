@@ -4,11 +4,11 @@ import math
 
 from foundation.enums import Functions
 
-class Percepton:
+class Perceptron:
 
     def __init__(self, func, weights = None) -> None:
         """
-        Initialize percepton.
+        Initialize perceptron.
 
         Args:
             - function (Functions): activation functions for percepton
@@ -149,8 +149,6 @@ class Percepton:
 
         """
 
-        #print(f"Error handling Percepton: {errorOut}")
-
         # Get error from activaton function
         if self.func == Functions.tanh:
             # out = tanh(sum)
@@ -195,8 +193,6 @@ class Percepton:
 
             listOfErrorPerPerceptron.append(errorAfterSum * self.weights[index])
 
-        #print(self.weights)
-        #print(f"Error out percepton: {listOfErrorPerPerceptron}")
         return listOfErrorPerPerceptron
 
     def getWeights(self):
