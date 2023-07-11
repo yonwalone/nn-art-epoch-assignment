@@ -9,25 +9,29 @@ def preprocess_epoch(epoch):
     pro_img = Preprocess_Images(
         epoch,
         grayscale=False, 
-        process_name="3x224"
+        process_name="3x384"
     )
 
+    print(f"----- STARTED fetching. -----")
+    pro_img.get_files_by_size(input_dir="", output_dir="fetched", min_size=384)
+    print(f"----- FINISHED fetching. -----")
+
     print(f"----- STARTED resizing. -----")
-    pro_img.resize_images_affine(input_dir="", output_dir="resized")
+    pro_img.resize_images_affine(input_dir="fetched", output_dir="resized")
     print(f"----- FINISHED resizing. -----")
 
-    if pro_img.grayscale:
-        print(f"----- STARTED grayscaling. -----")
-        pro_img.grayscale_images(input_dir="resized", output_dir="grayscaled")
-        print(f"----- FINISHED grayscaling. -----")
+    # if pro_img.grayscale:
+    #     print(f"----- STARTED grayscaling. -----")
+    #     pro_img.grayscale_images(input_dir="resized", output_dir="grayscaled")
+    #     print(f"----- FINISHED grayscaling. -----")
 
-    print(f"----- STARTED augmentation. -----")
-    pro_img.augment_images(input_dir="grayscaled" if pro_img.grayscale else "resized", output_dir="augmented")
-    print(f"----- FINISHED augmentation. -----")
+    # print(f"----- STARTED augmentation. -----")
+    # pro_img.augment_images(input_dir="grayscaled" if pro_img.grayscale else "resized", output_dir="augmented")
+    # print(f"----- FINISHED augmentation. -----")
 
-    print(f"----- STARTED normalisation. -----")
-    pro_img.normalize_images(input_dir="augmented", output_dir="normalized")
-    print(f"----- FINISHED normalisation. -----")
+    # print(f"----- STARTED normalisation. -----")
+    # pro_img.normalize_images(input_dir="augmented", output_dir="normalized")
+    # print(f"----- FINISHED normalisation. -----")
 
 
 for epoch in EPOCHS:
