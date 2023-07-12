@@ -1,15 +1,6 @@
-import 'dart:async';
-import 'dart:collection';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as IMG;
-import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-
 import 'package:image_picker/image_picker.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
-//import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 import 'package:epoch_check_app/view/result_view.dart';
 import 'package:epoch_check_app/handler/modal_create.dart';
@@ -20,25 +11,28 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage> {
 
   bool imageChange = false;
   Classifier clas = Classifier();
 
   void handleImage(BuildContext context, ImageSource source) async {
+    // handle chosen image
+
     final pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile == null) {return;}
+    File image = File(pickedFile.path);
     imageChange = true;
     setState(() {});
     
-    File image = File(pickedFile.path);
-    await clas.classifyImage(image).then((value) {
+    // classify image
+    clas.classifyImage(image).then((value) {
+      // show result when recieved
       imageChange = false;
       customModal(context: context, modal: ResultView(file: pickedFile, prediction: value,));
-      clas.loadModel();
       setState(() {});
     },);
   }
@@ -80,7 +74,7 @@ class _MainPageState extends State<MainPage> {
                     Icons.photo_camera,
                   ),
                   onPressed: () {
-                    handleImage(context, ImageSource.camera)
+                    handleImage(context, ImageSource.camera);
                   }),
               Text(
                 "Take a picture",

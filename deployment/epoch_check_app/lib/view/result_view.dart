@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-///builds a widget to create a session to be shown as a ModalSheet
+// show result in bottom sheet modal
 class ResultView extends StatefulWidget {
   const ResultView({Key? key, required this.file, required this.prediction}) : super(key: key);
 
@@ -11,10 +10,10 @@ class ResultView extends StatefulWidget {
   final List<Map<String, dynamic>> prediction;
 
   @override
-  _ResultViewState createState() => _ResultViewState();
+  ResultViewState createState() => ResultViewState();
 }
 
-class _ResultViewState extends State<ResultView> {
+ class ResultViewState extends State<ResultView> {
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +95,7 @@ class _ResultViewState extends State<ResultView> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(label: Text('Epoch')),
                             DataColumn(label: Text('Probability in %')),
                           ],
@@ -104,8 +103,8 @@ class _ResultViewState extends State<ResultView> {
                             data.length,
                             (index) => DataRow(
                               cells: [
-                                DataCell(Text(data[index]["class_label"].toString()) ?? const Text("Fehler")),
-                                DataCell(Text((data[index]["probability"]*100).toString()) ?? const Text("Fehler"))
+                                DataCell(Text(data[index]["class_label"].toString())),
+                                DataCell(Text((data[index]["probability"]*100).toStringAsFixed(6)))
                               ]
                             ),
                           ),
