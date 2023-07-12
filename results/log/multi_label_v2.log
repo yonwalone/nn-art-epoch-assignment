@@ -1,0 +1,89 @@
+(py38-nn-art-epoch-assignment) SXALNHO@Steffens-MacBook-Pro tf_models % python multi_label_v2.py
+Found 31730 validated image filenames belonging to 10 classes.
+Found 6843 validated image filenames belonging to 10 classes.
+Found 6879 validated image filenames belonging to 10 classes.
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 222, 222, 32)      896       
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 111, 111, 32)     0         
+ )                                                               
+                                                                 
+ conv2d_1 (Conv2D)           (None, 109, 109, 64)      18496     
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 54, 54, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_2 (Conv2D)           (None, 52, 52, 64)        36928     
+                                                                 
+ max_pooling2d_2 (MaxPooling  (None, 26, 26, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_3 (Conv2D)           (None, 24, 24, 64)        36928     
+                                                                 
+ max_pooling2d_3 (MaxPooling  (None, 12, 12, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_4 (Conv2D)           (None, 10, 10, 64)        36928     
+                                                                 
+ max_pooling2d_4 (MaxPooling  (None, 5, 5, 64)         0         
+ 2D)                                                             
+                                                                 
+ flatten (Flatten)           (None, 1600)              0         
+                                                                 
+ dense (Dense)               (None, 128)               204928    
+                                                                 
+ dense_1 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 336,394
+Trainable params: 336,394
+Non-trainable params: 0
+_________________________________________________________________
+None
+2023-06-13 17:30:24.873629: W tensorflow/tsl/platform/profile_utils/cpu_utils.cc:128] Failed to get CPU frequency: 0 Hz
+Epoch 1/20
+248/248 [==============================] - 313s 1s/step - loss: 0.3348 - accuracy: 0.1026 - val_loss: 0.3245 - val_accuracy: 0.1020
+Epoch 2/20
+248/248 [==============================] - 318s 1s/step - loss: 0.3151 - accuracy: 0.1671 - val_loss: 0.3122 - val_accuracy: 0.1831
+Epoch 3/20
+248/248 [==============================] - 319s 1s/step - loss: 0.3082 - accuracy: 0.2011 - val_loss: 0.3100 - val_accuracy: 0.1993
+Epoch 4/20
+248/248 [==============================] - 319s 1s/step - loss: 0.3037 - accuracy: 0.2256 - val_loss: 0.2986 - val_accuracy: 0.2426
+Epoch 5/20
+248/248 [==============================] - 328s 1s/step - loss: 0.3014 - accuracy: 0.2369 - val_loss: 0.2970 - val_accuracy: 0.2440
+Epoch 6/20
+248/248 [==============================] - 322s 1s/step - loss: 0.2972 - accuracy: 0.2505 - val_loss: 0.2940 - val_accuracy: 0.2622
+Epoch 7/20
+248/248 [==============================] - 321s 1s/step - loss: 0.2927 - accuracy: 0.2646 - val_loss: 0.2854 - val_accuracy: 0.2907
+Epoch 8/20
+248/248 [==============================] - 323s 1s/step - loss: 0.2897 - accuracy: 0.2751 - val_loss: 0.2883 - val_accuracy: 0.2826
+Epoch 9/20
+248/248 [==============================] - 319s 1s/step - loss: 0.2877 - accuracy: 0.2797 - val_loss: 0.2856 - val_accuracy: 0.2883
+Epoch 10/20
+248/248 [==============================] - 317s 1s/step - loss: 0.2850 - accuracy: 0.2905 - val_loss: 0.2835 - val_accuracy: 0.2902
+Epoch 11/20
+248/248 [==============================] - 325s 1s/step - loss: 0.2828 - accuracy: 0.2963 - val_loss: 0.2775 - val_accuracy: 0.3101
+Epoch 12/20
+248/248 [==============================] - 4192s 17s/step - loss: 0.2816 - accuracy: 0.3008 - val_loss: 0.2817 - val_accuracy: 0.2987
+Epoch 13/20
+248/248 [==============================] - 2003s 8s/step - loss: 0.2809 - accuracy: 0.3036 - val_loss: 0.2812 - val_accuracy: 0.3059
+Epoch 14/20
+248/248 [==============================] - 14611s 59s/step - loss: 0.2806 - accuracy: 0.3049 - val_loss: 0.2780 - val_accuracy: 0.3135
+Epoch 15/20
+248/248 [==============================] - 35705s 144s/step - loss: 0.2785 - accuracy: 0.3089 - val_loss: 0.2791 - val_accuracy: 0.3069
+Epoch 16/20
+248/248 [==============================] - 9745s 39s/step - loss: 0.2785 - accuracy: 0.3101 - val_loss: 0.2754 - val_accuracy: 0.3110
+Epoch 17/20
+248/248 [==============================] - 321s 1s/step - loss: 0.2770 - accuracy: 0.3129 - val_loss: 0.2792 - val_accuracy: 0.3022
+Epoch 18/20
+248/248 [==============================] - 319s 1s/step - loss: 0.2770 - accuracy: 0.3140 - val_loss: 0.2784 - val_accuracy: 0.3092
+Epoch 19/20
+248/248 [==============================] - 332s 1s/step - loss: 0.2769 - accuracy: 0.3124 - val_loss: 0.2732 - val_accuracy: 0.3247
+Epoch 20/20
+248/248 [==============================] - 328s 1s/step - loss: 0.2762 - accuracy: 0.3173 - val_loss: 0.2817 - val_accuracy: 0.3076
+2023-06-14 13:25:49.591 python[67919:2374224] +[CATransaction synchronize] called within transaction
+2023-06-14 13:26:04.562 python[67919:2374224] +[CATransaction synchronize] called within transaction
+54/54 - 19s - loss: 0.2818 - accuracy: 0.3123 - 19s/epoch - 352ms/step

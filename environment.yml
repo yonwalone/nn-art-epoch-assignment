@@ -2,14 +2,15 @@ name: py38-nn-art-epoch-assignment
 channels:
   - defaults
 dependencies:
-  - python=3.8
   - pandas
-  - opencv
-  - matplotlib
-  - requests
-  - regex
+  - python=3.8
   - selenium
-  - tensorflow
-  - keras
   - flask
+  - matplotlib
+  - regex
+  - tensorflow
+  - opencv
+  - requests
+  - keras
   - jupyter
+  - scikit-learn

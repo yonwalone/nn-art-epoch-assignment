@@ -1,13 +1,14 @@
 import random as rnd
 import numpy as np
+import math
 
 from foundation.enums import Functions
 
-class Percepton:
+class Perceptron:
 
-    def __init__(self, func, weights) -> None:
+    def __init__(self, func, weights = None) -> None:
         """
-        Initialize percepton.
+        Initialize perceptron.
 
         Args:
             - function (Functions): activation functions for percepton
@@ -85,6 +86,12 @@ class Percepton:
                 return self.out
             self.out = 0.2 * self.sum
             return self.out
+        elif self.func == Functions.elu:
+            if self.sum > 0:
+                self.out = self.sum
+                return self.out
+            self.out = math.exp(self.sum) -1
+            return self.out 
         else:
             raise Exception("Use valid activation function")
         
@@ -142,8 +149,6 @@ class Percepton:
 
         """
 
-        #print(f"Error handling Percepton: {errorOut}")
-
         # Get error from activaton function
         if self.func == Functions.tanh:
             # out = tanh(sum)
@@ -164,6 +169,12 @@ class Percepton:
             else:
                 errorChangeThroughFunction = 0.2
 
+        elif self.func == Functions.elu:
+            if self.sum > 0:
+                errorChangeThroughFunction = 1
+            else:
+                errorChangeThroughFunction = math.exp(self.sum)
+
         errorChangeThroughFunction *= len(self.weights) #TODO: Might delete
 
         #d Error / d Net = 
@@ -182,8 +193,6 @@ class Percepton:
 
             listOfErrorPerPerceptron.append(errorAfterSum * self.weights[index])
 
-        #print(self.weights)
-        #print(f"Error out percepton: {listOfErrorPerPerceptron}")
         return listOfErrorPerPerceptron
 
     def getWeights(self):

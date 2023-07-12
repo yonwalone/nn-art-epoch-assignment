@@ -1,0 +1,45 @@
+Epoch 1/20
+1937/1937 [==============================] - 338s 174ms/step - loss: 2.1983 - accuracy: 0.2012 - val_loss: 2.0942 - val_accuracy: 0.2354
+Epoch 2/20
+1937/1937 [==============================] - 349s 180ms/step - loss: 2.0846 - accuracy: 0.2375 - val_loss: 2.0325 - val_accuracy: 0.2669
+Epoch 3/20
+ 816/1937 [===========>..................] - ETA: 12:26 - loss: 2.0216 - accuracy: 0.2674^R[C
+1937/1937 [==============================] - 759s 392ms/step - loss: 2.0132 - accuracy: 0.2707 - val_loss: 1.9853 - val_accuracy: 0.2785
+Epoch 4/20
+1937/1937 [==============================] - 341s 176ms/step - loss: 1.9803 - accuracy: 0.2823 - val_loss: 1.9720 - val_accuracy: 0.2893
+Epoch 5/20
+1937/1937 [==============================] - 343s 177ms/step - loss: 1.9561 - accuracy: 0.2891 - val_loss: 1.9749 - val_accuracy: 0.2791
+Epoch 6/20
+1937/1937 [==============================] - 350s 180ms/step - loss: 1.9293 - accuracy: 0.3033 - val_loss: 1.9243 - val_accuracy: 0.3074
+Epoch 7/20
+1937/1937 [==============================] - 350s 181ms/step - loss: 1.9123 - accuracy: 0.3075 - val_loss: 1.9084 - val_accuracy: 0.3123
+Epoch 8/20
+1937/1937 [==============================] - 350s 181ms/step - loss: 1.8999 - accuracy: 0.3120 - val_loss: 1.9356 - val_accuracy: 0.2973
+Epoch 9/20
+1937/1937 [==============================] - 351s 181ms/step - loss: 1.8876 - accuracy: 0.3163 - val_loss: 1.8844 - val_accuracy: 0.3190
+Epoch 10/20
+1937/1937 [==============================] - 397s 205ms/step - loss: 1.8767 - accuracy: 0.3195 - val_loss: 1.8761 - val_accuracy: 0.3196
+Epoch 11/20
+1937/1937 [==============================] - 346s 179ms/step - loss: 1.8630 - accuracy: 0.3271 - val_loss: 1.8479 - val_accuracy: 0.3248
+Epoch 12/20
+1937/1937 [==============================] - 345s 178ms/step - loss: 1.8569 - accuracy: 0.3314 - val_loss: 1.8566 - val_accuracy: 0.3288
+Epoch 13/20
+1937/1937 [==============================] - 352s 182ms/step - loss: 1.8527 - accuracy: 0.3345 - val_loss: 1.8414 - val_accuracy: 0.3354
+Epoch 14/20
+1937/1937 [==============================] - 351s 181ms/step - loss: 1.8422 - accuracy: 0.3376 - val_loss: 1.8637 - val_accuracy: 0.3253
+Epoch 15/20
+1937/1937 [==============================] - 422s 218ms/step - loss: 1.8396 - accuracy: 0.3358 - val_loss: 1.8335 - val_accuracy: 0.3464
+Epoch 16/20
+1937/1937 [==============================] - 367s 190ms/step - loss: 1.8332 - accuracy: 0.3393 - val_loss: 1.8689 - val_accuracy: 0.3309
+Epoch 17/20
+1937/1937 [==============================] - 351s 181ms/step - loss: 1.8278 - accuracy: 0.3429 - val_loss: 1.8276 - val_accuracy: 0.3441
+Epoch 18/20
+1937/1937 [==============================] - 353s 182ms/step - loss: 1.8284 - accuracy: 0.3428 - val_loss: 1.8221 - val_accuracy: 0.3401
+Epoch 19/20
+1937/1937 [==============================] - 348s 179ms/step - loss: 1.8210 - accuracy: 0.3449 - val_loss: 1.8422 - val_accuracy: 0.3402
+Epoch 20/20
+1937/1937 [==============================] - 349s 180ms/step - loss: 1.8178 - accuracy: 0.3471 - val_loss: 1.8169 - val_accuracy: 0.3514
+2023-05-28 19:16:11.434 python[6594:180079] +[CATransaction synchronize] called within transaction
+2023-05-28 19:16:36.493 python[6594:180079] +[CATransaction synchronize] called within transaction
+
+416/416 - 44s - loss: 1.8531 - accuracy: 0.3334 - 44s/epoch - 105ms/step

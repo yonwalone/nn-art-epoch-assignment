@@ -54,30 +54,20 @@ def main():
 
     ### Create Model
 
-    #conv = CONVLayer(matrix=[[-1,-1,-1,-1],[-1,2,2,-1],[-1,2,2,-1],[-1,-1,-1,-1]], stride=1, padding=None)
-    conv1 = CONVLayer(matrix= 2, stride=2, padding=None)
-    pol1 = PoolLayer(function=Functions.max, poolSize=2, stride=1)
     conv = CONVLayer(matrix= 2, stride=2, padding=PaddingType.valid)
     pol = PoolLayer(function=Functions.max, poolSize=2, stride=2)
-    #conv = CONVLayer(matrix=[[-1,-1,-1],[-1,2,-1],[-1,-1,-1]], stride=1, padding=None)
-    #pol = PoolLayer(function=Functions.max, poolSize=3, stride=2)
     flat = FlattenLayer()
     den1 = Layer(count=10, function=Functions.tanh)
-    #den2 = Layer(count=30, function=Functions.tanh)
-    #den3 = Layer(count=10, function=Functions.tanh, isOutput=True)
-    den3 = Layer(count=supportedClasses, function=Functions.tanh, isOutput=True)
+    den2 = Layer(count=supportedClasses, function=Functions.tanh, isOutput=True)
     soft = SoftMaxLayer()
-    #model = SeqModel([conv, pol, flat, den1, den2, den3, soft],False)
-    #model = SeqModel([conv1, pol1, conv, pol, flat, den1, den3, soft])
-    model = SeqModel([conv, pol, flat, den1, den3, soft])
-    #model = SeqModel([flat, den1, den3, soft])
-
+   
+    model = SeqModel([conv, pol, flat, den1, den2, soft])
 
     ### Train Model
 
     model.train(input=trainData, output=output, errorFunc=Functions.halfsquareError, learningRate=0.01, epochs=1)
 
-    #saveModel(model, "current_model.json")
+    saveModel(model, "current_model.json")
 
     ### Prepare Test values
 

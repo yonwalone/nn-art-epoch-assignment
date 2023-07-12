@@ -1,5 +1,5 @@
 from foundation.enums import Functions, LayerType
-from foundation.percepton import Percepton
+from foundation.perceptron import Perceptron
 from layer.layer_interface import LayerInterface
 
 class Layer(LayerInterface):
@@ -20,9 +20,9 @@ class Layer(LayerInterface):
         # Create perceptrons of layer
         self.perceptrons = []
         if initialWeights != None:
-            self.perceptrons = [Percepton(func=function, weights=initialWeights[index]) for index in range(count)]
+            self.perceptrons = [Perceptron(func=function, weights=initialWeights[index]) for index in range(count)]
         else:
-            self.perceptrons = [Percepton(func=function, weights=None) for index in range(count)]
+            self.perceptrons = [Perceptron(func=function, weights=None) for index in range(count)]
 
     def act(self, inputs):
         """

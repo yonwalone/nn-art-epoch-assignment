@@ -20,11 +20,9 @@ class FlattenLayer(LayerInterface):
         Returns:
             - newList: image data in array
         """
-        #print(inputs)
 
         # Convert to 1dim list
         newList = flatInput(inputs)
-        #print(f"After flat: {len(newList)}")
 
         # Append 1 as bias for next layer
         newList.append(1)
@@ -47,7 +45,6 @@ class FlattenLayer(LayerInterface):
 
         """
         # add incoming derivates together
-        #print(f"Flatten Input Lenght: {len(targets)}")
         derivateIn = []
         for target in targets:
             value = 0
