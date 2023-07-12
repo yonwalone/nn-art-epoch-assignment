@@ -16,6 +16,7 @@ valid_split = 0.15
 test_split = 0.15
 one_folder_per_epoch = False
 
+# Create folders
 DATA_PATH = os.path.join(PROJECT_ROOT, "data")
 SPLIT_PATH = os.path.join(DATA_PATH, "splits", split_name)
 TRAIN_PATH = os.path.join(SPLIT_PATH, "train")
@@ -31,13 +32,14 @@ epochs_sorted = sorted(EPOCHS, key=lambda epoch: -mh.get_image_count_of_epoch(pi
 
 used_epochs = epochs_sorted[:epoch_amount]
 
-min_amount = mh.get_image_count_of_epoch(pipeline_name=using_pipeline, step_of_prep_pipe=using_step_of_prep_pipe, epoch=used_epochs[-1])
+min_image_count = mh.get_image_count_of_epoch(pipeline_name=using_pipeline, step_of_prep_pipe=using_step_of_prep_pipe, epoch=used_epochs[-1])
 
-train_amount = int(train_split * min_amount)
-valid_amount = int(valid_split * min_amount)
-test_amount = min_amount - train_amount - valid_amount
+train_amount = int(train_split * min_image_count)
+valid_amount = int(valid_split * min_image_count)
+test_amount = min_image_count - train_amount - valid_amount
 
 for art_epoch in used_epochs:
+    # Create folders of epoch
     epoch_train_folder = os.path.join(TRAIN_PATH, art_epoch) if one_folder_per_epoch else TRAIN_PATH
     os.makedirs(epoch_train_folder, exist_ok=True)
     epoch_valid_folder = os.path.join(VALID_PATH, art_epoch) if one_folder_per_epoch else VALID_PATH
@@ -45,29 +47,26 @@ for art_epoch in used_epochs:
     epoch_test_folder = os.path.join(TEST_PATH, art_epoch) if one_folder_per_epoch else TEST_PATH
     os.makedirs(epoch_test_folder, exist_ok=True)
 
+    # Get folder of images
     images_path = os.path.join(DATA_PATH, art_epoch, "images", using_pipeline, using_step_of_prep_pipe)
     all_files = os.listdir(images_path)
-    remaining_files = random.sample(all_files, min_amount)
+    remaining_files = random.sample(all_files, min_image_count)
 
     train_list = random.sample(remaining_files, train_amount)
-    for file in train_list:
-        remaining_files.remove(file)
-    valid_list = random.sample(remaining_files, valid_amount)
-    for file in valid_list:
-        remaining_files.remove(file)
-    test_list = remaining_files
-
-    for train_image in train_list:
-        file_path = os.path.join(images_path, train_image)
-
+    for train_file in train_list:
+        file_path = os.path.join(images_path, train_file)
         shutil.copy(file_path, epoch_train_folder)
-
-    for valid_image in valid_list:
-        file_path = os.path.join(images_path, valid_image)
-
-        shutil.copy(file_path, epoch_valid_folder)
+        remaining_files.remove(train_file)
     
-    for test_image in test_list:
-        file_path = os.path.join(images_path, test_image)
+    valid_list = random.sample(remaining_files, valid_amount)
+    for valid_file in valid_list:
+        file_path = os.path.join(images_path, valid_file)
+        shutil.copy(file_path, epoch_valid_folder)
+        remaining_files.remove(valid_file)
+    
+    test_list = remaining_files
+    
+    for test_file in test_list:
+        file_path = os.path.join(images_path, test_file)
 
         shutil.copy(file_path, epoch_test_folder)
