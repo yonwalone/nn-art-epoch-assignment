@@ -39,7 +39,7 @@ def load_image(filename):
 
 def one_hot_encode(epoch_name):
     """
-    TODO: Description
+    Turns hot encoded array for epochs.
 
     Args:
         filename (_type_): _description_
