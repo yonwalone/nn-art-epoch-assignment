@@ -8,7 +8,7 @@ import src.model_helper as mh
 import matplotlib.pyplot as plt
 
 using_split = "only_resized_all_epochs"
-model_name = "five_staplesv4Imp"
+model_name = "xceptionv1Imp"
 batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
@@ -57,7 +57,7 @@ test_batches = train_gen.flow_from_directory(
 
 # Load model
 
-model = keras.models.load_model(os.path.join(PROJECT_ROOT, "results", f"five_staplesv4.h5"))
+model = keras.models.load_model(os.path.join(PROJECT_ROOT, "results", f"xceptionv1.h5"))
 
 print(model.summary())
 
