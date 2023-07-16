@@ -6,13 +6,12 @@ from keras import layers
 from config import EPOCHS, PROJECT_ROOT
 import src.model_helper as mh
 import matplotlib.pyplot as plt
-# Increase stables to three
-# 208/208 [==============================] - 43s 207ms/step - loss: 1.7686 - accuracy: 0.3723
 
-using_split = "3x384_all_resized_all_epochs"
-model_name = "five_staples_bigger_image"
+
+using_split = "only_resized_all_epochs"
+model_name = "five_staplesv3"
 batch_size = 128
-input_size = 384
+input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
 
 train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -66,7 +65,7 @@ art_epoch_count = len(folders)
 # model_name = "first_gpt_model"
 model = keras.Sequential(
     [
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(384,384,3)),
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
         layers.MaxPooling2D(pool_size=(2, 2)),
