@@ -16,18 +16,6 @@ class SeqModel:
         self.layers = layers
         self.onlyMLP = onlyMLP
 
-        return
-    
-        #TODO: Must be adapted for convolutional and pooling layer
-
-        #Check if model is configured correct, so there are number of initial values as Perceptons of above layer + 1
-        for index in range(1, len(layers)):
-            bias = 1
-            countOfIns = len(self.layers[index -1].perceptrons) + bias
-            for i in range(0, len(self.layers[index].perceptrons)):
-                if len(self.layers[index].perceptrons[i].weights) != countOfIns:
-                    raise Exception("There must be initial values for above perceptons + 1")
-
 
     def act(self, values):
         """
@@ -48,7 +36,6 @@ class SeqModel:
         # Provide input for each layer, process input, provide result as next input
         for layer in self.layers:
             values_modified = layer.act(values_modified)
-            #print(values_modified)
         return values_modified
     
     def handleError(self, targets, errorFunc, learningRate):
@@ -106,14 +93,10 @@ class SeqModel:
         for epochIndex in range(0, epochs):
 
             for index, currOutput in enumerate(output):
-                #print(f"Epoch: {epochIndex}, Input: {index}")
                 print_progress_bar(index, len(output), start_text =f"Train: Epoch: {epochIndex}, Input", new_line = False)
-                #print(f"Input: {input[indexOutput]}")
-                #print(f"Expected Output: {output[indexOutput]}")
                 self.act(input[index])
                 self.handleError(targets=currOutput, errorFunc=errorFunc, learningRate=learningRate)       
 
-        #print(f"Gewichte: {model.getWeights()}")
 
     def test(self, input, output, mode):
         """
@@ -131,10 +114,8 @@ class SeqModel:
             errorCount= 0
             statistic = [[ 0 for _ in range(0,len(output[0]))] for _ in range(0,len(output[0]))]
             for ind in range(0, len(output)):
-                #print(f"Test: {ind}")
                 print_progress_bar(ind, len(output),start_text =f"Test", new_line = True)
                 result = self.act(input[ind])
-                print(result)
 
                 # find 1 in output
                 expIndex = output[ind].index(max(output[ind]))
@@ -149,6 +130,3 @@ class SeqModel:
 
         else:
             raise Exception("Use implemented TestType")
-
-
-

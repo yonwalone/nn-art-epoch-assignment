@@ -75,8 +75,9 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   assets:
-    - assets/lite_model.tflite
     - assets/labels.txt
+    - assets/big_model.tflite
+    #- assets/lite_model.tflite
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

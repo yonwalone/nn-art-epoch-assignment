@@ -6,8 +6,6 @@ from keras import layers
 from config import EPOCHS, PROJECT_ROOT
 import src.model_helper as mh
 import matplotlib.pyplot as plt
-# Increase stables to three
-# 208/208 [==============================] - 43s 207ms/step - loss: 1.7686 - accuracy: 0.3723
 
 using_split = "only_resized_all_epochs"
 model_name = "five_staples"
@@ -57,13 +55,8 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
-items = os.listdir(os.path.join(SPLIT_PATH, "train"))
-# Filter the list to include only folders
-folders = [item for item in items if os.path.isdir(os.path.join(SPLIT_PATH, "train", item))]
-# Get the count of epoch folders
-art_epoch_count = len(folders)
+# Create model
 
-# model_name = "first_gpt_model"
 model = keras.Sequential(
     [
         layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
@@ -78,7 +71,7 @@ model = keras.Sequential(
         layers.MaxPooling2D(pool_size=(2, 2)),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
-        layers.Dense(art_epoch_count, activation="softmax"),
+        layers.Dense(10, activation="softmax"),
     ]
 )
 
@@ -106,8 +99,10 @@ history = model.fit(train_batches, validation_data=valid_batches,
 
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
 
+# Test
 model.evaluate(test_batches, verbose=1)
 
+# Print statistics
 plt.figure(figsize=(16, 6))
 plt.subplot(1, 2, 1)
 plt.plot(history.history['loss'], label='train loss')

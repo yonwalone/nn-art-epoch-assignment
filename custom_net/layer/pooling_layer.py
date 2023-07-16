@@ -30,8 +30,6 @@ class PoolLayer(LayerInterface):
 
         outImages = []
         for img in self.images:
-            #print(f"Pool Image height: {len(img)}")
-            #print(f"Pool Image width: {len(img[0])}")
             # Find (max/avg) number in each frame
             necessaryRows = int((len(img) - self.poolSize)/self.stride + 1)
             necessaryColumns = int((len(img[0]) - self.poolSize)/self.stride + 1)
@@ -57,7 +55,6 @@ class PoolLayer(LayerInterface):
 
             outImages.append(newImage)
 
-        #print(f"Pooling Out: {outImages}")
         return outImages
     
 

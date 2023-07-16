@@ -8,8 +8,6 @@ from layer.softmax_layer import SoftMaxLayer
 from layer.flatten_layer import FlattenLayer
 from model.model import SeqModel
 
-#currently only working with SeqModel and only "normal" layers
-
 def saveModel(model, file):
     """
     Save model to file

@@ -1,0 +1,86 @@
+Found 31730 validated image filenames belonging to 10 classes.
+Found 6843 validated image filenames belonging to 10 classes.
+Found 6879 validated image filenames belonging to 10 classes.
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 222, 222, 32)      896       
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 111, 111, 32)     0         
+ )                                                               
+                                                                 
+ conv2d_1 (Conv2D)           (None, 109, 109, 64)      18496     
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 54, 54, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_2 (Conv2D)           (None, 52, 52, 64)        36928     
+                                                                 
+ max_pooling2d_2 (MaxPooling  (None, 26, 26, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_3 (Conv2D)           (None, 24, 24, 64)        36928     
+                                                                 
+ max_pooling2d_3 (MaxPooling  (None, 12, 12, 64)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_4 (Conv2D)           (None, 10, 10, 64)        36928     
+                                                                 
+ max_pooling2d_4 (MaxPooling  (None, 5, 5, 64)         0         
+ 2D)                                                             
+                                                                 
+ flatten (Flatten)           (None, 1600)              0         
+                                                                 
+ dense (Dense)               (None, 128)               204928    
+                                                                 
+ dense_1 (Dense)             (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 336,394
+Trainable params: 336,394
+Non-trainable params: 0
+_________________________________________________________________
+None
+2023-06-08 21:20:43.509808: W tensorflow/tsl/platform/profile_utils/cpu_utils.cc:128] Failed to get CPU frequency: 0 Hz
+Epoch 1/20
+248/248 [==============================] - 323s 1s/step - loss: 0.3266 - accuracy: 0.1451 - val_loss: 0.3141 - val_accuracy: 0.1825
+Epoch 2/20
+248/248 [==============================] - 322s 1s/step - loss: 0.3065 - accuracy: 0.2136 - val_loss: 0.3013 - val_accuracy: 0.2549
+Epoch 3/20
+248/248 [==============================] - 321s 1s/step - loss: 0.2987 - accuracy: 0.2511 - val_loss: 0.3054 - val_accuracy: 0.2487
+Epoch 4/20
+248/248 [==============================] - 322s 1s/step - loss: 0.2928 - accuracy: 0.2703 - val_loss: 0.2894 - val_accuracy: 0.2807
+Epoch 5/20
+248/248 [==============================] - 323s 1s/step - loss: 0.2878 - accuracy: 0.2827 - val_loss: 0.2872 - val_accuracy: 0.2860
+Epoch 6/20
+248/248 [==============================] - 387s 2s/step - loss: 0.2840 - accuracy: 0.2963 - val_loss: 0.2831 - val_accuracy: 0.2972
+Epoch 7/20
+248/248 [==============================] - 325s 1s/step - loss: 0.2807 - accuracy: 0.3079 - val_loss: 0.2756 - val_accuracy: 0.3270
+Epoch 8/20
+248/248 [==============================] - 323s 1s/step - loss: 0.2774 - accuracy: 0.3203 - val_loss: 0.2765 - val_accuracy: 0.3262
+Epoch 9/20
+248/248 [==============================] - 322s 1s/step - loss: 0.2758 - accuracy: 0.3229 - val_loss: 0.2736 - val_accuracy: 0.3338
+Epoch 10/20
+248/248 [==============================] - 322s 1s/step - loss: 0.2731 - accuracy: 0.3299 - val_loss: 0.2757 - val_accuracy: 0.3234
+Epoch 11/20
+248/248 [==============================] - 325s 1s/step - loss: 0.2706 - accuracy: 0.3402 - val_loss: 0.2761 - val_accuracy: 0.3272
+Epoch 12/20
+248/248 [==============================] - 325s 1s/step - loss: 0.2682 - accuracy: 0.3471 - val_loss: 0.2704 - val_accuracy: 0.3386
+Epoch 13/20
+248/248 [==============================] - 328s 1s/step - loss: 0.2657 - accuracy: 0.3562 - val_loss: 0.2659 - val_accuracy: 0.3515
+Epoch 14/20
+248/248 [==============================] - 332s 1s/step - loss: 0.2639 - accuracy: 0.3579 - val_loss: 0.2666 - val_accuracy: 0.3579
+Epoch 15/20
+248/248 [==============================] - 330s 1s/step - loss: 0.2618 - accuracy: 0.3692 - val_loss: 0.2686 - val_accuracy: 0.3463
+Epoch 16/20
+248/248 [==============================] - 327s 1s/step - loss: 0.2605 - accuracy: 0.3697 - val_loss: 0.2600 - val_accuracy: 0.3688
+Epoch 17/20
+248/248 [==============================] - 329s 1s/step - loss: 0.2588 - accuracy: 0.3748 - val_loss: 0.2616 - val_accuracy: 0.3690
+Epoch 18/20
+248/248 [==============================] - 3313s 13s/step - loss: 0.2578 - accuracy: 0.3800 - val_loss: 0.2623 - val_accuracy: 0.3661
+Epoch 19/20
+248/248 [==============================] - 367s 1s/step - loss: 0.2563 - accuracy: 0.3818 - val_loss: 0.2583 - val_accuracy: 0.3751
+Epoch 20/20
+248/248 [==============================] - 330s 1s/step - loss: 0.2546 - accuracy: 0.3924 - val_loss: 0.2627 - val_accuracy: 0.3683
+54/54 [==============================] - 18s 320ms/step - loss: 0.2615 - accuracy: 0.3739

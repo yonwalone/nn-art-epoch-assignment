@@ -1,10 +1,10 @@
-T-shirt/top
-Trouser 
-Pullover 
-Dress
-Coat
-Sandal
-Shirt
-Sneaker
-Bag
-Ankle boot
+realism
+impressionism
+romanticism
+expressionism
+post-impressionism
+baroque
+art-nouveau-modern
+surrealism
+symbolism
+abstract-expressionism

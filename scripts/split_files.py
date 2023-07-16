@@ -44,6 +44,7 @@ epochs_sorted = sorted(
 # Select a subset of epochs to use
 used_epochs = epochs_sorted[:epoch_amount]
 
+
 # Determine the minimum amount of images among the selected epochs
 min_amount = mh.get_image_count_of_epoch(
     pipeline_name=using_pipeline, 
@@ -56,8 +57,10 @@ train_amount = int(train_split * min_amount)
 valid_amount = int(valid_split * min_amount)
 test_amount = min_amount - train_amount - valid_amount
 
+
 # Iterate over each art epoch
 for art_epoch in used_epochs:
+
     # Define paths for the current epoch's train, valid, and test folders
     epoch_train_folder = os.path.join(TRAIN_PATH, art_epoch) if one_folder_per_epoch else TRAIN_PATH
     os.makedirs(epoch_train_folder, exist_ok=True)
@@ -77,6 +80,7 @@ for art_epoch in used_epochs:
 
     # Randomly select files for training
     train_list = random.sample(remaining_files, train_amount)
+
     for file in train_list:
         remaining_files.remove(file)
 

@@ -1,12 +1,10 @@
-import 'package:image/image.dart' as IMG;
+import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
 import 'dart:io';
 
 class Classifier{
-  File? _image;
-  bool imageChange = false;
 
   late Interpreter _interpreter;
   late List<String> _labels;
@@ -16,49 +14,47 @@ class Classifier{
   }
 
   Future<void> loadModel() async {
-    try {
-      _interpreter = await Interpreter.fromAsset('lite_model.tflite');
-      final labelsData = await rootBundle.loadString('assets/labels.txt');
-      _labels = labelsData.trim().split('\n');
-      print(_interpreter.address);
-    } catch (e) {
-      print('Failed to load model: $e');
-    }
+    // load model from assets
+    _interpreter = await Interpreter.fromAsset('lite_model.tflite');
+    final labelsData = await rootBundle.loadString('assets/labels.txt');
+    _labels = labelsData.trim().split('\n');
   }
 
   Future<List<Map<String, dynamic>>> classifyImage(File? file) async {
-   // Prepare input data
-    _image = file;
-    final inputImage = _image!.readAsBytesSync();
-    var k = await _image!.readAsBytes();
-    IMG.Image? foo1 = IMG.decodeImage(k);
-    IMG.Image resized = IMG.copyResize(foo1!, width: 28, height: 28);
-    var resizedBytes = resized.getBytes();
+    // classify image into labels
+   
+    // Prepare input data
+    var imageBytes = await file!.readAsBytes();
+    img.Image? decodedImage = img.decodeImage(imageBytes);
+    int expectedWidth = 224;
+    int expectedHeight = 224;
+    img.Image resizedImg = img.copyResize(decodedImage!, width: expectedWidth, height: expectedHeight);
+    var resizedBytes = resizedImg.getBytes(format: img.Format.rgb);
 
-    /*for (int i = 0; i < resizedBytes.length; i++) {
-      for (int j = 0; j < resizedBytes[i].length; j++) {
-        double grayscaleValue = 0.2989 * resizedBytes[i][j][0] + 0.5870 * resizedBytes[i][j][1] + 0.1140 * resizedBytes[i][j][2];
-        resizedBytes[i][j] = [grayscaleValue];
+    //Convet List of bytes into input shape
+    List<List<Float32List>> imageArray = [];
+    for(int h = 0; h < expectedHeight; h++){
+      List<Float32List> row = [];
+      for(int w = 0; w < expectedWidth; w++){
+        int ground = (h * expectedHeight + w) * 3;
+        var red = resizedBytes[ground] / 255.0;
+        var green = resizedBytes[ground +1] / 255.0;
+        var blue = resizedBytes[ground + 2] / 255.0;
+        List<double> pixel = [red, green, blue];
+        row.add(Float32List.fromList(pixel));
       }
+      imageArray.add(row);
     }
 
-    // Add channel and batch dimensions
-    resizedBytes = [resizedBytes]; // Add batch dimension
-    resizedBytes = resizedBytes.map((image) => image.map((row) => row.map((pixel) => [pixel]).toList()).toList()).toList(); // Add channel dimension*/
-    
-    final inputShape = _interpreter.getInputTensor(0).shape;
-    final inputType = _interpreter.getInputTensor(0).type;
-    final normalizedBytes = resizedBytes.map((value) => value / 255.0).toList();
-    final inputBuffer = Float32List.fromList(normalizedBytes);
-
-    _interpreter.getInputTensor(0).data = resizedBytes;
+    var input = [imageArray]; // Add batch dimension
 
     // Prepare output buffer
-    var outputShape = [4, 10];
+    var supportedClasses = 1000;
+    var outputShape = [1, supportedClasses];
     var output = List.filled(outputShape.reduce((a, b) => a * b), 0).reshape(outputShape);
 
-    // Run inference
-    _interpreter.run(inputBuffer, output);
+    // Run interpreter
+    _interpreter.run(input, output);
 
     // Create a list of predicted classes with their corresponding probabilities
     List<Map<String, dynamic>> predictedClasses = [];
@@ -67,6 +63,7 @@ class Classifier{
       double probability = output[0][index].toDouble();
       predictedClasses.add({"class_label": classLabel, "probability": probability});
     }
+
     // Sort the list of predicted classes in decreasing order of probability
     predictedClasses.sort((a, b) => b["probability"].compareTo(a["probability"]));
 

@@ -10,6 +10,7 @@ class Functions(Enum):
     reLu = 3
     no = 4
     leakyReLU=5
+    elu=6
 
     # Error Functions
     halfsquareError = 100

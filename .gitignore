@@ -12,4 +12,5 @@ node_modules
 !banner.png
 *.vscode
 data
-*.h5
+results/models
+big_*
