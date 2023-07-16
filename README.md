@@ -141,6 +141,8 @@ flutter run
 Use ADB to install the Android App on a real device.
 
 The app is also provided as an apk for easier installation.
+Therefore follow the steps described here: https://www.makeuseof.com/install-apps-via-adb-android/
+
 
 ### Selenium Setup (Not necessary)
 This sections contains the information needed for downloading the images from wikiart.org using Selenium.

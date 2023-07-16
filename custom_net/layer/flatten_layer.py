@@ -27,7 +27,6 @@ class FlattenLayer(LayerInterface):
         # Append 1 as bias for next layer
         newList.append(1)
 
-        #print(f"Flatten output: {newList}")
         return newList
 
     def handleError(self, targets, errorFunc, learningRate):
