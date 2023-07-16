@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # 208/208 [==============================] - 43s 207ms/step - loss: 1.7686 - accuracy: 0.3723
 
 using_split = "3x384_all_resized_all_epochs"
-model_name = "five_staplesv3"
+model_name = "five_staples_bigger_image"
 batch_size = 128
 input_size = 384
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
