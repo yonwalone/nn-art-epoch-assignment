@@ -8,12 +8,20 @@ import src.model_helper as mh
 import matplotlib.pyplot as plt
 
 using_split = "only_resized_all_epochs"
-model_name = "gpt_model"
-batch_size = 4
+model_name = "mobileNetV3Large"
+batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)
 
-train_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
+    rescale=1./127.5 - 1 ,
+    rotation_range=20,
+    zoom_range=0.15,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.15,
+    horizontal_flip=True
+    )
 valid_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 test_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
@@ -47,20 +55,13 @@ test_batches = train_gen.flow_from_directory(
     classes=EPOCHS
 )
 
-# Create Model
+# Create model
 
-model = keras.Sequential(
-    [
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(224,224,3)),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Flatten(),
-        layers.Dense(128, activation="relu"),
-        layers.Dense(10, activation="softmax"),
-    ]
+model = tf.keras.applications.MobileNetV3Large(
+    include_preprocessing="false",
+    weights= "imagenet",
+    classifier_activation = "softmax"
 )
-
 print(model.summary())
 
 optimizer = keras.optimizers.Adam()
@@ -86,7 +87,7 @@ history = model.fit(train_batches, validation_data=valid_batches,
 model.save(os.path.join(PROJECT_ROOT, "results", f"{model_name}.h5"))
 
 # Test
-model.evaluate(test_batches, verbose=2)
+model.evaluate(test_batches, verbose=1)
 
 # Print statistics
 plt.figure(figsize=(16, 6))

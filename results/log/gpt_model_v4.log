@@ -3,7 +3,6 @@ Epoch 1/20
 Epoch 2/20
 1937/1937 [==============================] - 349s 180ms/step - loss: 2.0846 - accuracy: 0.2375 - val_loss: 2.0325 - val_accuracy: 0.2669
 Epoch 3/20
- 816/1937 [===========>..................] - ETA: 12:26 - loss: 2.0216 - accuracy: 0.2674^R[C
 1937/1937 [==============================] - 759s 392ms/step - loss: 2.0132 - accuracy: 0.2707 - val_loss: 1.9853 - val_accuracy: 0.2785
 Epoch 4/20
 1937/1937 [==============================] - 341s 176ms/step - loss: 1.9803 - accuracy: 0.2823 - val_loss: 1.9720 - val_accuracy: 0.2893
@@ -39,7 +38,4 @@ Epoch 19/20
 1937/1937 [==============================] - 348s 179ms/step - loss: 1.8210 - accuracy: 0.3449 - val_loss: 1.8422 - val_accuracy: 0.3402
 Epoch 20/20
 1937/1937 [==============================] - 349s 180ms/step - loss: 1.8178 - accuracy: 0.3471 - val_loss: 1.8169 - val_accuracy: 0.3514
-2023-05-28 19:16:11.434 python[6594:180079] +[CATransaction synchronize] called within transaction
-2023-05-28 19:16:36.493 python[6594:180079] +[CATransaction synchronize] called within transaction
-
 416/416 - 44s - loss: 1.8531 - accuracy: 0.3334 - 44s/epoch - 105ms/step

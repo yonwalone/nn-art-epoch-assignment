@@ -85,6 +85,7 @@ Epoch 20/20
 243/243 [==============================] - 343s 1s/step - loss: 1.6407 - accuracy: 0.4077 - val_loss: 1.6733 - val_accuracy: 0.3968
 52/52 [==============================] - 44s 838ms/step - loss: 1.7190 - accuracy: 0.3809
 
+Epoch 1/10
 243/243 [==============================] - 3234s 13s/step - loss: 1.6340 - accuracy: 0.4114 - val_loss: 1.6553 - val_accuracy: 0.3982
 Epoch 2/10
 243/243 [==============================] - 338s 1s/step - loss: 1.6206 - accuracy: 0.4166 - val_loss: 1.6844 - val_accuracy: 0.3998
