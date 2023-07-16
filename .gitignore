@@ -2,7 +2,6 @@
 *.egg-info
 node_modules
 *.DS_Store
-*.png
 *.jpg
 *.gif
 *.bmp
