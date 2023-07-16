@@ -84,7 +84,12 @@ class Preprocess_Images:
 
     def get_files_by_size(self, input_dir, output_dir, min_size):
         """
-        
+        Copy images with a size above min size from input to output directory
+
+        Args:
+            input_dir (string): Foldername input
+            output_dir (string): Foldername output
+            min_size (int): Size a image should have
         """
         input_dir = os.path.join(self.images_folder, input_dir) if input_dir != "" else os.path.dirname(self.images_folder)
         output_dir = os.path.join(self.images_folder, output_dir)
@@ -161,8 +166,8 @@ class Preprocess_Images:
         Convert the given input images to grayscale.
 
         Args:
-            input_dir (_type_): _description_
-            output_dir (_type_): _description_
+            input_dir (string): Foldername input
+            output_dir (string): Foldername output
         """
         input_dir = os.path.join(self.images_folder, input_dir)
         output_dir = os.path.join(self.images_folder, output_dir)
@@ -190,11 +195,11 @@ class Preprocess_Images:
 
     def augment_images(self, input_dir, output_dir):
         """
-        TODO: Write docstring.
+        Augment images from input directory and save them into output directory.
 
         Args:
-            input_dir (_type_): _description_
-            output_dir (_type_): _description_
+            input_dir (string): Foldername input
+            output_dir (string): Foldername output
         """
         input_dir = os.path.join(self.images_folder, input_dir)
         output_dir = os.path.join(self.images_folder, output_dir)
@@ -285,8 +290,8 @@ class Preprocess_Images:
         Normalize images from a directory and save them in a NumPy array.
 
         Args:
-            input_dir (_type_): _description_
-            output_dir (_type_): _description_
+            input_dir (string): Foldername input
+            output_dir (string): Foldername output
         """
         input_dir = os.path.join(self.images_folder, input_dir)
         output_dir = os.path.join(self.images_folder, output_dir)

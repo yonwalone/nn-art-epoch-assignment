@@ -90,7 +90,7 @@ class CONVLayer(LayerInterface):
                     for matrixRow in range(0, len(self.matrixes[0][0])):
                         for matrixCol in range(0, len(self.matrixes[0][0][0])):
                             for inDepth in range(0, self.inputDepth):
-                                result += (self.matrixes[outputDepth][inDepth][matrixRow][matrixCol] * image[inDepth][row * self.stride + matrixRow][column * self.stride + matrixCol] + self.bias[outputDepth][matrixRow][matrixCol]) / (len(self.matrixes[0][0])*len(self.matrixes[0][0][0])) # Might remove division
+                                result += (self.matrixes[outputDepth][inDepth][matrixRow][matrixCol] * image[inDepth][row * self.stride + matrixRow][column * self.stride + matrixCol] + self.bias[outputDepth][matrixRow][matrixCol]) / (len(self.matrixes[0][0])*len(self.matrixes[0][0][0])) #TODO: Might remove division
 
                     newRow.append(result)
                 newImage.append(newRow)

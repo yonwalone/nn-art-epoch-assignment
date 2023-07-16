@@ -22,7 +22,6 @@ class SoftMaxLayer(LayerInterface):
 
         self.inputs = inputs
         self.sum = sum(abs(e) for e in inputs)
-        print(inputs)
 
         if self.sum == 0:
             return self.inputs
@@ -46,13 +45,11 @@ class SoftMaxLayer(LayerInterface):
             - newTargets (1dim Array): targets for layer before
 
         """
-        print(f"Targets: {targets}")
         
         newTargets = []
         for target in targets:
             newTargets.append(target * self.sum)
 
-        #print(f"Softmax Targets: {newTargets}")
         return newTargets
 
     def getStructure(self):
