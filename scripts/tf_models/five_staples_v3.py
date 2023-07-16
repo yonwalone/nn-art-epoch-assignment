@@ -7,8 +7,9 @@ from config import EPOCHS, PROJECT_ROOT
 import src.model_helper as mh
 import matplotlib.pyplot as plt
 
+
 using_split = "only_resized_all_epochs"
-model_name = "five_staples_adamw"
+model_name = "five_staples_v3"
 batch_size = 128
 input_size = 224
 SPLIT_PATH = os.path.join(PROJECT_ROOT, "data", "splits", using_split)

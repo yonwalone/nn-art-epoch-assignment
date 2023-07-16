@@ -1,8 +1,6 @@
 import os
-import gzip
 import cv2
 import numpy as np
-import time
 import shutil
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -23,7 +21,7 @@ class Preprocess_Images:
     def __init__(
             self, 
             epoch,
-            target_size=224,
+            target_size=384,
             grayscale = True, 
             augmentations=4,
             process_name="pre1",
@@ -84,6 +82,38 @@ class Preprocess_Images:
         progress_bar = f"{start_text}: [{'='*int(progress/2)}{' '*(50-int(progress/2))}] {progress}% ({amount}/{of}) {end_text}"
         print(progress_bar, end="\r" if not new_line and progress < 100 else "\n")
 
+    def get_files_by_size(self, input_dir, output_dir, min_size):
+        """
+        
+        """
+        input_dir = os.path.join(self.images_folder, input_dir) if input_dir != "" else os.path.dirname(self.images_folder)
+        output_dir = os.path.join(self.images_folder, output_dir)
+        
+        self.create_dir(output_dir)
+
+        for index, filename in enumerate(os.listdir(input_dir)):
+            if not filename.endswith(".jpg"):
+                info=f"Unsupported extension: {filename}"
+                self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Spliting files", end_text=info, new_line=False)
+                continue
+
+            try:
+                img = cv2.imread(os.path.join(input_dir, filename))
+                if img is None or img.shape[0] < min_size or img.shape[1] < min_size:
+                    info=f"Too small: {filename}"
+                    self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Spliting files", end_text=info, new_line=False)
+                    continue
+            except:
+                info=f"Undefined error: {filename}"
+                self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Spliting files", end_text=info, new_line=False)
+                continue
+            
+            shutil.copy(os.path.join(input_dir, filename), os.path.join(output_dir, filename))
+            info=f"success: {filename}"
+
+            self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Spliting files", end_text=info, new_line=False)
+
+
     
     def resize_images_affine(self, input_dir, output_dir):
         """
@@ -125,7 +155,6 @@ class Preprocess_Images:
                 self.log(info, noprint=True)
             self.print_progress_bar(index, len(os.listdir(input_dir)), start_text="Affine resizing", end_text=info, new_line=False)
             
-
 
     def grayscale_images(self, input_dir, output_dir):
         """
