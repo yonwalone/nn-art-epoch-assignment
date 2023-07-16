@@ -2,7 +2,7 @@
 *.egg-info
 node_modules
 *.DS_Store
-*.jpg
+*.jpgdfeddfd
 *.gif
 *.bmp
 *.jpeg
@@ -12,5 +12,5 @@ node_modules
 !banner.png
 *.vscode
 data
-results/models
+results/models/*.h5
 big_*
